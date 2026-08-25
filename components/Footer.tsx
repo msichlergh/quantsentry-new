@@ -40,6 +40,7 @@ const footerGroups = [
       ["Managed Desk", "/managed-desk"],
       ["About", "/company"],
       ["Proof", "/proof"],
+      ["Insights", "/insights"],
       ["Pricing", "/pricing"],
       ["Book a Demo", "/demo"],
     ],

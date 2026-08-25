@@ -38,6 +38,7 @@ export const primaryLinks = [
   { href: "/managed-desk", label: "Managed Desk" },
   { href: "/argus", label: "Argus AI" },
   { href: "/proof", label: "Proof" },
+  { href: "/insights", label: "Insights" },
   { href: "/pricing", label: "Pricing" },
   { href: "/company", label: "Company" },
 ] as const;

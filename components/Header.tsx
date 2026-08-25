@@ -79,6 +79,10 @@ export function Header() {
           </li>
         </ul>
 
+        <a className="btn solid mobile-demo" href="/demo">
+          <span>Book a Demo</span>
+        </a>
+
         <button
           type="button"
           className="mobile-toggle"

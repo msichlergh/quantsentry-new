@@ -6,11 +6,11 @@ const footerGroups = [
   {
     title: "Platform",
     links: [
-      ["Platform overview", "/platform"],
-      ["Seven detection engines", "/platform#engines"],
-      ["Evidence kits", "/platform#evidence"],
+      ["Platform Overview", "/platform"],
+      ["Seven Detection Engines", "/platform#engines"],
+      ["Evidence Kits", "/platform#evidence"],
       ["Argus AI", "/argus"],
-      ["Custom business intelligence", "/custom-bi"],
+      ["Custom Business Intelligence", "/custom-bi"],
       ["Connectors", "/platform#connect"],
     ],
   },
@@ -29,14 +29,14 @@ const footerGroups = [
       ["Brokerages", "/industries-brokerages"],
       ["Funds and Asset Managers", "/industries-funds"],
       ["Payments and Fintech", "/industries-payments"],
-      ["All industries", "/industries"],
+      ["All Industries", "/industries"],
     ],
   },
   {
     title: "Company",
     links: [
-      ["How the market compares", "/compare"],
-      ["Blind spot finder", "/diagnostic"],
+      ["How the Market Compares", "/compare"],
+      ["Blind Spot Finder", "/diagnostic"],
       ["Managed Desk", "/managed-desk"],
       ["About", "/company"],
       ["Proof", "/proof"],

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { HeroPixelBlast } from "@/components/HeroPixelBlast";
 import { InsightCard } from "@/components/InsightCard";
 import {
   getArticlesByAuthor,
@@ -56,56 +57,60 @@ function AuthorPage({ authorSlug }: { authorSlug: string }) {
   if (!author) notFound();
 
   const articles = getArticlesByAuthor(author.slug);
+  const contentId = `page-content-insights-author-${author.slug}`;
 
   return (
-    <main className="page-content insights-page">
-      <section className="hero author-hero">
-        <div className="wrap author-hero-grid">
-          <div className="author-portrait">
-            <Image
-              alt={author.name}
-              fill
-              priority
-              sizes="(max-width: 760px) 100vw, 360px"
-              src={author.image}
-            />
+    <>
+      <main id={contentId} className="page-content insights-page insights-author-page">
+        <section className="hero author-hero">
+          <div className="wrap author-hero-grid">
+            <div className="author-portrait">
+              <Image
+                alt={author.name}
+                fill
+                priority
+                sizes="(max-width: 760px) 100vw, 360px"
+                src={author.image}
+              />
+            </div>
+            <div className="author-intro">
+              <div className="kicker">
+                <span className="dot" />
+                <span>Insights</span>
+              </div>
+              <h1>{author.name}</h1>
+              <p className="author-role">{author.role}</p>
+              <p className="lede">{author.bio}</p>
+              <a
+                className="author-linkedin"
+                href={author.linkedIn}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <LinkedInIcon />
+                Connect on LinkedIn
+              </a>
+            </div>
           </div>
-          <div className="author-intro">
+        </section>
+
+        <section className="theme-light author-articles">
+          <div className="wrap">
             <div className="kicker">
               <span className="dot" />
-              <span>Insights</span>
+              <span>By {author.name}</span>
             </div>
-            <h1>{author.name}</h1>
-            <p className="author-role">{author.role}</p>
-            <p className="lede">{author.bio}</p>
-            <a
-              className="author-linkedin"
-              href={author.linkedIn}
-              rel="noreferrer"
-              target="_blank"
-            >
-              <LinkedInIcon />
-              Connect on LinkedIn
-            </a>
+            <h2>Articles by {author.name}.</h2>
+            <div className="insights-grid">
+              {articles.map((article) => (
+                <InsightCard article={article} key={article.slug} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-
-      <section className="theme-light author-articles">
-        <div className="wrap">
-          <div className="kicker">
-            <span className="dot" />
-            <span>By {author.name}</span>
-          </div>
-          <h2>Articles by {author.name}.</h2>
-          <div className="insights-grid">
-            {articles.map((article) => (
-              <InsightCard article={article} key={article.slug} />
-            ))}
-          </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+      <HeroPixelBlast targetId={contentId} />
+    </>
   );
 }
 
@@ -119,16 +124,26 @@ function ArticlePage({ slug }: { slug: string }) {
   const moreFromAuthor = getArticlesByAuthor(author.slug).filter(
     (candidate) => candidate.slug !== article.slug,
   );
+  const contentId = `page-content-insight-${article.slug}`;
 
   return (
-    <main className="page-content insight-article-page">
+    <>
+      <main id={contentId} className="page-content insight-article-page">
       <article>
         <section className="insight-article-hero">
           <div className="wrap insight-article-hero-inner">
-            <div className="insight-card-meta">
-              <span className="insight-category">{article.category}</span>
-              <time dateTime={article.publishedAt}>{article.publishedLabel}</time>
-            </div>
+            <a className="insight-back" href="/insights">
+              <svg aria-hidden="true" fill="none" viewBox="0 0 24 24">
+                <path
+                  d="m15 18-6-6 6-6"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.8"
+                />
+              </svg>
+              <span>Back to Insights</span>
+            </a>
             <h1>{article.title}</h1>
             <p className="lede">{article.summary}</p>
             <div className="article-author-row">
@@ -141,7 +156,11 @@ function ArticlePage({ slug }: { slug: string }) {
                   <small>{author.role}</small>
                 </span>
               </a>
-              <span>{article.readTime}</span>
+              <div className="article-author-meta">
+                <span className="insight-category">{article.category}</span>
+                <time dateTime={article.publishedAt}>{article.publishedLabel}</time>
+                <span>{article.readTime}</span>
+              </div>
             </div>
           </div>
         </section>
@@ -167,18 +186,25 @@ function ArticlePage({ slug }: { slug: string }) {
                 This QuantSentry edition is adapted from an article first published by Quant
                 Technology Group. <a href={article.sourceUrl}>Read the original article</a>.
               </p>
-            </div>
 
-            <aside className="article-author-card">
-              <div className="article-author-card-image">
-                <Image alt={author.name} fill sizes="240px" src={author.image} />
-              </div>
-              <span>About the Author</span>
-              <h2>{author.name}</h2>
-              <p className="article-author-card-role">{author.role}</p>
-              <p>{author.bio}</p>
-              <a href={`/insights/author-${author.slug}`}>View Author Profile</a>
-            </aside>
+              <footer className="article-author-card">
+                <div className="article-author-card-image">
+                  <Image
+                    alt={author.name}
+                    fill
+                    sizes="(max-width: 560px) 180px, 160px"
+                    src={author.image}
+                  />
+                </div>
+                <div className="article-author-card-copy">
+                  <span>About the Author</span>
+                  <h2>{author.name}</h2>
+                  <p className="article-author-card-role">{author.role}</p>
+                  <p>{author.bio}</p>
+                  <a href={`/insights/author-${author.slug}`}>View Author Profile</a>
+                </div>
+              </footer>
+            </div>
           </div>
         </div>
       </article>
@@ -198,7 +224,9 @@ function ArticlePage({ slug }: { slug: string }) {
           </div>
         </section>
       ) : null}
-    </main>
+      </main>
+      <HeroPixelBlast targetId={contentId} />
+    </>
   );
 }
 

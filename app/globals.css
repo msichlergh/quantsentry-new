@@ -1009,3 +1009,132 @@ footer { background: #07090a; }
   .article-author-row { align-items: flex-start; flex-direction: column; gap: 14px; }
   .article-content section p { font-size: 15.5px; }
 }
+
+/* Mobile layout hardening */
+@media (max-width: 760px) {
+  section { padding-block: 58px; }
+  section.hero { padding-block: 52px 50px; }
+  .page-content > section.hero:first-child,
+  .page-content-html > section.hero:first-child {
+    padding-top: 120px;
+  }
+  .insight-article-hero {
+    padding-block: 126px 56px;
+  }
+  .insight-article-body { padding-block: 58px; }
+  .article-content > section + section { margin-top: 38px; padding-top: 38px; }
+  .article-takeaway { margin-top: 38px; }
+  .author-hero { padding-block: 46px 58px; }
+
+  .mobile-menu {
+    max-height: calc(100dvh - 92px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .mobile-menu > a:not(.btn) {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+  }
+  .mobile-menu .btn { min-height: 44px; }
+
+  .panel,
+  .panel > div,
+  .app,
+  .app-in,
+  .app-body,
+  .grid > * { min-width: 0; }
+  .app-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .app-head > * { min-width: 0; max-width: 100%; }
+  .seg {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .seg::-webkit-scrollbar { display: none; }
+  .seg button { min-height: 38px; flex: none; }
+  .tabs button,
+  .vchip,
+  .georow,
+  .qopt,
+  .askq,
+  .scn { min-height: 44px; }
+
+  .arow { min-width: 0; gap: 8px; }
+  .arow > span { min-width: 0; overflow-wrap: anywhere; }
+  .feed { min-height: 0; }
+  .maptip { max-width: calc(100% - 16px); white-space: normal; }
+  .cmp {
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .insight-card-meta,
+  .insight-card-footer { flex-wrap: wrap; }
+  .author-portrait { width: 100%; }
+  .article-source,
+  .article-source a { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 560px) {
+  .wrap { width: 100%; }
+  section { padding-block: 52px; }
+  section.hero { padding-block: 46px 44px; }
+  .page-content > section.hero:first-child,
+  .page-content-html > section.hero:first-child {
+    padding-top: 116px;
+  }
+  .insight-article-hero { padding-block: 120px 50px; }
+  .insight-article-body { padding-block: 52px; }
+
+  .panel > div { padding: 18px !important; }
+  .app-body { padding: 16px; }
+  .chartbox { padding: 14px; }
+  .kpis,
+  .kpis[style] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 9px; }
+  .kpi { min-width: 0; padding: 12px; }
+  .kpi .v { font-size: 23px; overflow-wrap: anywhere; }
+  .app-rows { gap: 16px; }
+  .arow { align-items: flex-start; flex-wrap: wrap; }
+  .arow .bar { min-width: 80px; flex: 1; }
+
+  .simwrap { gap: 22px; }
+  .simhead,
+  .simrow {
+    grid-template-columns: minmax(70px, 1.15fr) repeat(2, minmax(0, .9fr)) 48px;
+    gap: 6px;
+  }
+  .simhead { font-size: 8px; letter-spacing: .1em; }
+  .simrow .a,
+  .simrow .b { font-size: 10.5px; overflow-wrap: anywhere; }
+  .simrow .v { font-size: 11.5px; overflow-wrap: anywhere; }
+  .simrow .m { font-size: 8.5px; letter-spacing: .06em; }
+
+  .mapwrap { padding: 8px; }
+  .fev { gap: 8px; padding-inline: 4px; }
+  .fev .ts { width: 48px; }
+  .qgap { grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
+  .scnrow { gap: 9px; }
+  .scnv { width: 72px; }
+
+  .article-takeaway { padding: 20px; }
+  .article-author-card { width: 100%; }
+  .legal { align-items: flex-start; flex-direction: column; }
+  img { max-width: 100%; }
+}
+
+@media (max-width: 350px) {
+  .wrap { padding-inline: 16px; }
+  header,
+  header.stuck { padding-inline: 12px; }
+  header .navpill { padding-left: 12px; }
+  header .brand { font-size: 14px; }
+  .mobile-demo { padding-inline: 8px; font-size: 11px; }
+  .kpi .v { font-size: 21px; }
+}

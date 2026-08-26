@@ -357,7 +357,8 @@ export function HeroAurora({ targetId }: { targetId: string }) {
     if (!hero) return;
 
     hero.classList.add("signal-field-hero");
-    const frame = requestAnimationFrame(() => setTarget(hero));
+    const visualTarget = hero.querySelector<HTMLElement>("[data-hero-visual-root]") ?? hero;
+    const frame = requestAnimationFrame(() => setTarget(visualTarget));
 
     return () => {
       cancelAnimationFrame(frame);

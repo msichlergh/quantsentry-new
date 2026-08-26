@@ -106,6 +106,7 @@
     var list = JSON.parse(el.dataset.type), i = 0, j = 0, del = false;
     if (rm){ el.textContent = list[0]; el.classList.remove('type'); return; }
     (function tick(){
+      if (!el.isConnected || !el.dataset.type) return;
       var w = list[i]; j += del ? -1 : 1; el.textContent = w.slice(0, j);
       var wait = del ? 34 : 62;
       if (!del && j === w.length){ del = true; wait = 2000; }

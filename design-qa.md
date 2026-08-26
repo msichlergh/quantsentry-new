@@ -86,8 +86,13 @@ No post-fix rendered screenshot is available, so the revised alignment and Argus
 - Switch to Voice and capture the same viewport.
 - Confirm no horizontal overflow at 320 px.
 
-## Final result
+## Final brand implementation
 
-final result: blocked
-
-Blocker: post-fix browser-rendered screenshots of the dashboard, Argus Chat, and Argus Voice states are required.
+- The selected Coil icon and Instrument Sans wordmark render consistently in the header and footer across every route.
+- Quant uses weight 400 and Sentry uses weight 500 with a subtle cool-white gradient.
+- The Coil is optically sized at `1.08em`, aligned to the wordmark, and separated by a `5px` gap.
+- Standard mobile sizing is `19.8px`; viewports at or below 350px use the compact `16.5px` fallback.
+- Hover rotates the Coil in place without glow or positional drift. Reduced-motion users receive no animation.
+- The font and icon comparison controls and their unused production code were removed.
+- `app/icon.png` places the Coil on a compact dark circular field for legibility at browser-tab size; `app/apple-icon.png` uses the same selected mark.
+- Browser-rendered verification remains unavailable because no controllable browser is connected; local validation covers lint, build, static routes, and asset output only.

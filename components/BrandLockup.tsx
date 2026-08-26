@@ -5,7 +5,7 @@ export function BrandLockup() {
     <>
       <Image
         className="brand-icon-concept brand-icon-coil"
-        src="/images/quantsentry-icon-teal-coil.png"
+        src="/images/quantsentry-icon-teal-coil-v2.png"
         width={159}
         height={158}
         alt=""

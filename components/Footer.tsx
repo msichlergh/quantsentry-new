@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { Logo } from "./Logo";
+import { BrandLockup } from "./BrandLockup";
 
 const footerGroups = [
   {
@@ -54,8 +54,7 @@ export function Footer() {
         <div className="fcols">
           <div>
             <a className="brand" href="/" aria-label="QuantSentry home">
-              <Logo compact />
-              QuantSentry
+              <BrandLockup />
             </a>
             <p className="footer-summary">
               Network based AI risk and business intelligence for prop firms.

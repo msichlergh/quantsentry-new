@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Instrument_Sans } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 
@@ -6,6 +7,12 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 
 import "./globals.css";
+
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-instrument-sans",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://quantsentry.com"),
@@ -20,7 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en-GB">
-      <body>
+      <body className={instrumentSans.variable}>
         <Header />
         {children}
         <Footer />

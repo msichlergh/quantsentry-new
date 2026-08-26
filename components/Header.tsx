@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Logo } from "./Logo";
+import { BrandLockup } from "./BrandLockup";
 import { industryLinks, primaryLinks } from "./navigation";
 
 export function Header() {
@@ -21,8 +21,7 @@ export function Header() {
     <header id="hdr">
       <nav className="navpill" aria-label="Primary navigation">
         <a className="brand" href="/" aria-label="QuantSentry home">
-          <Logo />
-          QuantSentry
+          <BrandLockup />
         </a>
 
         <ul className="desktop-nav">

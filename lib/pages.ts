@@ -56,12 +56,12 @@ export const pages = {
     "description": "QuantSentry plus a named risk analyst embedded with your team, working your queue daily and bringing you decisions with the evidence attached."
   },
   "network": {
-    "title": "Risk Intelligence Network | QuantSentry",
-    "description": "Opt in and pseudonymised. Members share the signal behind a coordinated group without sharing the book it came from."
+    "title": "Sentry Risk Network | QuantSentry",
+    "description": "Live, opt in and pseudonymised. Members share the signal behind a coordinated group without sharing the book it came from."
   },
   "platform": {
     "title": "Platform | QuantSentry",
-    "description": "Seven detection engines, evidence kits, business intelligence and Argus AI on one ingestion layer."
+    "description": "Trading Abuse Detection, evidence kits, business intelligence and Argus AI on one ingestion layer."
   },
   "pricing": {
     "title": "Pricing | QuantSentry",
@@ -71,9 +71,9 @@ export const pages = {
     "title": "Proof | QuantSentry",
     "description": "One hundred confirmed cheaters on one anonymised book, named, evidenced and priced per person."
   },
-  "risk-intelligence-network": {
-    "title": "Risk Intelligence Network | QuantSentry",
-    "description": "An opt in, pseudonymised signal between firms, so a ring that moves between them stops being invisible. In design."
+  "roadmap": {
+    "title": "Roadmap | QuantSentry",
+    "description": "What is live today, what is in design including QuantSentry Futures, and what we are exploring. Sequenced, not dated, and nothing is sold before it ships."
   }
 } as const;
 

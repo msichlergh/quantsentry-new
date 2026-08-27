@@ -1,56 +1,148 @@
+"use client";
+
 import {
+  ArrowUpRight,
   ChartLineUp,
   Database,
   SquaresFour,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@phosphor-icons/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 import { HomeDataPattern } from "./HomeDataPattern";
 
 const steps = [
   {
     icon: Database,
+    tab: "Connect Your Data",
     title: "Connect Every Source",
     description:
-      "Ingest trading, payment, identity, customer, marketing and operational data into one governed platform.",
+      "Bring trading, payment, identity, customer, marketing and operational data into one governed platform.",
+    image: "/images/how-it-works/connect-data-light.jpg",
+    imageAlt: "Connected business data sources converging into one governed data layer",
+    cta: "Explore Data Connectivity",
+    href: "/platform",
   },
   {
     icon: SquaresFour,
-    title: "Build Your Intelligence",
+    tab: "Build Intelligence",
+    title: "Build Intelligence Around Your Business",
     description:
-      "Turn verified data into custom views, benchmarks, monitoring and analysis tailored to your business.",
+      "Turn verified data into custom views, benchmarks, monitoring and analysis shaped around how your business operates.",
+    image: "/images/how-it-works/build-intelligence-light.jpg",
+    imageAlt: "Verified data being synthesized into business intelligence and analysis",
+    cta: "Explore Business Intelligence",
+    href: "/custom-bi",
   },
   {
     icon: ChartLineUp,
+    tab: "Take Action",
     title: "Act on What Matters",
     description:
       "Use Argus AI and clear recommendations to reduce risk, improve performance and grow more profitably.",
+    image: "/images/how-it-works/take-action-light.jpg",
+    imageAlt: "A verified recommendation becoming a completed action and improved performance",
+    cta: "Meet Argus AI",
+    href: "/argus",
   },
 ] as const;
 
 export function HomeHowItWorks() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const intervalRef = useRef<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = steps[activeIndex];
+  const ActiveIcon = active.icon;
+
+  const stopRotation = () => {
+    if (intervalRef.current === null) return;
+    window.clearInterval(intervalRef.current);
+    intervalRef.current = null;
+  };
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || intervalRef.current !== null) return;
+        intervalRef.current = window.setInterval(() => {
+          setActiveIndex((index) => (index + 1) % steps.length);
+        }, 5200);
+      },
+      { rootMargin: "0px 0px -15%", threshold: 0.28 },
+    );
+
+    observer.observe(section);
+    return () => {
+      observer.disconnect();
+      stopRotation();
+    };
+  }, []);
+
+  const selectStep = (index: number) => {
+    stopRotation();
+    setActiveIndex(index);
+  };
+
   return (
-    <section className="home-how-it-works home-data-section theme-light" aria-labelledby="home-how-title" id="how-it-works">
+    <section
+      className="home-how-it-works home-data-section theme-light"
+      aria-labelledby="home-how-title"
+      id="how-it-works"
+      ref={sectionRef}
+    >
       <HomeDataPattern />
       <div className="wrap">
         <div className="home-how-heading">
-          <div className="kicker home-how-kicker"><span className="dot" /><span>How QuantSentry works</span></div>
-          <h2 id="home-how-title">Connect Your Data. <span className="c">Turn It Into Action.</span></h2>
+          <div className="kicker home-how-kicker"><span className="dot" /><span>From data to action</span></div>
+          <h2 id="home-how-title">How QuantSentry <span className="c">Works.</span></h2>
           <p className="lede">
             QuantSentry unifies your systems, builds intelligence around your business,
             and continuously surfaces the risks and opportunities that matter.
           </p>
         </div>
 
-        <div className="home-how-grid">
-          {steps.map(({ description, icon: Icon, title }) => (
-            <article className="home-how-card" key={title}>
-              <div className="home-how-card-top">
-                <span className="home-how-icon" aria-hidden="true"><Icon size={22} /></span>
-              </div>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </article>
-          ))}
+        <div className="home-how-showcase">
+          <div className="home-how-tabs" aria-label="How QuantSentry works" role="tablist">
+            {steps.map(({ icon: Icon, tab }, index) => (
+              <button
+                aria-controls="home-how-panel"
+                aria-selected={activeIndex === index}
+                className={activeIndex === index ? "is-active" : ""}
+                key={tab}
+                onClick={() => selectStep(index)}
+                role="tab"
+                type="button"
+              >
+                <Icon size={17} weight="bold" />
+                <span>{tab}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="home-how-panel" id="home-how-panel" key={active.tab} role="tabpanel">
+            <div className="home-how-panel-copy">
+              <span className="home-how-icon" aria-hidden="true"><ActiveIcon size={22} /></span>
+              <h3>{active.title}</h3>
+              <p>{active.description}</p>
+              <Link className="home-how-cta" href={active.href}>
+                {active.cta}<ArrowUpRight size={15} weight="bold" />
+              </Link>
+            </div>
+
+            <div className="home-how-visual">
+              <Image
+                alt={active.imageAlt}
+                fill
+                priority={activeIndex === 0}
+                sizes="(max-width: 860px) 92vw, 52vw"
+                src={active.image}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

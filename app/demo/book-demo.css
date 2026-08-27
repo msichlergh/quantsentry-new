@@ -1,0 +1,852 @@
+/* ============================================================
+   Book a demo — booking card, wizard, calendar (.bd-* namespace)
+   Ported from the YourPropFirm booking card and restyled onto the
+   QuantSentry tokens (globals.css): dark panels, teal accent.
+
+   Surfaces are deliberately NOT the global panel tokens: those carry a
+   slight green channel bias, and the card must read as neutral graphite
+   so the teal accents (icon tiles, progress bar, selected borders, the
+   primary button) are the only colour on it.
+   ============================================================ */
+.bd-focus-inner,
+.bd-panel {
+  --bd-surface: #0e0f10;  /* card body */
+  --bd-chrome: #131516;   /* header and footer strips */
+  --bd-raise: #17191b;    /* lifted cells, popover base */
+  --bd-chip: #151718;     /* option and input-adjacent surfaces */
+  --bd-input: #0b0c0d;    /* text inputs */
+  --bd-line: #222527;     /* dividers */
+  --bd-hair: #2b2e31;     /* control borders */
+}
+
+/* ---------- Hero ----------
+   section.hero.bd-hero, because the global section.hero out-specifies a
+   lone class — a plain .bd-hero padding-bottom silently loses and the page
+   keeps the full 64px hero padding on top of the booking section's own. */
+section.hero.bd-hero {
+  text-align: center;
+  padding-bottom: 14px;
+}
+.bd-hero .kicker { justify-content: center; }
+.bd-hero h1 {
+  margin: 0 auto;
+  font-size: clamp(32px, 3.6vw, 46px);
+}
+.bd-hero .lede {
+  margin: 16px auto 0;
+  max-width: 60ch;
+}
+
+/* ---------- Section ----------
+   The card's top edge sits ~38px under the lede: 14px hero bottom padding
+   + 24px here, with the lede's own line box making up the rest. */
+section.bd-focus {
+  border-top: none;
+  padding: 24px 0 96px;
+}
+.bd-focus-inner {
+  /* Sized to the picker rather than the other way round: month grid + times
+     column + card padding. Raised above the section's dotted ::before
+     overlay — without this the pattern paints across the card. */
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.bd-booking { width: 100%; }
+
+/* ---------- The card ----------
+   Flat opaque near-black surface with neutral chrome. Teal appears in
+   exactly three places on this card: the progress bar, selected-state
+   borders, and the primary button. Everything else is monochrome. */
+.bd-cal {
+  background: var(--bd-surface);
+  border: 1px solid var(--bd-hair);
+  border-radius: 15px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025), 0 14px 36px rgba(0, 0, 0, 0.22),
+    0 30px 70px -32px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+/* ---------- Progress rail ---------- */
+.bd-wiz { display: block; }
+.bd-wiz-head {
+  padding: 18px 32px 14px;
+  border-bottom: 1px solid var(--bd-line);
+  /* A slightly different opaque shade, so the strip reads as chrome. */
+  background: var(--bd-chrome);
+}
+.bd-wiz-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+/* Quiet chrome, both sides: the rail describes progress, it is not a
+   heading. Body font, small, grey. */
+.bd-wiz-count {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink4);
+}
+.bd-wiz-now {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink3);
+}
+.bd-prog-bar {
+  height: 3px;
+  border-radius: 999px;
+  background: var(--bd-raise);
+  overflow: hidden;
+}
+.bd-prog-bar > i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--cy);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Fields ---------- */
+.bd-fields {
+  padding: 30px 32px 26px;
+  display: grid;
+  gap: 15px;
+}
+.bd-fields.is-cal { padding-top: 12px; }
+.bd-wiz-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.bd-fields-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bd-field {
+  display: grid;
+  gap: 6px;
+}
+.bd-field > span {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink2);
+  letter-spacing: 0.01em;
+}
+.bd-field > span em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--ink4);
+}
+.bd-field input,
+.bd-field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--bd-hair);
+  border-radius: 10px;
+  background: var(--bd-input);
+  font-family: inherit;
+  font-size: 14.5px;
+  color: var(--ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  resize: vertical;
+}
+.bd-field input::placeholder,
+.bd-field textarea::placeholder { color: var(--ink4); }
+/* Focus marks the active element: a plain teal border, no wash. */
+.bd-field input:focus,
+.bd-field textarea:focus {
+  outline: none;
+  border-color: var(--cy);
+}
+.bd-field textarea { line-height: 1.5; }
+.bd-fine {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink4);
+  margin: 2px 0 0;
+}
+
+/* Errors: on the field that caused them, not a list at the top. */
+.bd-field.has-err input,
+.bd-field.has-err textarea { border-color: var(--red); }
+.bd-field-err {
+  font-size: 12px;
+  color: var(--red);
+}
+.bd-form-error {
+  margin: 0 32px 18px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 107, 107, 0.07);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--red);
+}
+.bd-form-error-flush { margin: 0; }
+
+/* ---------- Chips ---------- */
+.bd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* Opaque neutral option surfaces, one step lighter than the card. Selected
+   state keeps the neutral surface and is marked by a thin teal border plus
+   white text — no filled tint. */
+.bd-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid var(--bd-hair);
+  border-radius: 999px;
+  background: var(--bd-chip);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.bd-chip:hover {
+  border-color: #3c4043;
+  background: #1a1c1e;
+  color: var(--ink);
+}
+.bd-chip.is-on {
+  background: var(--bd-chip);
+  border-color: var(--cy);
+  color: var(--ink);
+  font-weight: 500;
+}
+.bd-chip:focus-visible {
+  outline: 2px solid var(--cy);
+  outline-offset: 2px;
+}
+/* Opening question: full-width targets, since it is the only thing on
+   screen. Two per row on desktop; one column on narrow screens. */
+.bd-chips-lg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  align-items: stretch;
+}
+.bd-chips-lg .bd-chip {
+  justify-content: flex-start;
+  text-align: left;
+  min-height: 56px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14.5px;
+  gap: 0;
+}
+/* The option glyph gets the site's .tile treatment (platform page tiles):
+   teal icon on a dark rounded tile with a subtle teal-tinted border. */
+.bd-chip-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: 1px solid rgba(72, 199, 195, 0.24);
+  background: rgba(72, 199, 195, 0.07);
+  margin-right: 12px;
+  color: var(--cy);
+}
+
+/* ---------- Phone + dial code ---------- */
+.bd-phone {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+.bd-phone input { border-radius: 0 10px 10px 0; }
+.bd-dialp { position: relative; flex: none; }
+.bd-dialp-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  padding: 0 10px 0 13px;
+  border: 1px solid var(--bd-hair);
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+  background: var(--bd-chip);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink2);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.bd-dialp-btn:hover { background: var(--bd-raise); }
+.bd-dialp-btn > i {
+  width: 0;
+  height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-top: 4px solid var(--ink4);
+}
+.bd-dialp-pop {
+  /* Upward: the card clips overflow and the phone field is the last row on
+     the step. */
+  position: absolute;
+  z-index: 30;
+  bottom: calc(100% + 6px);
+  left: 0;
+  width: 260px;
+  padding: 6px;
+  background: var(--bd-raise);
+  border: 1px solid var(--bd-line);
+  border-radius: 10px;
+  box-shadow: 0 18px 44px -18px rgba(0, 0, 0, 0.7);
+}
+.bd-dialp-search {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--bd-hair);
+  border-radius: 8px;
+  background: var(--bd-input);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink);
+}
+.bd-dialp-search:focus {
+  outline: none;
+  border-color: var(--cy);
+}
+.bd-dialp-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 168px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* ---------- Time zone combobox ---------- */
+.bd-tzp {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.bd-tzp-input {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid var(--bd-hair);
+  border-radius: 8px;
+  background: var(--bd-input);
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+.bd-tzp-input:focus {
+  outline: none;
+  border-color: var(--cy);
+}
+.bd-tzp-list {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 6px);
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--bd-raise);
+  border: 1px solid var(--bd-line);
+  border-radius: 10px;
+  box-shadow: 0 18px 44px -18px rgba(0, 0, 0, 0.7);
+  scrollbar-width: thin;
+}
+.bd-tzp-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  color: var(--ink2);
+  text-align: left;
+}
+.bd-tzp-opt em {
+  font-style: normal;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--ink4);
+}
+.bd-tzp-opt:hover { background: rgba(255, 255, 255, 0.05); }
+.bd-tzp-opt.is-sel {
+  background: #232628;
+  color: var(--ink);
+  font-weight: 500;
+}
+.bd-tzp-empty {
+  padding: 10px;
+  font-size: 12.5px;
+  color: var(--ink4);
+}
+
+/* ---------- Calendar ---------- */
+.bd-cal-duration {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 32px;
+  border-bottom: 1px solid var(--bd-line);
+}
+.bd-cal-dur-ico {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1px solid rgba(72, 199, 195, 0.24);
+  background: rgba(72, 199, 195, 0.07);
+  color: var(--cy);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.bd-cal-dur-t {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.bd-cal-dur-tz {
+  margin-left: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--ink4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bd-cal-body { padding: 14px 32px 20px; }
+.bd-cal-split {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+.bd-cal-left { min-width: 0; }
+.bd-cal-monthnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.bd-cal-monthlbl {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.bd-cal-navbtn {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--bd-hair);
+  color: var(--ink3);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.bd-cal-navbtn:hover {
+  border-color: #3c4043;
+  color: var(--ink);
+}
+.bd-cal-dow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.bd-cal-dowcell {
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink4);
+  padding: 6px 0;
+}
+.bd-cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.bd-cal-day {
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.bd-cal-day.is-empty { cursor: default; }
+.bd-cal-day.is-un {
+  color: var(--ink4);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.bd-cal-day.is-avail {
+  background: var(--bd-raise);
+  color: var(--ink);
+  font-weight: 500;
+}
+.bd-cal-day.is-avail:hover { background: #1e2123; }
+/* Selection is a thin teal border on the neutral surface, not a fill. */
+.bd-cal-day.is-sel {
+  background: var(--bd-raise);
+  border-color: var(--cy);
+  color: var(--ink);
+}
+
+/* Times column: absolutely positioned inner box so the month sets the row
+   height and the list scrolls inside it. */
+.bd-cal-right {
+  position: relative;
+  min-width: 0;
+}
+.bd-cal-right-in {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.bd-cal-times-head {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--bd-line);
+}
+.bd-cal-times-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bd-raise) transparent;
+}
+.bd-cal-time {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--bd-hair);
+  background: var(--bd-chip);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  text-align: center;
+}
+.bd-cal-time:hover {
+  border-color: #3c4043;
+  color: var(--ink);
+}
+.bd-cal-time.is-sel {
+  background: var(--bd-chip);
+  border-color: var(--cy);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* Availability states. Never a fabricated slot list. */
+.bd-cal-note {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px dashed var(--bd-hair);
+  border-radius: 10px;
+  background: #101213;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink3);
+}
+.bd-cal-note-quiet { color: var(--ink4); }
+
+/* Time zone row under the month. */
+.bd-cal-tz {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bd-line);
+  font-size: 12px;
+  color: var(--ink3);
+}
+.bd-cal-tz > span { flex: none; }
+.bd-cal-tz-off {
+  flex: none;
+  font-style: normal;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  color: var(--ink4);
+  white-space: nowrap;
+}
+
+/* ---------- Footer ---------- */
+.bd-cal-foot {
+  padding: 14px 32px;
+  border-top: 1px solid var(--bd-line);
+  background: var(--bd-chrome);
+  display: flex;
+  justify-content: flex-end;
+}
+.bd-wiz-foot {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bd-wiz-foot .btn { margin-left: auto; }
+.bd-wiz-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink3);
+}
+.bd-wiz-back:hover { color: var(--ink); }
+.bd-btn-link {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink3);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 0;
+}
+.bd-btn-link:hover { color: var(--ink); }
+
+/* ---------- Honeypot ----------
+   Out of sight, out of the a11y tree, not focusable. Not display:none —
+   some bots skip fields that are. */
+.bd-hp {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Confirmation ---------- */
+.bd-confirm {
+  padding: 44px 32px;
+  text-align: center;
+}
+.bd-confirm-ico {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(72, 199, 195, 0.07);
+  border: 1px solid rgba(72, 199, 195, 0.24);
+  color: var(--cy);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.bd-confirm-h {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.bd-confirm-p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink3);
+  max-width: 44ch;
+  margin: 0 auto 24px;
+}
+.bd-confirm-p strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.bd-confirm-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 28px;
+  display: grid;
+  gap: 10px;
+  max-width: 34ch;
+  text-align: left;
+}
+.bd-confirm-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--ink2);
+}
+.bd-confirm-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink4);
+  flex: 0 0 6px;
+}
+.bd-confirm-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Assurance strip ---------- */
+.bd-assure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 22px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.bd-assure li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--ink3);
+}
+.bd-assure svg {
+  color: var(--cy);
+  flex: none;
+}
+
+/* ---------- Contact form (in the panel below) ---------- */
+/* The site .panel inner gradient carries the same green bias as the old
+   card surface; the demo page's panel goes neutral graphite instead. */
+.panel.bd-panel > div { background: var(--bd-surface); }
+.bd-contact {
+  display: grid;
+  gap: 15px;
+}
+.bd-contact-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.bd-contact-foot .bd-fine { margin: 0; }
+.bd-contact-done { padding: 12px 0; }
+.bd-contact-done h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.bd-contact-done p {
+  color: var(--ink3);
+  margin-bottom: 16px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+  /* One column: at narrow widths the time list and the month grid stop
+     being usable side by side. */
+  .bd-cal-split {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .bd-cal-right {
+    position: static;
+    max-height: 260px;
+  }
+  .bd-cal-right-in {
+    position: static;
+    height: 260px;
+  }
+  .bd-cal-times-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .bd-tzp-input { font-size: 16px; }
+  .bd-tzp-list {
+    bottom: auto;
+    top: calc(100% + 6px);
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  section.hero.bd-hero { padding-bottom: 10px; }
+  section.bd-focus { padding: 14px 0 72px; }
+  .bd-focus-inner { padding: 0 14px; }
+  .bd-wiz-head { padding: 14px 16px 12px; }
+  .bd-fields { padding: 22px 16px 20px; gap: 13px; }
+  .bd-fields-row-2 { grid-template-columns: 1fr; }
+  .bd-cal-duration { padding: 12px 16px; }
+  .bd-cal-body { padding: 12px 16px 16px; }
+  .bd-cal-foot { padding: 12px 16px; }
+  .bd-form-error { margin: 0 16px 14px; }
+  .bd-form-error-flush { margin: 0; }
+  .bd-wiz-title { font-size: 16.5px; }
+  /* 16px is the threshold below which iOS zooms the viewport on focus. */
+  .bd-field input,
+  .bd-field textarea { font-size: 16px; padding: 12px 14px; }
+  .bd-chip { min-height: 44px; font-size: 14px; }
+  .bd-chips-lg { grid-template-columns: 1fr; }
+  .bd-chips-lg .bd-chip { min-height: 48px; font-size: 15px; }
+  .bd-dialp-search { font-size: 16px; }
+  .bd-dialp-pop { width: 240px; }
+  .bd-dialp-list { max-height: 150px; }
+  .bd-assure { gap: 8px 16px; }
+  .bd-assure li { font-size: 12.5px; }
+  .bd-confirm { padding: 36px 20px; }
+}

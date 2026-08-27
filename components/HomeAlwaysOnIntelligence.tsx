@@ -37,8 +37,8 @@ const industries = [
         icon: Database,
         title: "Trading & Payments",
         tags: [
-          { label: "MetaTrader 4", logo: "/images/metatrader4-icon.png" },
-          { label: "MetaTrader 5", logo: "/images/metatrader5-icon.png" },
+          { label: "MT4", logo: "/images/metatrader4-icon.png" },
+          { label: "MT5", logo: "/images/metatrader5-icon.png" },
           { label: "DXtrade", logo: "/images/dxtrade-icon.png" },
           { label: "Stripe", logo: "/images/stripe.svg" },
         ],
@@ -128,7 +128,7 @@ const industries = [
         icon: Database,
         title: "Trading & Operations",
         tags: [
-          { label: "MetaTrader 4", logo: "/images/metatrader4-icon.png" },
+          { label: "MT4", logo: "/images/metatrader4-icon.png" },
           { label: "ThinkTrader", logo: "/images/thinktrader.png" },
           { label: "Sirix", logo: "/images/sirix.png" },
         ],
@@ -230,12 +230,12 @@ export function HomeAlwaysOnIntelligence() {
 
         <div className="home-always-diagram">
           <svg className="home-always-connectors" viewBox="0 0 1200 350" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M226 112 C252 112 252 170 278 170" />
-            <path d="M226 276 C252 276 252 170 278 170" />
-            <path d="M920 170 C946 170 946 68 972 68" />
-            <path d="M920 170 C946 170 946 144 972 144" />
-            <path d="M920 170 C946 170 946 220 972 220" />
-            <path d="M920 170 C946 170 946 296 972 296" />
+            <path d="M226 112 C252 112 252 147 278 147" />
+            <path d="M226 276 C252 276 252 147 278 147" />
+            <path d="M920 147 C946 147 946 64 972 64" />
+            <path d="M920 147 C946 147 946 134 972 134" />
+            <path d="M920 147 C946 147 946 203 972 203" />
+            <path d="M920 147 C946 147 946 272 972 272" />
           </svg>
 
           <div className="home-always-source-column">

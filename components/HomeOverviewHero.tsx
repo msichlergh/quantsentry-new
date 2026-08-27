@@ -2,6 +2,7 @@
 
 import {
   ArrowUp,
+  ChartBar,
   ChartLineUp,
   ChatCircleDots,
   CheckSquare,
@@ -11,14 +12,16 @@ import {
   FileText,
   Gauge,
   Layout,
+  MagnifyingGlass,
   Microphone,
+  PaperPlaneTilt,
   ShareNetwork,
   Sparkle,
   SquaresFour,
   Waveform,
   Warning,
 } from "@phosphor-icons/react";
-import type { CSSProperties, FormEvent } from "react";
+import type { CSSProperties, FocusEvent, FormEvent, KeyboardEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { ThinkingOrb, type OrbState } from "thinking-orbs";
 
@@ -34,6 +37,16 @@ type DockMetric = {
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 const ease = (value: number) => value * value * (3 - 2 * value);
+
+// Typed-text frames write straight to the DOM: a React state update here would
+// re-render the whole hero tree on every animation frame for the full sequence.
+const writeTypedText = (el: HTMLSpanElement | null, copy: string, t: number) => {
+  if (!el) return;
+  const text = copy.slice(0, Math.floor(copy.length * clamp(t)));
+  if (el.textContent !== text) el.textContent = text;
+  const caret = el.nextElementSibling;
+  if (caret) caret.classList.toggle("is-complete", text.length >= copy.length);
+};
 const industries = ["Prop Trading", "Brokerages", "Funds", "Payments"];
 const ingestionCopy = "Connect your systems. I’ll ingest, reconcile, and continuously analyse the data for you.";
 const ingestionStatuses = [
@@ -48,15 +61,17 @@ const argusActionCopy =
   "Review the affected campaign and six linked payout requests. I can monitor both every morning and alert the team when thresholds are crossed.";
 const argusTaskCreatedCopy =
   "Monitoring task created. I’ll review the campaign and linked payout requests every morning and alert the team when thresholds are crossed.";
-const argusOrbStates: OrbState[] = ["breathing", "searching", "connecting", "composing", "solving"];
 const argusIdlePrompts = [
-  "Hey, I’m ready to get started.",
-  "What changed today?",
-  "Where can we improve?",
+  "How can I help today?",
+  "What would you like me to do?",
+  "What should I look into?",
 ];
-const argusFocusedPrompt = "What should we explore?";
+const argusFocusedPrompt = "Tell me what you’d like me to do.";
+// Labels track what Argus is actually doing: idle rest = "Ready" (breathing),
+// dialog open = "Listening", ingest/docking = "Connecting", console typing =
+// "Composing" — no decorative cycling.
 const argusStatusLabels: Record<OrbState, string> = {
-  breathing: "Thinking",
+  breathing: "Ready",
   searching: "Analyzing",
   solving: "Solving",
   listening: "Listening",
@@ -73,11 +88,18 @@ function ArgusOrb({ state }: { state: OrbState }) {
 
 export function HomeOverviewHero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const storyStageRef = useRef<HTMLDivElement>(null);
+  const argusPromptInputRef = useRef<HTMLInputElement>(null);
   const startArgusStoryRef = useRef<(() => void) | null>(null);
+  const playStoryRef = useRef<(() => void) | null>(null);
+  const applyEndStateRef = useRef<(() => void) | null>(null);
   const startIngestionTypingRef = useRef<(() => void) | null>(null);
   const resetIngestionTypingRef = useRef<(() => void) | null>(null);
+  const argusDialogDismissedRef = useRef(false);
+  const storyActiveRef = useRef(false);
+  const [argusDialogOpen, setArgusDialogOpen] = useState(false);
   const [argusMode, setArgusMode] = useState<"chat" | "voice">("chat");
-  const [argusOrbState, setArgusOrbState] = useState<OrbState>(argusOrbStates[0]);
+  const [argusOrbState, setArgusOrbState] = useState<OrbState>("breathing");
   const [argusPrompt, setArgusPrompt] = useState("");
   const [argusPromptHint, setArgusPromptHint] = useState("");
   const [argusPromptFocused, setArgusPromptFocused] = useState(false);
@@ -85,38 +107,60 @@ export function HomeOverviewHero() {
   const [industryText, setIndustryText] = useState(industries[0]);
   const [ingestionCopyLength, setIngestionCopyLength] = useState(0);
   const [ingestionStatusCount, setIngestionStatusCount] = useState(0);
-  const [argusInsightLength, setArgusInsightLength] = useState(0);
-  const [argusFollowupLength, setArgusFollowupLength] = useState(0);
-  const [argusActionLength, setArgusActionLength] = useState(0);
+  const argusInsightTypeRef = useRef<HTMLSpanElement | null>(null);
+  const argusFollowupTypeRef = useRef<HTMLSpanElement | null>(null);
+  const argusActionTypeRef = useRef<HTMLSpanElement | null>(null);
   const [argusTaskCreated, setArgusTaskCreated] = useState(false);
 
-  const openArgus = (mode: "chat" | "voice") => {
-    const section = sectionRef.current;
-    if (!section) return;
-
+  const openArgusDialog = (mode: "chat" | "voice") => {
     setArgusMode(mode);
-    setArgusOrbState(mode === "voice" ? "listening" : "working");
-    const rect = section.getBoundingClientRect();
-    const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-    const progress = clamp(-rect.top / travel);
+    setArgusOrbState(mode === "voice" ? "listening" : "breathing");
+    setArgusDialogOpen(true);
+  };
+
+  const dismissArgusDialog = () => {
+    argusDialogDismissedRef.current = true;
+    // Refocus first: the input's onFocus re-opens the dialog synchronously, so
+    // the close below must be the last state write to win the batch.
+    argusPromptInputRef.current?.focus();
+    setArgusDialogOpen(false);
+  };
+
+  const confirmArgusIngest = () => {
+    storyActiveRef.current = true;
+    setArgusOrbState("working");
+    setArgusDialogOpen(false);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({
-      top: window.scrollY + rect.top + travel * 0.6,
-      behavior: reducedMotion ? "auto" : "smooth",
-    });
-    window.setTimeout(() => startArgusStoryRef.current?.(), progress >= 0.5 || reducedMotion ? 0 : 700);
+    // Reveal + start first so the stage has layout before we focus/scroll to it.
+    if (reducedMotion || window.innerWidth <= 900) applyEndStateRef.current?.();
+    else playStoryRef.current?.();
+    const stage = storyStageRef.current;
+    stage?.focus({ preventScroll: true });
+    stage?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  };
+
+  const handleArgusDialogKeyDown = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key !== "Escape" || !argusDialogOpen) return;
+    event.preventDefault();
+    dismissArgusDialog();
+  };
+
+  const handleArgusBlur = (event: FocusEvent<HTMLFormElement>) => {
+    const next = event.relatedTarget;
+    if (next instanceof Node && event.currentTarget.contains(next)) return;
+    argusDialogDismissedRef.current = true;
+    setArgusDialogOpen(false);
   };
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setTimeout(() => {
+      if (argusDialogDismissedRef.current || storyActiveRef.current) return;
+      setArgusMode("chat");
+      setArgusOrbState("breathing");
+      setArgusDialogOpen(true);
+    }, 2000);
 
-    let index = 0;
-    const interval = window.setInterval(() => {
-      index = (index + 1) % argusOrbStates.length;
-      setArgusOrbState(argusOrbStates[index]);
-    }, 4200);
-
-    return () => window.clearInterval(interval);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -176,9 +220,9 @@ export function HomeOverviewHero() {
 
       running = true;
       const startedAt = performance.now();
-      const copyDuration = 2300;
-      const statusDelay = 260;
-      const statusStep = 420;
+      const copyDuration = 3300;
+      const statusDelay = 520;
+      const statusStep = 700;
 
       const advance = (time: number) => {
         const elapsed = time - startedAt;
@@ -255,7 +299,7 @@ export function HomeOverviewHero() {
     event.preventDefault();
     const question = argusPrompt.trim();
     if (question) setArgusQuestion(question);
-    openArgus("chat");
+    openArgusDialog("chat");
   };
 
   useEffect(() => {
@@ -264,7 +308,12 @@ export function HomeOverviewHero() {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let metrics: DockMetric[] = [];
-    let animationFrame = 0;
+    // Resting state: the story stage (dashboard and all) is fully collapsed via
+    // [data-story-open="false"] — the page is just the hero. Confirming the
+    // pill's dialog reveals the stage and plays the timeline (or jumps straight
+    // to the end state on mobile / reduced motion). Once Argus is live inside
+    // the dashboard (stage "ai") the pill hides for good, and nothing ever
+    // collapses or resets again.
     let storyFrame = 0;
     let storyProgress = 0;
     let storyRunning = false;
@@ -275,7 +324,6 @@ export function HomeOverviewHero() {
     let sequenceRunning = false;
     let autoSequenceScheduled = false;
     let autoSequenceTimer = 0;
-    let lastScrollY = window.scrollY;
 
     const applyArgusSequence = (progress: number) => {
       sequenceProgress = progress;
@@ -290,9 +338,9 @@ export function HomeOverviewHero() {
       const aiSuggestions = ease(clamp((progress - 0.96) / 0.04));
       sequenceAi = ai;
 
-      setArgusInsightLength(Math.floor(argusInsightCopy.length * clamp((progress - 0.5) / 0.22)));
-      setArgusFollowupLength(Math.floor(argusFollowupCopy.length * clamp((progress - 0.72) / 0.07)));
-      setArgusActionLength(Math.floor(argusActionCopy.length * clamp((progress - 0.81) / 0.15)));
+      writeTypedText(argusInsightTypeRef.current, argusInsightCopy, (progress - 0.5) / 0.22);
+      writeTypedText(argusFollowupTypeRef.current, argusFollowupCopy, (progress - 0.72) / 0.07);
+      writeTypedText(argusActionTypeRef.current, argusActionCopy, (progress - 0.81) / 0.15);
 
       section.style.setProperty("--home-cursor", cursor.toFixed(4));
       section.style.setProperty("--home-cursor-click", cursorClick.toFixed(4));
@@ -322,34 +370,24 @@ export function HomeOverviewHero() {
           sequenceFrame = window.requestAnimationFrame(advance);
         } else {
           sequenceRunning = false;
-          section.dataset.storyComplete = "true";
         }
       };
 
       sequenceFrame = window.requestAnimationFrame(advance);
     };
 
-    const resetArgusSequence = () => {
-      window.cancelAnimationFrame(sequenceFrame);
-      window.clearTimeout(autoSequenceTimer);
-      sequenceRunning = false;
-      autoSequenceScheduled = false;
-      setArgusTaskCreated(false);
-      section.dataset.storyComplete = "false";
-      applyArgusSequence(0);
-    };
-
     startArgusStoryRef.current = startArgusSequence;
 
     const setStage = (progress: number) => {
       storyProgress = progress;
-      const signals = ease(clamp((progress - 0.04) / 0.1));
-      const ingestionIn = ease(clamp((progress - 0.1) / 0.08));
+      const dashboardShell = ease(clamp(progress / 0.08));
+      const signals = ease(clamp((progress - 0.1) / 0.1));
+      const ingestionIn = ease(clamp((progress - 0.18) / 0.08));
       const ingestionOut = ease(clamp((progress - 0.55) / 0.07));
       const ingestion = ingestionIn * (1 - ingestionOut);
       const converge = ease(clamp((progress - 0.57) / 0.15));
       const dashboard = ease(clamp((progress - 0.72) / 0.12));
-      const copyFade = ease(clamp((progress - 0.24) / 0.16));
+      const copyFade = dashboardShell;
 
       section.style.setProperty("--home-progress", progress.toFixed(4));
       section.style.setProperty("--home-signals", signals.toFixed(4));
@@ -367,9 +405,9 @@ export function HomeOverviewHero() {
         element.style.setProperty("--home-card-scale", `${1 + (scale - 1) * converge}`);
       });
 
-      if (dashboard < 0.5 && (sequenceProgress > 0 || sequenceRunning || autoSequenceScheduled)) {
-        resetArgusSequence();
-      } else if (dashboard > 0.99 && sequenceProgress === 0 && !sequenceRunning && !autoSequenceScheduled) {
+      // Chain the Argus sequence only while a confirmed story is playing; the
+      // resting docked state must not auto-open the conversation.
+      if (storyRunning && dashboard > 0.99 && sequenceProgress === 0 && !sequenceRunning && !autoSequenceScheduled) {
         autoSequenceScheduled = true;
         autoSequenceTimer = window.setTimeout(() => {
           autoSequenceScheduled = false;
@@ -384,7 +422,7 @@ export function HomeOverviewHero() {
       if (storyRunning || storyCompleted) return;
 
       storyRunning = true;
-      const duration = 8200;
+      const duration = 12000;
       const startedAt = performance.now() - storyProgress * duration;
 
       const advance = (time: number) => {
@@ -401,48 +439,66 @@ export function HomeOverviewHero() {
       storyFrame = window.requestAnimationFrame(advance);
     };
 
-    const resetStory = () => {
+    // Reveal the collapsed story stage (variant a rest state) and measure the
+    // dock geometry now that it has layout.
+    const openStage = () => {
+      if (section.dataset.storyOpen === "true") return;
+      section.dataset.storyOpen = "true";
+      measure();
+    };
+
+    const playStory = () => {
+      if (storyRunning) return;
+
+      openStage();
       window.cancelAnimationFrame(storyFrame);
-      storyRunning = false;
+      window.cancelAnimationFrame(sequenceFrame);
+      window.clearTimeout(autoSequenceTimer);
+      autoSequenceScheduled = false;
+      sequenceRunning = false;
       storyCompleted = false;
-      resetArgusSequence();
+      storyProgress = 0;
+      setArgusTaskCreated(false);
+      applyArgusSequence(0);
       setStage(0);
+      startStory();
     };
 
-    const update = () => {
-      animationFrame = 0;
-      const currentScrollY = window.scrollY;
-      const scrollingUp = currentScrollY < lastScrollY - 2;
-      lastScrollY = currentScrollY;
+    playStoryRef.current = playStory;
 
-      if (window.innerWidth <= 900 || reducedMotion.matches) {
-        setStage(0);
-        return;
-      }
-
-      const rect = section.getBoundingClientRect();
-      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-      const scrollProgress = clamp(-rect.top / travel);
-
-      if (scrollingUp && storyProgress > 0 && rect.top < window.innerHeight && rect.bottom > 0) {
-        resetStory();
-        return;
-      }
-
-      if (!scrollingUp && currentScrollY > 8 && scrollProgress > 0.01) startStory();
+    // Static jump to the finished conversation, used when the visitor confirms
+    // under prefers-reduced-motion or on mobile (no timeline plays there).
+    const applyEndState = () => {
+      openStage();
+      window.cancelAnimationFrame(storyFrame);
+      window.cancelAnimationFrame(sequenceFrame);
+      window.clearTimeout(autoSequenceTimer);
+      autoSequenceScheduled = false;
+      storyRunning = false;
+      sequenceRunning = false;
+      storyCompleted = true;
+      storyProgress = 1;
+      applyArgusSequence(1);
+      setStage(1);
     };
 
-    const queueUpdate = () => {
-      if (!animationFrame) animationFrame = window.requestAnimationFrame(update);
-    };
+    applyEndStateRef.current = applyEndState;
 
     const measure = () => {
-      if (window.innerWidth <= 900 || reducedMotion.matches) {
+      if (window.innerWidth <= 900) {
+        // Mobile layout is fully static via CSS overrides; only the typed
+        // copy needs to be completed.
         metrics = [];
-        setStage(0);
-        setArgusInsightLength(argusInsightCopy.length);
-        setArgusFollowupLength(argusFollowupCopy.length);
-        setArgusActionLength(argusActionCopy.length);
+        writeTypedText(argusInsightTypeRef.current, argusInsightCopy, 1);
+        writeTypedText(argusFollowupTypeRef.current, argusFollowupCopy, 1);
+        writeTypedText(argusActionTypeRef.current, argusActionCopy, 1);
+        return;
+      }
+
+      // While the stage is collapsed (display: none) there is no geometry to
+      // measure — everything happens on reveal via openStage().
+      if (section.dataset.storyOpen !== "true") {
+        metrics = [];
         return;
       }
 
@@ -480,24 +536,22 @@ export function HomeOverviewHero() {
       });
       setStage(currentStoryProgress);
       if (currentSequenceProgress > 0) applyArgusSequence(currentSequenceProgress);
-      update();
     };
 
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(section);
-    window.addEventListener("scroll", queueUpdate, { passive: true });
     window.addEventListener("resize", measure);
     reducedMotion.addEventListener("change", measure);
     measure();
 
     return () => {
-      window.cancelAnimationFrame(animationFrame);
       window.cancelAnimationFrame(storyFrame);
       window.cancelAnimationFrame(sequenceFrame);
       window.clearTimeout(autoSequenceTimer);
       startArgusStoryRef.current = null;
+      playStoryRef.current = null;
+      applyEndStateRef.current = null;
       resizeObserver.disconnect();
-      window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", measure);
       reducedMotion.removeEventListener("change", measure);
     };
@@ -507,10 +561,11 @@ export function HomeOverviewHero() {
     <section
       ref={sectionRef}
       className="hero dots home-overview-hero"
-      data-story-complete="false"
       data-story-stage="signals"
+      data-story-open="false"
     >
-      <div className="home-scroll-stage" data-hero-visual-root>
+      {/* The same aurora continues behind the complete opening story. */}
+      <div className="home-scroll-stage">
         <div className="wrap home-overview-wrap">
           <div className="home-hero-copy">
             <div className="kicker home-hero-kicker">
@@ -543,6 +598,98 @@ export function HomeOverviewHero() {
             </div>
           </div>
 
+          <form
+            className="home-argus-preview"
+            aria-label="Ask Argus AI"
+            onSubmit={submitArgusPrompt}
+            onKeyDown={handleArgusDialogKeyDown}
+            onBlur={handleArgusBlur}
+          >
+            <span className="home-argus-icon" aria-hidden="true">
+              <ArgusOrb state={activeArgusOrbState} />
+            </span>
+            <label className="home-argus-input">
+              <small className="home-argus-meta">
+                <span>Argus AI</span>
+                <b>{argusStatusLabels[activeArgusOrbState]}</b>
+              </small>
+              <input
+                ref={argusPromptInputRef}
+                value={argusPrompt}
+                onChange={(event) => {
+                  setArgusPrompt(event.target.value);
+                  if (!event.target.value) setArgusPromptHint("");
+                }}
+                onFocus={() => {
+                  setArgusPromptHint("");
+                  setArgusPromptFocused(true);
+                  setArgusDialogOpen(true);
+                }}
+                onBlur={() => {
+                  setArgusPromptHint("");
+                  setArgusPromptFocused(false);
+                }}
+                placeholder={argusPromptHint}
+                aria-label="Question for Argus AI"
+                aria-haspopup="dialog"
+                aria-controls="home-argus-confirm-dialog"
+              />
+            </label>
+            <div className="home-argus-voice-actions">
+              <button
+                className="home-argus-voice-action"
+                type="button"
+                onClick={() => openArgusDialog("chat")}
+                aria-label="Send a voice message"
+                title="Send a voice message"
+                aria-haspopup="dialog"
+                aria-expanded={argusDialogOpen}
+              >
+                <Microphone />
+              </button>
+              <button
+                className="home-argus-voice-action home-argus-speech-action"
+                type="button"
+                onClick={() => openArgusDialog("voice")}
+                aria-label="Start speech mode"
+                title="Start speech mode"
+                aria-haspopup="dialog"
+                aria-expanded={argusDialogOpen}
+              >
+                <Waveform />
+              </button>
+            </div>
+            <button className="home-argus-arrow" type="submit" aria-label="Ask Argus">
+              <ArrowUp />
+            </button>
+            {argusDialogOpen ? (
+              <div
+                className="home-argus-confirm"
+                id="home-argus-confirm-dialog"
+                role="dialog"
+                aria-label="Argus AI ingestion"
+                onMouseDown={(event) => event.preventDefault()}
+              >
+                <small className="home-argus-confirm-kicker">Argus AI</small>
+                <p className="home-argus-confirm-copy">
+                  I can ingest your connected data and build your dashboard around it. Ready?
+                </p>
+                <div className="home-argus-confirm-actions">
+                  <button className="home-argus-confirm-yes" type="button" onClick={confirmArgusIngest}>
+                    Yes, get started
+                  </button>
+                  <button className="home-argus-confirm-no" type="button" onClick={dismissArgusDialog}>
+                    Not now
+                  </button>
+                </div>
+              </div>
+            ) : null}
+          </form>
+        </div>
+      </div>
+
+      <div className="home-story-stage" ref={storyStageRef} tabIndex={-1}>
+        <div className="wrap home-story-wrap">
           <article className="home-signal-card home-signal-risk" data-home-card="risk" aria-label="Risk management signals">
             <div className="home-signal-card-head">
               <span>Risk Management</span>
@@ -628,9 +775,9 @@ export function HomeOverviewHero() {
 
           <article className="home-signal-card home-source-signal home-source-trading" data-home-card="trading" aria-label="Trading platform data signal">
             <div className="home-platform-logos" aria-hidden="true">
-              <span className="home-platform-brand home-platform-brand-mt4" />
-              <span className="home-platform-brand home-platform-brand-dxtrade" />
-              <span className="home-platform-brand home-platform-brand-matchtrader" />
+              <span className="home-platform-brand home-platform-brand-mt5" />
+              <span className="home-platform-brand home-platform-brand-ctrader" />
+              <span className="home-platform-brand home-platform-brand-tradelocker" />
             </div>
             <div><strong>Platforms</strong></div>
           </article>
@@ -642,46 +789,6 @@ export function HomeOverviewHero() {
             </div>
             <div><strong>KYC Compliance</strong></div>
           </article>
-
-          <form className="home-argus-preview" aria-label="Ask Argus AI" onSubmit={submitArgusPrompt}>
-            <span className="home-argus-icon" aria-hidden="true">
-              <ArgusOrb state={activeArgusOrbState} />
-            </span>
-            <label className="home-argus-input">
-              <small className="home-argus-meta">
-                <span>Argus AI</span>
-                <b>{argusStatusLabels[activeArgusOrbState]}</b>
-              </small>
-              <input
-                value={argusPrompt}
-                onChange={(event) => {
-                  setArgusPrompt(event.target.value);
-                  if (!event.target.value) setArgusPromptHint("");
-                }}
-                onFocus={() => {
-                  setArgusPromptHint("");
-                  setArgusPromptFocused(true);
-                }}
-                onBlur={() => {
-                  setArgusPromptHint("");
-                  setArgusPromptFocused(false);
-                }}
-                placeholder={argusPromptHint}
-                aria-label="Question for Argus AI"
-              />
-            </label>
-            <div className="home-argus-voice-actions">
-              <button className="home-argus-voice-action" type="button" onClick={() => openArgus("chat")} aria-label="Send a voice message" title="Send a voice message">
-                <Microphone />
-              </button>
-              <button className="home-argus-voice-action home-argus-speech-action" type="button" onClick={() => openArgus("voice")} aria-label="Start speech mode" title="Start speech mode">
-                <Waveform />
-              </button>
-            </div>
-            <button className="home-argus-arrow" type="submit" aria-label="Ask Argus">
-              <ArrowUp />
-            </button>
-          </form>
 
           <div className="home-argus-ingestion">
             <div className="home-argus-ingestion-head">
@@ -806,14 +913,14 @@ export function HomeOverviewHero() {
                         <div className="home-argus-analysis-insight">
                           <strong>Key insight</strong>
                           <p aria-label={argusInsightCopy}>
-                            <span aria-hidden="true">{argusInsightCopy.slice(0, argusInsightLength)}</span>
-                            <i className={`home-argus-type-caret${argusInsightLength >= argusInsightCopy.length ? " is-complete" : ""}`} aria-hidden="true" />
+                            <span aria-hidden="true" ref={argusInsightTypeRef}>{argusInsightCopy}</span>
+                            <i className="home-argus-type-caret is-complete" aria-hidden="true" />
                           </p>
                         </div>
                       </div>
                       <div className="home-argus-user home-argus-user-short home-argus-message-followup" aria-label={argusFollowupCopy}>
-                        <span aria-hidden="true">{argusFollowupCopy.slice(0, argusFollowupLength)}</span>
-                        <i className={`home-argus-type-caret${argusFollowupLength >= argusFollowupCopy.length ? " is-complete" : ""}`} aria-hidden="true" />
+                        <span aria-hidden="true" ref={argusFollowupTypeRef}>{argusFollowupCopy}</span>
+                        <i className="home-argus-type-caret is-complete" aria-hidden="true" />
                       </div>
                       <button
                         className={`home-argus-response home-argus-task home-argus-message-action${argusTaskCreated ? " is-created" : ""}`}
@@ -827,17 +934,18 @@ export function HomeOverviewHero() {
                             <span>{argusTaskCreatedCopy}</span>
                           ) : (
                             <>
-                              <span aria-hidden="true">{argusActionCopy.slice(0, argusActionLength)}</span>
-                              <i className={`home-argus-type-caret${argusActionLength >= argusActionCopy.length ? " is-complete" : ""}`} aria-hidden="true" />
+                              <span aria-hidden="true" ref={argusActionTypeRef}>{argusActionCopy}</span>
+                              <i className="home-argus-type-caret is-complete" aria-hidden="true" />
                             </>
                           )}
                         </span>
                       </button>
                       <div className="home-argus-suggestions home-argus-message-suggestions">
-                        <button type="button">Review the anomaly</button>
-                        <button type="button">Show the affected segment</button>
+                        <button type="button"><MagnifyingGlass size={14} />Review the Anomaly</button>
+                        <button type="button"><ChartBar size={14} />Show the Affected Segment</button>
                         <button disabled={argusTaskCreated} onClick={() => setArgusTaskCreated(true)} type="button">
-                          {argusTaskCreated ? "Monitoring task created" : "Create monitoring task"}
+                          <PaperPlaneTilt size={14} />
+                          {argusTaskCreated ? "Monitoring task created" : "Create Monitoring Task"}
                         </button>
                       </div>
                     </div>
@@ -864,7 +972,7 @@ export function HomeOverviewHero() {
             <button
               className="home-dashboard-argus-bubble"
               type="button"
-              onClick={() => openArgus("chat")}
+              onClick={() => startArgusStoryRef.current?.()}
               aria-label="Open Argus AI"
               title="Ask Argus"
             >
@@ -872,7 +980,6 @@ export function HomeOverviewHero() {
             </button>
             <span className="home-dashboard-guide-cursor" aria-hidden="true"><CursorClick weight="fill" /></span>
           </div>
-
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@
 
 import {
   ArrowRight,
+  ArrowsLeftRight,
   CaretDown,
   ChartLineUp,
   CheckSquare,
@@ -9,8 +10,12 @@ import {
   Database,
   FileText,
   Gauge,
+  Globe,
+  MapTrifold,
+  ShareNetwork,
   Sparkle,
   SquaresFour,
+  Trophy,
 } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 
@@ -28,8 +33,11 @@ function MenuIcon({ href }: { href: string }) {
   if (href === "/argus") return <Sparkle {...props} />;
   if (href === "/custom-bi") return <ChartLineUp {...props} />;
   if (href === "/managed-desk") return <CheckSquare {...props} />;
-  if (href === "/industry-intelligence") return <ChartLineUp {...props} />;
-  if (href === "/proof") return <CheckSquare {...props} />;
+  if (href === "/industry-intelligence") return <Globe {...props} />;
+  if (href === "/network") return <ShareNetwork {...props} />;
+  if (href === "/compare") return <ArrowsLeftRight {...props} />;
+  if (href === "/proof") return <Trophy {...props} />;
+  if (href === "/roadmap") return <MapTrifold {...props} />;
   return <FileText {...props} />;
 }
 

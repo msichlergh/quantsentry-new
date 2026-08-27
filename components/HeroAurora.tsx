@@ -286,7 +286,7 @@ export function DispersionBandsCanvas() {
     gl.uniform1f(uniforms.edges, 5);
     gl.uniform1f(uniforms.ephemeral, 0);
     gl.uniform1f(uniforms.radius, 0.1);
-    gl.uniform1f(uniforms.scale, 10);
+    gl.uniform1f(uniforms.scale, 15);
     gl.uniform1f(uniforms.spacingX, 0.4);
     gl.uniform1f(uniforms.spacingY, 0.01);
     gl.uniform1f(uniforms.seed, 748);

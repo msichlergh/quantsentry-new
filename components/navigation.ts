@@ -4,41 +4,73 @@ export const industryLinks = [
     label: "Prop Trading",
     status: "Live",
     statusColour: "var(--cy)",
-    description:
-      "Coordinated abuse, payout integrity and the economics of a funded book.",
+    description: "Payout integrity and coordinated abuse.",
   },
   {
     href: "/industries-brokerages",
     label: "Brokerages",
     status: "Early Access",
     statusColour: "var(--amb)",
-    description:
-      "Toxic flow, latency abuse and bonus fraud across a retail book.",
+    description: "Toxic flow, latency abuse and bonus fraud.",
   },
   {
     href: "/industries-funds",
     label: "Funds and Asset Managers",
     status: "Early Access",
     statusColour: "var(--amb)",
-    description:
-      "Allocation integrity, front running patterns and mandate breaches.",
+    description: "Allocation integrity and mandate breaches.",
   },
   {
     href: "/industries-payments",
     label: "Payments and Fintech",
     status: "Early Access",
     statusColour: "var(--amb)",
-    description:
-      "Identity clusters, chargeback rings and mule networks behind the transactions.",
+    description: "Chargebacks, mule networks and identity abuse.",
   },
 ] as const;
 
 export const primaryLinks = [
-  { href: "/platform", label: "Platform" },
-  { href: "/managed-desk", label: "Managed Desk" },
-  { href: "/argus", label: "Argus AI" },
-  { href: "/proof", label: "Proof" },
-  { href: "/insights", label: "Insights" },
   { href: "/pricing", label: "Pricing" },
   { href: "/company", label: "Company" },
+] as const;
+
+export const solutionLinks = [
+  {
+    href: "/platform",
+    label: "Platform",
+    description: "Connect every source and operate from one governed data layer.",
+  },
+  {
+    href: "/argus",
+    label: "Argus AI",
+    description: "Investigate changes, ask questions and assign ongoing analysis.",
+  },
+  {
+    href: "/custom-bi",
+    label: "Custom Business Intelligence",
+    description: "Build operating views around the metrics that run your business.",
+  },
+  {
+    href: "/managed-desk",
+    label: "Managed Desk",
+    description: "Add a dedicated analyst to your daily risk operation.",
+  },
+] as const;
+
+export const resourceLinks = [
+  {
+    href: "/industry-intelligence",
+    label: "Industry Intelligence",
+    description: "Competitor research, market reports and monitored changes.",
+  },
+  {
+    href: "/proof",
+    label: "Proof",
+    description: "See verified outcomes from real customer books.",
+  },
+  {
+    href: "/insights",
+    label: "Insights",
+    description: "Research on risk, fraud, operations and profitable growth.",
+  },
 ] as const;

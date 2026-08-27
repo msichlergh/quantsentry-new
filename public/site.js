@@ -484,7 +484,7 @@
         + '<div style="margin-top:18px">' + d.rows.map(function(r){
             var v = VERD[r[1]];
             return '<div class="scnrow"><span class="scnv" style="color:' + v[1] + '">' + v[0] + '</span>'
-              + '<span><b style="color:var(--ink);font-size:13.5px">' + r[0] + '</b>'
+              + '<span><b style="color:var(--ink);font-size:13.5px;font-weight:500">' + r[0] + '</b>'
               + '<span style="display:block;font-size:13px;color:var(--ink3);margin-top:3px">' + r[2]
               + '</span></span></div>';
           }).join('') + '</div>';

@@ -1,9 +1,37 @@
 "use client";
 
+import {
+  ArrowRight,
+  CaretDown,
+  ChartLineUp,
+  CheckSquare,
+  CreditCard,
+  Database,
+  FileText,
+  Gauge,
+  Sparkle,
+  SquaresFour,
+} from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 
 import { BrandLockup } from "./BrandLockup";
-import { industryLinks, primaryLinks } from "./navigation";
+import { industryLinks, primaryLinks, resourceLinks, solutionLinks } from "./navigation";
+
+function MenuIcon({ href }: { href: string }) {
+  const props = { size: 16, weight: "regular" as const };
+
+  if (href === "/industries-prop-trading") return <ChartLineUp {...props} />;
+  if (href === "/industries-brokerages") return <Gauge {...props} />;
+  if (href === "/industries-funds") return <Database {...props} />;
+  if (href === "/industries-payments") return <CreditCard {...props} />;
+  if (href === "/platform") return <SquaresFour {...props} />;
+  if (href === "/argus") return <Sparkle {...props} />;
+  if (href === "/custom-bi") return <ChartLineUp {...props} />;
+  if (href === "/managed-desk") return <CheckSquare {...props} />;
+  if (href === "/industry-intelligence") return <ChartLineUp {...props} />;
+  if (href === "/proof") return <CheckSquare {...props} />;
+  return <FileText {...props} />;
+}
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -28,34 +56,74 @@ export function Header() {
           <li className="drop">
             <a href="/industries">
               Industries
-              <svg
-                aria-hidden="true"
-                width="11"
-                height="11"
-                viewBox="0 0 24 24"
-                fill="none"
-                style={{ marginLeft: 5, verticalAlign: -1 }}
-              >
-                <path
-                  d="M6 9l6 6 6-6"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <CaretDown aria-hidden="true" size={11} weight="bold" />
             </a>
             <div className="menu">
               <div className="menu-inner">
+                <div className="nav-menu-header">
+                  <span>Industries</span>
+                  <small>Intelligence built around the way your business operates.</small>
+                </div>
                 {industryLinks.map((item) => (
                   <a className="industry-menu-link" href={item.href} key={item.href}>
-                    <span className="industry-menu-title">
-                      <span>{item.label}</span>
-                      <span className="eyebrow" style={{ color: item.statusColour }}>
-                        {item.status}
+                    <span className="nav-menu-icon"><MenuIcon href={item.href} /></span>
+                    <span className="nav-menu-copy">
+                      <span className="industry-menu-title">
+                        <span>{item.label}</span>
+                        <span className="eyebrow" style={{ color: item.statusColour }}>
+                          {item.status}
+                        </span>
                       </span>
+                      <span className="industry-menu-description">{item.description}</span>
                     </span>
-                    <span className="industry-menu-description">{item.description}</span>
+                  </a>
+                ))}
+                <a className="nav-menu-footer" href="/industries">View All Industries <ArrowRight size={13} /></a>
+              </div>
+            </div>
+          </li>
+          <li className="drop">
+            <a href="/platform">
+              Solutions
+              <CaretDown aria-hidden="true" size={11} weight="bold" />
+            </a>
+            <div className="menu">
+              <div className="menu-inner">
+                <div className="nav-menu-header">
+                  <span>Solutions</span>
+                  <small>One data layer for intelligence, action and support.</small>
+                </div>
+                {solutionLinks.map((item) => (
+                  <a className="nav-menu-link" href={item.href} key={item.href}>
+                    <span className="nav-menu-icon"><MenuIcon href={item.href} /></span>
+                    <span className="nav-menu-copy">
+                      <span className="nav-menu-title">{item.label}</span>
+                      <span className="nav-menu-description">{item.description}</span>
+                    </span>
+                  </a>
+                ))}
+                <a className="nav-menu-footer" href="/platform">Explore the Platform <ArrowRight size={13} /></a>
+              </div>
+            </div>
+          </li>
+          <li className="drop">
+            <a href="/insights">
+              Resources
+              <CaretDown aria-hidden="true" size={11} weight="bold" />
+            </a>
+            <div className="menu">
+              <div className="menu-inner nav-menu-compact">
+                <div className="nav-menu-header">
+                  <span>Resources</span>
+                  <small>Evidence and practical thinking for better decisions.</small>
+                </div>
+                {resourceLinks.map((item) => (
+                  <a className="nav-menu-link" href={item.href} key={item.href}>
+                    <span className="nav-menu-icon"><MenuIcon href={item.href} /></span>
+                    <span className="nav-menu-copy">
+                      <span className="nav-menu-title">{item.label}</span>
+                      <span className="nav-menu-description">{item.description}</span>
+                    </span>
                   </a>
                 ))}
               </div>
@@ -66,11 +134,6 @@ export function Header() {
               <a href={item.href}>{item.label}</a>
             </li>
           ))}
-          <li>
-            <a className="btn ghost" href="/demo">
-              Talk to Us
-            </a>
-          </li>
           <li>
             <a className="btn solid" href="/demo">
               <span>Book a Demo</span>
@@ -98,6 +161,18 @@ export function Header() {
         <div className="mobile-menu" id="mobile-navigation" hidden={!open}>
           <a href="/industries">Industries</a>
           {industryLinks.map((item) => (
+            <a className="mobile-sub-link" href={item.href} key={item.href}>
+              {item.label}
+            </a>
+          ))}
+          <span className="mobile-menu-label">Solutions</span>
+          {solutionLinks.map((item) => (
+            <a className="mobile-sub-link" href={item.href} key={item.href}>
+              {item.label}
+            </a>
+          ))}
+          <span className="mobile-menu-label">Resources</span>
+          {resourceLinks.map((item) => (
             <a className="mobile-sub-link" href={item.href} key={item.href}>
               {item.label}
             </a>

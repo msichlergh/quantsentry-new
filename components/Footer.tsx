@@ -12,14 +12,18 @@ const footerGroups = [
       ["Argus AI", "/argus"],
       ["Custom Business Intelligence", "/custom-bi"],
       ["Connectors", "/platform#connect"],
+      ["Risk Intelligence Network", "/network"],
+      ["QuantSentry Futures", "/platform#roadmap"],
+      ["Roadmap", "/platform#roadmap"],
     ],
   },
   {
-    title: "Coming",
+    title: "Resources",
     links: [
-      ["Risk Intelligence Network", "/network"],
-      ["QuantSentry Futures", "/platform#futures"],
-      ["Roadmap", "/platform#roadmap"],
+      ["Industry Intelligence", "/industry-intelligence"],
+      ["Insights", "/insights"],
+      ["Proof", "/proof"],
+      ["How the Market Compares", "/compare"],
     ],
   },
   {
@@ -35,12 +39,9 @@ const footerGroups = [
   {
     title: "Company",
     links: [
-      ["How the Market Compares", "/compare"],
       ["Blind Spot Finder", "/diagnostic"],
       ["Managed Desk", "/managed-desk"],
       ["About", "/company"],
-      ["Proof", "/proof"],
-      ["Insights", "/insights"],
       ["Pricing", "/pricing"],
       ["Book a Demo", "/demo"],
     ],

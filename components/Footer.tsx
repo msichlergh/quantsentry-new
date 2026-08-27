@@ -4,26 +4,24 @@ import { BrandLockup } from "./BrandLockup";
 
 const footerGroups = [
   {
-    title: "Platform",
+    title: "Solutions",
     links: [
       ["Platform Overview", "/platform"],
-      ["Seven Detection Engines", "/platform#engines"],
-      ["Evidence Kits", "/platform#evidence"],
       ["Argus AI", "/argus"],
-      ["Custom Business Intelligence", "/custom-bi"],
-      ["Connectors", "/platform#connect"],
-      ["Risk Intelligence Network", "/network"],
-      ["QuantSentry Futures", "/platform#roadmap"],
-      ["Roadmap", "/platform#roadmap"],
+      ["Custom Intelligence", "/custom-bi"],
+      ["Industry Intelligence", "/industry-intelligence"],
+      ["Sentry Risk Network", "/network"],
+      ["Managed Risk Service", "/managed-desk"],
     ],
   },
   {
     title: "Resources",
     links: [
-      ["Industry Intelligence", "/industry-intelligence"],
       ["Insights", "/insights"],
-      ["Proof", "/proof"],
-      ["How the Market Compares", "/compare"],
+      ["Success Stories", "/proof"],
+      ["Blind Spot Finder", "/diagnostic"],
+      ["Trading Risk Comparison", "/compare"],
+      ["Roadmap", "/roadmap"],
     ],
   },
   {
@@ -39,8 +37,6 @@ const footerGroups = [
   {
     title: "Company",
     links: [
-      ["Blind Spot Finder", "/diagnostic"],
-      ["Managed Desk", "/managed-desk"],
       ["About", "/company"],
       ["Pricing", "/pricing"],
       ["Book a Demo", "/demo"],
@@ -92,7 +88,10 @@ export function Footer() {
         </div>
         <div className="legal">
           <span>© 2026 QuantSentry, Quant Technology Group. All rights reserved.</span>
-          <span>Never moves money, closes an account or clears a payout.</span>
+          <nav className="legal-links" aria-label="Legal">
+            <a href="https://quanttechnology.com/privacy">Privacy</a>
+            <a href="https://quanttechnology.com/terms">Terms</a>
+          </nav>
         </div>
       </div>
     </footer>

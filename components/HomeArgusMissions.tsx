@@ -1,57 +1,59 @@
 import {
   ArrowRight,
-  ChartLineUp,
-  FileText,
-  IdentificationCard,
-  ShareNetwork,
-  ShieldWarning,
   Target,
 } from "@phosphor-icons/react/dist/ssr";
+import type { CSSProperties } from "react";
 
 import { HomeDataPattern } from "./HomeDataPattern";
 
 const missions = [
   {
-    description: "Watches revenue streams and surfaces unexpected changes before close.",
-    icon: ChartLineUp,
-    name: "Revenue Anomaly Monitor",
-    status: "Running",
-    tone: "positive",
+    current: "+3.2%",
+    description: "Grow revenue by 5%.",
+    goal: "Revenue Growth",
+    period: "MoM",
+    progress: "64%",
+    target: "+5%",
   },
   {
-    description: "Detects and prioritises high-risk payout requests for review.",
-    icon: ShieldWarning,
-    name: "Payout Risk Investigator",
-    status: "Running",
-    tone: "positive",
+    current: "−12.8%",
+    description: "Reduce payout fraud by 20%.",
+    goal: "Payout Fraud Detection",
+    period: "Monthly",
+    progress: "64%",
+    target: "−20%",
   },
   {
-    description: "Finds coordinated abuse across identities, devices and transactions.",
-    icon: ShareNetwork,
-    name: "Fraud Network Watch",
-    status: "4 networks open",
-    tone: "warning",
+    current: "−18%",
+    description: "Reduce coordinated abuse by 30%.",
+    goal: "Coordinated Abuse Reduction",
+    period: "QoQ",
+    progress: "60%",
+    target: "−30%",
   },
   {
-    description: "Tracks channel cost, conversion and contribution margin together.",
-    icon: Target,
-    name: "Acquisition Efficiency",
-    status: "Running",
-    tone: "positive",
+    current: "−7.4%",
+    description: "Reduce acquisition costs by 12%.",
+    goal: "Acquisition Cost Reduction",
+    period: "MoM",
+    progress: "62%",
+    target: "−12%",
   },
   {
-    description: "Monitors KYC and compliance thresholds and flags exceptions.",
-    icon: IdentificationCard,
-    name: "Compliance Monitor",
-    status: "All clear",
-    tone: "positive",
+    current: "96.4%",
+    description: "Meet 100% of the KYC SLA.",
+    goal: "KYC SLA",
+    period: "Rolling 30 Days",
+    progress: "96.4%",
+    target: "100%",
   },
   {
-    description: "Researches competitor conditions and reports when material rules or pricing change.",
-    icon: FileText,
-    name: "Competitive Intelligence Monitor",
-    status: "Next scan Monday",
-    tone: "neutral",
+    current: "82%",
+    description: "Cover 100% of priority markets.",
+    goal: "Priority Market Coverage",
+    period: "Quarterly",
+    progress: "82%",
+    target: "100%",
   },
 ] as const;
 
@@ -62,13 +64,13 @@ export function HomeArgusMissions() {
       <div className="wrap">
         <div className="home-argus-missions-layout">
           <div className="home-argus-missions-copy">
-            <div className="kicker"><span className="dot" /><span>Specialized AI missions</span></div>
+            <div className="kicker"><span className="dot" /><span>Purpose-Built AI Missions</span></div>
             <h2 id="home-argus-missions-title">
-              An Argus Mission for <span className="c">Every Outcome You Define.</span>
+              One Mission for <span className="c">Each Outcome You Need.</span>
             </h2>
             <p>
-              Configure recurring intelligence for revenue, risk, fraud, compliance, operations and market changes.
-              Every mission works from your metrics, thresholds and preferred outputs.
+              Each Mission is configured around one business outcome across revenue, risk, fraud, compliance,
+              operations or market intelligence. It applies your metrics and thresholds continuously.
             </p>
             <div className="home-argus-missions-actions">
               <a className="btn solid" href="/argus"><span>Explore Argus AI</span><ArrowRight size={15} /></a>
@@ -77,22 +79,27 @@ export function HomeArgusMissions() {
           </div>
 
           <div className="home-argus-mission-grid">
-            {missions.map(({ description, icon: Icon, name, status, tone }) => (
-              <article className="home-argus-mission-card" key={name}>
-                <span className="home-argus-mission-icon" aria-hidden="true"><Icon size={20} /></span>
-                <div>
-                  <h3>{name}</h3>
+            {missions.map(({ current, description, goal, period, progress, target }) => (
+              <article className="home-argus-mission-card" key={goal}>
+                <div className="home-argus-mission-body">
+                  <div className="home-argus-mission-head"><h3>{goal}</h3><span>{period}</span></div>
                   <p>{description}</p>
-                  <span className={`home-argus-mission-status${tone ? ` is-${tone}` : ""}`}><i />{status}</span>
+                  <div className="home-argus-mission-progress">
+                    <div className="home-argus-mission-progress-labels">
+                      <span><small>Now</small><strong>{current}</strong></span>
+                      <span className="home-argus-mission-goal"><Target size={12} weight="bold" /><small>Goal</small><strong>{target}</strong></span>
+                    </div>
+                    <span
+                      aria-label={`${progress} of the goal reached`}
+                      className="home-argus-mission-progress-track"
+                      role="img"
+                      style={{ "--mission-progress": progress } as CSSProperties}
+                    ><i /></span>
+                  </div>
                 </div>
               </article>
             ))}
           </div>
-        </div>
-
-        <div className="home-argus-missions-cta footer-cta-aurora-target">
-          <div><strong>See how Argus works for your business</strong><span>Explore a workflow built around your data and priorities.</span></div>
-          <a href="/demo">Book a Demo <ArrowRight size={15} /></a>
         </div>
       </div>
     </section>

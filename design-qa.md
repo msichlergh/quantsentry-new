@@ -143,6 +143,217 @@ At 320 x 800, the document and client widths both measured 305 px, confirming no
 
 final result: blocked
 
+## Homepage Aurora lower-edge fill — 2026-08-27
+
+- Source visual truth: `.context/attachments/3VjnNN/image.png` at 2048 x 591.
+- The black strip was the extended hero area below the dashboard outgrowing the Aurora canvas.
+- The Aurora canvas now fills the complete hero height while retaining its 130vh/980px minimum, so its field continues beneath the dashboard to the following light section.
+- Automated checks: whitespace validation, lint, and production build pass.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Homepage capability directory rebuild — 2026-08-27
+
+- Source visual truth: `.context/attachments/Jok9qH/image.png` (2501 x 1747), `.context/attachments/xMAwQP/image.png` (1850 x 653), `.context/attachments/XXKwvw/image.png` (2706 x 806), `.context/attachments/1yafEP/image.png` (745 x 442), `.context/attachments/25K4g9/image.png` (2398 x 1243), and `.context/attachments/qybtRs/image.png` (2366 x 175).
+- Implementation target: `http://localhost:3001/#capabilities` at the supplied desktop state. A browser-rendered implementation screenshot is unavailable because the connected-browser list is empty.
+- Viewport and density normalization: blocked; no controllable browser was available to capture the implementation at a matching CSS viewport or device scale factor.
+- Full-view comparison evidence: the supplied implementation capture confirms a full-width two-column directory with all capability cards visible together; the redundant browse column and capability numbering were subsequently removed.
+- Focused region evidence: the supplied header crop identifies the removable `Connected Capabilities` label; it is removed and `Platform Overview` is now rendered as the section's primary button.
+- Fonts and typography: existing General Sans and IBM Plex Mono tokens are retained; capability names remain the primary card hierarchy and descriptive copy is limited to compact blocks.
+- Spacing and layout rhythm: the directory now uses the full content width; six cards render as three balanced paired rows without the former side-navigation gap.
+- Colors and visual tokens: existing light QuantSentry surface, teal actions, subtle borders, radii, and shadows are retained.
+- Image quality and asset fidelity: no raster assets are introduced; capability icons use the project's existing Phosphor icon library.
+- Copy and content: the final six capabilities are Data Connectivity, Argus AI, Business Intelligence, Industry Intelligence, Trading Abuse Detection, and Sentry Risk Network, each with a direct destination link.
+- Automated checks: whitespace validation, lint, TypeScript, and the production build pass.
+- Blocker: a browser-rendered capture is still required for final visual comparison and responsive verification.
+
+final result: blocked
+
+## Shared team intelligence section — 2026-08-27
+
+- Source visual truth: `.context/attachments/vRRdy4/image.png`, `.context/attachments/o8P4Ui/image.png`, `.context/attachments/LJ5Cqx/image.png`, `.context/attachments/oPMnwX/image.png`, `.context/attachments/Ogwuua/image.png`, `.context/attachments/GpFmFi/image.png`, `.context/attachments/UlABKY/image.png`, `.context/attachments/8gxAcJ/image.png`, `.context/attachments/CVVJLe/image.png`, `.context/attachments/aRA3TB/image.png`, `.context/attachments/5dpLsT/image.png`, and `.context/attachments/9i8dMz/image.png`.
+- Implementation routes: homepage `/` and Platform Overview `/platform`.
+- The shared `TeamInsightsSection` recreates the reference hierarchy in QuantSentry styling: feature copy above a central Argus workspace, with team questions distributed around the main insight surface.
+- The two adjacent Argus sections now have distinct jobs: the light section explains how people work with Argus, while the dark Missions section shows the business outcomes a configured Mission owns.
+- Mission cards lead with the outcome name, place the numeric target in a compact button-shaped badge below the icon, and show the current value against a compact progress indicator instead of a generic runtime status.
+- Target and current values use two adjacent compact pills in the content column. A circular percentage gauge below each mission icon replaces the horizontal progress bar.
+- Mission descriptions now state the matching outcome directly and are capped at two lines; `Payout Loss Reduction` is renamed `Payout Fraud Detection`.
+- The Missions section has 32px more desktop space and 20px more mobile space below the final card row.
+- Finance, Growth, Marketing, and Risk prompts use the supplied client portraits with their matching Phosphor role icons and no personal names.
+- The shared team-intelligence title is capped at 54px on desktop.
+- The closed-state Argus prompt in the homepage hero is moved upward by reducing only its desktop top margin, while closed-state bottom padding preserves a clear gap below the input without changing the mobile override.
+- Finance, Growth, Marketing, and Risk cards are functional tabs. Each selection updates the question, finding, three metrics, evidence basis, and recommended action.
+- Homepage and Industries card titles use natural title case for `Funds and Asset Managers` and `Payments and Fintech`.
+- The previous Platform-only three-role block is replaced by the shared section, preventing duplicate team messaging while preserving the preceding trade-comparison section.
+- Desktop retains the floating prompt-card composition. Below 1050 px the prompts become a two-column grid, and below 680 px the entire section becomes a one-column layout without fixed widths or horizontal overflow.
+- Floating team cards use a 98% opaque white surface for clearer separation from the workspace beneath them.
+- Existing General Sans, IBM Plex Mono, Phosphor icons, QuantSentry logo, color tokens, light data pattern, and dark product surfaces are reused; no placeholder imagery or new dependency was introduced.
+- Automated verification: `git diff --check`, lint, production build, and HTTP 200 checks for both routes pass.
+- Blocker: the in-app browser is unavailable, so matching-viewport implementation screenshots, tab-click visual checks, console inspection, and source-versus-build comparison cannot be completed.
+
+final result: blocked
+
+## Intelligence gap and Argus everywhere sections — 2026-08-27
+
+- Source visual truth: `.context/attachments/dDaiym/image.png`, `.context/attachments/CRLPUT/image.png`, and `.context/attachments/9EQZjb/image.png`.
+- Implementation route: homepage `/`.
+- The team-intelligence heading is centered as one composition while its interactive team cards and Argus workspace remain unchanged.
+- The heading is shortened to `One Data Layer. Answers for Every Team.`, and the gap before the workspace is reduced by 12px.
+- The redundant `Explore Argus AI` button is removed and the space before the interactive cards is reduced.
+- A new problem-framing section explains the three specific breaks caused by fragmented data and business context, using the existing light data pattern and Sentry card system.
+- Its heading is shortened to `Fragmented Data Limits Intelligence.`, and the supporting sentence stays on one line at desktop widths.
+- The gap between the problem statement and its three cards is reduced by 16px.
+- A new Argus Everywhere section shows four concrete delivery surfaces: Slack, email, the browser, and embedded tools. Slack and Gmail use the bundled real brand assets; browser and embedded states use the existing Phosphor icon system.
+- The gap between the Argus Everywhere lede and its delivery surfaces is reduced by 16px.
+- Desktop uses the reference four-column surface layout and three-column gap-card layout. Both collapse to two columns and then one column without fixed viewport widths.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Homepage customer case study framing — 2026-08-27
+
+- Source visual truth: `.context/attachments/E2mReW/image.png` and `.context/attachments/242bZf/image.png`.
+- The homepage proof block is explicitly labelled `Customer Case Study` and leads with the verified outcome: `100 Confirmed Abusers. $3.4M in Funded Capital Halted.`
+- The supporting copy identifies the anonymised customer and four-month case-study period, while the CTA now reads `Read the Case Study` and retains the existing `/proof` destination.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Platform logos and Argus task rows — 2026-08-27
+
+- Source visual truth: `.context/attachments/X1PjqY/image.png`, `.context/attachments/I2unhR/image.png`, `.context/attachments/RxJ2LG/image.png`, `.context/attachments/Fe08s9/image.png`, `.context/attachments/MR9858/image.png`, `.context/attachments/iT2436/image.png`, `.context/attachments/Xpy4Rt/image.png`, `.context/attachments/HMoKgj/image.png`, `.context/attachments/qm1ByX/image.png`, `.context/attachments/1R7wUv/image.png`, `.context/attachments/zoJpxs/image.png`, `.context/attachments/aEZcJe/image.png`, `.context/attachments/VNEeny/image.png`, `.context/attachments/9Brkjx/image.png`, `.context/attachments/4zTJ2J/image.png`, `.context/attachments/k6AJi7/image.png`, `.context/attachments/NvnhwM/image.png`, `.context/attachments/ppFTQK/image.png`, `.context/attachments/cWR6kr/image.png`, `.context/attachments/mVUgpD/image.png`, `.context/attachments/pQj7Ai/image.png`, `.context/attachments/FGhiHG/image.png`, and `.context/attachments/h6zNn6/image.png`.
+- The Platform connector grid uses real bundled platform assets for all eight brands plus the official cTrader icon, replacing the repeated terminal placeholder.
+- The QuantSentry wordmark weights increase by exactly 50, from 400/500 to 450/550.
+- KYC Compliance starts directly after its two-logo stack instead of reserving room for a third logo.
+- Argus now shows four consistently styled task rows with matching feature icons, recurring schedules, delivery channels, and no redundant right-side run-status column. The fourth task is named `Competitor Intelligence Report`.
+- The second recurring task is named `Risk Abuse Report`, and the exploration question is mixed 15% toward white for better contrast.
+- The proactive capability label is `Risk Abuse Detection` instead of `Automatic Anomaly Detection`.
+- The homepage platform stack uses three distinct assets on matching dark tiles: MetaTrader 5, cTrader, and TradeLocker. The Platform connector grid uses the same TradeLocker asset instead of duplicating cTrader.
+- The task-panel header gap is reduced, the panel surface is darker, and the task cards use neutral dark surfaces with subtle inset highlights and depth shadows.
+- The exploration heading, desktop action row, and feature labels remain on one line, with narrow-mobile wrapping retained to prevent overflow.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Company ownership and card refinements — 2026-08-27
+
+- Source visual truth: `.context/attachments/BESQuD/image.png`, `.context/attachments/7Ftqs5/image.png`, `.context/attachments/nHw6nj/image.png`, `.context/attachments/Q4G1oZ/image.png`, `.context/attachments/iD5krr/image.png`, `.context/attachments/ziaSfd/image.png`, `.context/attachments/s9pyfn/image.png`, `.context/attachments/jErW8F/image.png`, and `.context/attachments/kG90Oa/image.png`.
+- The Company page now has a dedicated light ownership section with the existing Sentry pixel pattern, real Quant Technology Group and QuantSentry assets, group rationale, and a responsive parent-to-product relationship card.
+- Both Argus workflow states now sit inside one solid light container. The proactive preview has less top padding, and the exploration preview has less unused bottom space.
+- Industry cards are restored to the existing opaque light panel system on both the homepage and Industries page.
+- The two Pricing operation cards use opaque dark surfaces; the managed option uses the clearer Managed Risk Service wording and a proper `How the service works` button.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Navigation labels, platform capabilities, and diagnostic typography — 2026-08-27
+
+- Source references: `.context/attachments/x2vZaX/image.png`, `.context/attachments/BSi7DF/image.png`, `.context/attachments/E5zhun/image.png`, `.context/attachments/4HnkAj/image.png`, `.context/attachments/CwBFSH/image.png`, `.context/attachments/VaO7pW/image.png`, `.context/attachments/o9lSXj/image.png`, `.context/attachments/7aBxxr/image.png`, `.context/attachments/w4r3uB/image.png`, `.context/attachments/V4ZCOd/image.png`, `.context/attachments/9YLZc1/image.png`, and `.context/attachments/AN2SJm/image.png`.
+- Diagnostic result headings and the `What closes it.` lead are reduced from the browser-default 700 weight to 600.
+- Dropdown section titles are increased by 5%, from 12px to 12.6px.
+- Dropdown footer links use a fixed-height flex row so their text and arrow remain vertically centered.
+- Upcoming industry statuses now read `Soon` in light grey rather than `Early Access` in yellow.
+- The homepage and Industries overview cards both use `Soon`, with green status text, borders, and top accents instead of amber styling.
+- The `/proof` navigation label is now `Success Stories` in the header and footer while preserving the route.
+- Success Stories uses a distinct trophy icon rather than reusing the Managed Risk Service check icon.
+- Industry Intelligence now appears under Solutions rather than Resources in both navigation surfaces.
+- The main Platform menu item is labelled `Platform Overview`, matching the footer.
+- Sentry Risk Network now has its own Solutions item in both navigation surfaces and a single name pill on its page.
+- The Platform capability is labelled `Industry Intelligence`, and its matching menu item uses the globe icon.
+- `Seven detection engines` is renamed `Trading Abuse Detection` so the capability is clear without exposing its implementation count.
+- The Trading Abuse Detection name is applied across Platform, Pricing, Prop Trading, and diagnostic copy.
+- The hero aurora lens scale increases from 12 to 15, zooming the field out by another 25%.
+- `Managed Desk` is labelled `Managed Risk Service` in navigation to make the service model explicit.
+- The QuantSentry Futures capability card is removed from the Platform capabilities grid.
+- Network signal event titles are reduced from 600 to 500 weight.
+- Standard Insight card titles are reduced by 10% while the featured-card hierarchy remains unchanged.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Trading risk comparison navigation and table — 2026-08-27
+
+- Source visual truth: `.context/attachments/jDAmQy/image.png`.
+- `Trading Risk Comparison` now links to `/compare` from desktop Resources, mobile Resources, and the footer.
+- The comparison matrix uses wider vendor columns, 14px body copy, stronger contrast, generous cell padding, column dividers, a sticky header, and a sticky capability column.
+- Narrow screens retain horizontal scrolling instead of compressing the five columns into unreadable text.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Homepage platform, Aurora, Argus task, and navigation refinements — 2026-08-27
+
+- Source references: `.context/attachments/OhXB83/image.png`, `.context/attachments/K6ev5C/image.png`, `.context/attachments/FqpHkw/image.png`, `.context/attachments/VkQODf/image.png`, `.context/attachments/ikFnvB/image.png`, `.context/attachments/8MGyMH/image.png`, `.context/attachments/KntZi7/image.png`, `.context/attachments/63Ozwn/image.png`, `.context/attachments/9WvbB3/image.png`, `.context/attachments/k0mo0A/image.png`, `.context/attachments/s0z6Od/image.png`, `.context/attachments/kt6h7L/image.png`, and `.context/attachments/RLiIOE/image.png`.
+- The Platforms source card now uses official MetaTrader 5, cTrader, and TradeLocker icon assets, while the homepage marquee replaces the remaining text stand-ins with image assets.
+- The opening Aurora now continues through the entire interactive story while its WebGL canvas remains viewport-sized and sticky, preserving the established visual scale instead of stretching the shader.
+- The Aurora lens scale increases from 10 to 12, revealing a finer, more granular band field without changing its footprint or intensity.
+- Argus question bubbles use tighter vertical padding, proactive feature labels use natural title case, and the proactive Argus orb uses the calmer breathing animation instead of orbiting work particles.
+- Argus task rows and the latest-delivery panel now expose Slack and Gmail delivery channels with their original brand assets in restrained rectangular badges; run statuses use natural title case.
+- Header dropdown icons no longer translate upward on hover, and icons and two-line menu copy are vertically centered within each row.
+- Connected-data logo artwork now has a subtle three-pixel rounded outline inside its existing platform chip.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Pre-docking signal contrast and typography refinements — 2026-08-27
+
+- Source visual truth: `.context/attachments/WCF44h/image.png` at 2747 x 1443, plus focused typography references `.context/attachments/zIWM2x/image.png`, `.context/attachments/amcCDe/image.png`, `.context/attachments/x3Lz8r/image.png`, `.context/attachments/UICRc8/image.png`, `.context/attachments/TooTYy/image.png`, `.context/attachments/pKhG1J/image.png`, and `.context/attachments/IW7s7X/image.png`.
+- Implementation: `http://localhost:55000/` at the desktop homepage story, header dropdowns, and `/custom-bi` route.
+- Implementation screenshot: unavailable because neither the in-app Browser nor an attached external browser is connected.
+- Intended state: the scattered source and metric cards use a high-contrast off-white surface with dark typography; after docking completes, they transition back to the existing dark dashboard treatment. The central Argus ingestion panel remains dark throughout.
+- Focused typography changes: the Argus console title uses weight 600; active app-navigation labels and custom-BI row labels use weight 500; Argus action chips use natural title case; both header-dropdown footer CTAs are 15% larger; the custom-BI hero reads “Your Data, Your Dashboard.”
+- Fonts and typography: existing General Sans and IBM Plex Mono families are preserved; only the explicitly requested weights, size, and casing changed.
+- Spacing and layout rhythm: card dimensions, transforms, docking geometry, CTA padding, and menu layout are unchanged.
+- Colors and visual tokens: the light floating state uses the existing QuantSentry teal with off-white surfaces and dark foreground tokens; the docked state retains the dashboard palette.
+- Image quality and asset fidelity: all existing source-system logos and Phosphor icons are preserved with no generated or placeholder assets.
+- Copy and content: only the supplied title-case and CTA-label refinements changed.
+- Comparison history: the source screenshot showed dark floating cards blending into the dashboard. The implementation now scopes the light palette to `data-story-stage="signals"` and transitions back after the stage changes to `dashboard`; browser-rendered post-fix evidence is still required.
+- Automated checks: whitespace validation, lint, and production build pass.
+- Blocker: a connected browser surface is required to capture the same animation states and complete the combined visual comparison.
+
+final result: blocked
+
+## Screenshot punch-list completion — 2026-08-27
+
+- Source visual truth: `.context/attachments/lzZJNL/image.png`, `.context/attachments/InM6Wa/image.png`, `.context/attachments/XVhs0l/image.png`, `.context/attachments/Bzc84J/image.png`, `.context/attachments/uKh96i/image.png`, `.context/attachments/p9sYLW/image.png`, `.context/attachments/d9f89W/image.png`, `.context/attachments/Oxc8gA/image.png`, `.context/attachments/Q5vVQQ/image.png`, `.context/attachments/oEXaL6/image.png`, `.context/attachments/3ad3v4/image.png`, `.context/attachments/D5180z/image.png`, `.context/attachments/JpBwKp/image.png`, and `.context/attachments/iFOREU/image.png`.
+- Implementation: `http://localhost:55000/` and `http://localhost:55000/industries`.
+- Implementation screenshot: unavailable because the browser runtime reports no connected browser surfaces.
+- Intended viewports: supplied desktop screenshots plus narrow mobile at 320 x 800 CSS px, device scale factor 1.
+- State: resting homepage, two-second Argus prompt, confirmed ingestion sequence, dashboard-first reveal, final Argus dashboard, light industry section with light cards, and footer.
+
+### Full-view and focused comparison evidence
+
+- The supplied references were opened at original resolution and mapped to the existing homepage, dashboard, cards, navigation, and footer components.
+- A browser-rendered full-view comparison and focused implementation crops could not be captured, so density normalization, rendered typography, spacing, final aurora intensity, console inspection, and visual overflow checks remain unavailable.
+- Code and rendered-HTML checks confirm the requested interaction timing, sequence ordering, hidden standalone Argus prompt, fixed dashboard bounds, shared 40 px CTA height, restored light industry cards, reduced footer groups, 20% footer-logo increase, and Privacy/Terms footer links.
+
+### Findings
+
+- [P1] Final screenshot fidelity is not visually verified.
+  - Location: homepage hero and Argus sequence, industries cards, footer.
+  - Evidence: all source screenshots are available, but no approved browser surface is connected for implementation capture.
+  - Impact: the rendered aurora strength, vertical rhythm, and responsive layout cannot be certified against the references.
+  - Fix: capture the same routes and states when a browser surface is connected, combine each capture with its source reference, and compare at matching viewport and density.
+
+### Required fidelity surfaces
+
+- Fonts and typography: existing General Sans and IBM Plex Mono hierarchy is preserved; rendered weight and wrapping comparison is blocked.
+- Spacing and layout rhythm: the standalone prompt is removed from layout after confirmation and the dashboard is viewport-constrained; rendered comparison is blocked.
+- Colors and visual tokens: the live-site aurora mask and opacity are restored and industry cards use the light section palette; rendered comparison is blocked.
+- Image quality and asset fidelity: existing QuantSentry and QTG assets are reused without generated or approximate replacements; rendered sharpness comparison is blocked.
+- Copy and content: footer disclaimer is replaced by Privacy and Terms, both resolving to current QTG legal pages; footer groups match the cleaned information architecture.
+
+### Verification
+
+- `npm run lint`: passed.
+- `npm run build`: passed, 35 static pages generated.
+- `git diff --check`: passed.
+- Local `/` and `/industries`: HTTP 200.
+- QTG `/privacy` and `/terms`: HTTP 200.
+
+final result: blocked
+
 ## Argus workflow animation and light Mission cards
 
 - Source references: `.context/attachments/Ajm6Zp/image.png`, `.context/attachments/yDpeWj/image.png`, and `.context/attachments/M15hct/image.png`.
@@ -291,5 +502,68 @@ final result: blocked
 - Desktop uses the source three-column pipeline, while tablet and mobile remove the connector layer and stack the same functional controls without horizontal overflow.
 - Automated checks: lint, production build, and whitespace validation pass.
 - Browser-rendered comparison remains blocked because no controllable in-app browser surface is available.
+
+final result: blocked
+
+## Aurora scale, dashboard stacking, and frame fill — 2026-08-27
+
+- Source visual truth: `.context/attachments/3ad3v4/image.png`, `.context/attachments/RX88yw/image.png`, `.context/attachments/p9sYLW/image.png`, `.context/attachments/YpWRmS/image.png`, `.context/attachments/PRYp7u/image.png`, `.context/attachments/ONtiqC/image.png`, and `.context/attachments/PWz92Q/image.png`.
+- Implementation: `http://localhost:55000/`.
+- Implementation screenshot: unavailable because no controllable browser surface is connected.
+- Intended state: stable viewport-scale aurora, dashboard shell visible before signal cards, and final Argus console filling the dashboard main frame edge-to-edge.
+- Code evidence: aurora height is independent of the short intro layout and now extends to at least 130vh/980px; the story stage stacks above the aurora; dashboard opacity completes before signal-card opacity begins; the Argus layer is absolutely inset to all four dashboard-main edges; the chat body retains internal vertical scrolling.
+- The confirmation CTA now reads `Yes, get started` while retaining the existing action.
+- Follow-up evidence: `.context/attachments/gBwjmP/image.png` showed the click state entering the fully exposed lower aurora while the shell was still visually subordinate. The shell is now immediately opaque when revealed, and the opening aurora transitions from `.58` to `.18` opacity after confirmation so it remains atmosphere rather than the story surface.
+- Automated checks: lint, production build, whitespace validation, local HTTP 200, and targeted layout assertions pass.
+- Blocker: a fresh browser capture is required to compare the repaired implementation with the supplied screenshots at matching viewport and density.
+
+final result: blocked
+
+## Homepage signal distribution — 2026-08-27
+
+- Source visual truth: `.context/attachments/0pizYQ/image.png`.
+- KYC Compliance now occupies the open upper field and Payments the open lower field around Argus, reducing the previous left-side cluster.
+- Acquisition and Engagement move inward symmetrically while the four large metric cards continue framing the dashboard corners.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Final animation, menu, status, and team refinements — 2026-08-27
+
+- Source visual truth: `.context/attachments/GccInY/image.png`, `.context/attachments/lBuHQf/image.png`, `.context/attachments/cJs8O9/image.png`, `.context/attachments/runO4X/image.png`, `.context/attachments/vn8fLP/image.png`, `.context/attachments/MF9mZH/image.png`, `.context/attachments/dySWIU/image.png`, `.context/attachments/tL5iiy/image.png`, and `.context/attachments/6jigJE/image.png`.
+- The ingestion paragraph now types over 3.3 seconds, status reveal starts after a 520 ms pause, and checkmarks arrive 700 ms apart; the surrounding story timeline is extended to 12 seconds so the slower cadence remains visible.
+- Homepage and Industries overview `Soon` badges use the neutral grey status treatment rather than the active green treatment.
+- The Trading Risk Comparison menu description is shortened to one line, while menu footer CTAs are 10% larger with a tighter 42 px row.
+- Technical Leadership role labels use weight 500 instead of 600.
+- The Argus question bubble is approximately 15% darker and the performance-drivers response panel approximately 10% darker, with their existing borders and text contrast preserved.
+- The homepage story no longer adds a desktop or mobile bottom spacer, so its Aurora edge meets the following light section without a black gap.
+- Browser-rendered comparison remains blocked because no approved browser surface is connected.
+
+final result: blocked
+
+## Dashboard trailing space — 2026-08-27
+
+- Source visual truth: `.context/attachments/u81R0q/image.png` at 2048 x 1112.
+- The opened homepage story now retains 48px of Aurora-backed space below the dashboard before the following light section; the responsive layout uses 36px.
+- The spacing is applied to the story container itself, so it follows the dashboard rather than increasing the earlier hero-to-dashboard gap.
+- Automated checks: whitespace validation, lint, and production build pass.
+- Browser-rendered comparison remains blocked because the in-app browser is unavailable.
+
+final result: blocked
+
+## How QuantSentry Works showcase — 2026-08-27
+
+- Source visual truth: `.context/attachments/kEjUFg/image.png`, with supporting direction from `.context/attachments/sj5Lj6/image.png`, `.context/attachments/ZRSOUU/image.png`, `.context/attachments/wBow0X/image.png`, and `.context/attachments/FGCHAH/image.png`.
+- The section is now titled `How QuantSentry Works` and uses three 15.5px process tabs above one focused explanation panel, graphic and contextual CTA.
+- The tabs auto-advance every 5.2 seconds while the section is visible and stop after a visitor makes a selection.
+- Three matching light-mode QuantSentry dashboard illustrations are wired from `public/images/how-it-works/` for data connection, intelligence building and action; the illustration pane now uses a light product-surface treatment while the explanatory pane remains dark.
+- Contextual CTA labels use 14px type.
+- The explanatory pane now uses the same light surface language as the illustrations, with dark text and a light teal CTA.
+- The panel height is reduced from 410px to 340px, with tighter copy, CTA, tab and outer-section spacing.
+- The process tabs use one dark segmented selector with a teal active segment and muted inactive options.
+- The homepage dashboard navigation is desaturated and reduced to 30% opacity before widget docking, then resolves to full contrast as the dashboard becomes active.
+- The duplicate question pill was removed from the team-intelligence dashboard toolbar, and the Argus driver-table copy is 20% smaller.
+- Automated checks: whitespace validation, lint, and production build pass.
+- Browser-rendered comparison remains blocked because the in-app browser is unavailable.
 
 final result: blocked

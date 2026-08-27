@@ -10,20 +10,21 @@ import {
   MagnifyingGlass,
   Monitor,
   PaperPlaneTilt,
-  Play,
   PresentationChart,
+  User,
   Warning,
 } from "@phosphor-icons/react";
+import Image from "next/image";
 import { useState } from "react";
 import { ThinkingOrb } from "thinking-orbs";
 
 import { HomeDataPattern } from "./HomeDataPattern";
 
 const proactiveFeatures = [
-  { icon: Clock, label: "Scheduled briefings" },
-  { icon: Warning, label: "Automatic anomaly detection" },
-  { icon: FileText, label: "Board-ready reports" },
-  { icon: PresentationChart, label: "Recurring KPI summaries" },
+  { icon: Clock, label: "Scheduled Briefings" },
+  { icon: Warning, label: "Risk Abuse Detection" },
+  { icon: FileText, label: "Board-Ready Reports" },
+  { icon: PresentationChart, label: "Recurring KPI Summaries" },
 ] as const;
 
 const explorationFeatures = [
@@ -34,10 +35,30 @@ const explorationFeatures = [
 ] as const;
 
 const tasks = [
-  { name: "Weekly Performance Brief", schedule: "Every Monday at 07:00", status: "Last run: 2h ago", warning: false },
-  { name: "Payout Risk Monitor", schedule: "Daily at 06:00", status: "3 alerts this week", warning: true },
-  { name: "Acquisition Efficiency", schedule: "Every Friday at 16:00", status: "Next run: Tomorrow", warning: false },
+  { name: "Weekly Performance Brief", schedule: "Every Monday at 07:00", icon: Clock, channels: ["slack", "gmail"] },
+  { name: "Risk Abuse Report", schedule: "Daily at 06:00", icon: Warning, channels: ["slack"] },
+  { name: "Acquisition Efficiency", schedule: "Every Friday at 16:00", icon: PresentationChart, channels: ["gmail"] },
+  { name: "Competitor Intelligence Report", schedule: "Every Monday at 08:00", icon: FileText, channels: ["slack", "gmail"] },
 ] as const;
+
+function DeliveryChannels({ channels }: { channels: readonly ("slack" | "gmail")[] }) {
+  return (
+    <span className="home-work-channels" aria-label={`Delivered to ${channels.join(" and ")}`}>
+      {channels.map((channel) => (
+        <span className={`home-work-channel home-work-channel-${channel}`} key={channel} title={channel === "slack" ? "Slack" : "Gmail"}>
+          <Image
+            alt=""
+            aria-hidden="true"
+            height={14}
+            src={channel === "slack" ? "/images/slack.png" : "/images/gmail.svg"}
+            width={14}
+          />
+          <span>{channel === "slack" ? "Slack" : "Gmail"}</span>
+        </span>
+      ))}
+    </span>
+  );
+}
 
 type Mode = "proactive" | "exploration";
 
@@ -51,13 +72,13 @@ export function HomeWaysToWork() {
       <HomeDataPattern />
       <div className="wrap">
         <div className="home-work-modes-heading">
-          <div className="kicker home-work-modes-kicker"><span className="dot" /><span>Two ways to work</span></div>
+          <div className="kicker home-work-modes-kicker"><span className="dot" /><span>How You Work With Argus</span></div>
           <h2 id="home-work-modes-title">
-            Intelligence on Schedule.
-            <span className="c"> Answers on Demand.</span>
+            Work on Schedule.
+            <span className="c"> Explore on Demand.</span>
           </h2>
           <p className="lede">
-            Schedule recurring intelligence or ask Argus whenever you need an answer.
+            Schedule recurring work or ask Argus questions in real time.
           </p>
         </div>
 
@@ -84,73 +105,79 @@ export function HomeWaysToWork() {
           </button>
         </div>
 
-        <div className="home-work-content" id="home-work-panel" key={mode} role="tabpanel">
-          <div className="home-work-copy">
-            <div className="home-work-title-row">
-              <span className="home-work-title-icon" aria-hidden="true">
-                <ThinkingOrb state={proactive ? "working" : "searching"} size={64} theme="dark" />
-              </span>
-              <div>
-                <span>{proactive ? "Set the task. Argus delivers." : "Ask in the moment. Explore further."}</span>
-                <h3>{proactive ? "Argus Tasks" : "Ask Anything, Anytime"}</h3>
-              </div>
-            </div>
-            <p>
-              {proactive
-                ? "Define the task once. Argus monitors connected data, investigates changes and delivers finished work on your schedule."
-                : "Ask a question in natural language and get an immediate answer with evidence, visualisations and the ability to drill deeper."}
-            </p>
-            <div className="home-work-feature-grid">
-              {features.map(({ icon: Icon, label }) => (
-                <div className="home-work-feature" key={label}><Icon size={17} /><span>{label}</span></div>
-              ))}
-            </div>
-            <a className="home-work-text-link" href="/argus">
-              {proactive ? "Create your first Argus task" : "Explore with Argus"} <ArrowRight size={16} />
-            </a>
-          </div>
-
-          {proactive ? (
-            <div className="home-work-demo home-work-task-demo">
-              <div className="home-work-demo-head">
-                <span>Argus Tasks</span><b>3 Active</b>
-              </div>
-              <div className="home-work-task-list">
-                {tasks.map((task) => (
-                  <div className="home-work-task-row" key={task.name}>
-                    <span className="home-work-task-play"><Play size={14} weight="fill" /></span>
-                    <span><strong>{task.name}</strong><small>{task.schedule}</small></span>
-                    <em className={task.warning ? "is-warning" : ""}>{task.status}</em>
-                  </div>
-                ))}
-              </div>
-              <div className="home-work-delivery">
-                <span><Lightning size={15} /> Latest delivery</span>
-                <strong>Performance briefing sent to leadership</strong>
-                <small>12 insights · 3 recommendations · PDF + Email</small>
-              </div>
-            </div>
-          ) : (
-            <div className="home-work-demo home-work-chat-demo">
-              <div className="home-work-question"><span>You</span><p>Why did conversion drop last week?</p></div>
-              <div className="home-work-answer">
-                <span>AI</span>
+        <div className="home-work-content-card">
+          <div className="home-work-content" id="home-work-panel" key={mode} role="tabpanel">
+            <div className="home-work-copy">
+              <div className="home-work-title-row">
+                <span className="home-work-title-icon" aria-hidden="true">
+                  <ThinkingOrb state={proactive ? "breathing" : "searching"} size={64} theme="dark" />
+                </span>
                 <div>
-                  <strong>3 drivers identified for the conversion decline:</strong>
-                  <dl>
-                    <div><dt>25K campaign conversion</dt><dd>−1.4 pts <small>52%</small></dd></div>
-                    <div><dt>Acquisition cost increase</dt><dd>+18.2% <small>31%</small></dd></div>
-                    <div><dt>Refund requests</dt><dd>+11.8% <small>17%</small></dd></div>
-                  </dl>
+                  <span>{proactive ? "Set the task. Argus delivers." : "Ask in the moment. Explore further."}</span>
+                  <h3>{proactive ? "Argus Tasks" : "Ask Anything, Anytime"}</h3>
                 </div>
               </div>
-              <div className="home-work-chat-actions">
-                <button type="button">Review campaign</button>
-                <button type="button">Show trend</button>
-                <button type="button"><PaperPlaneTilt size={14} /> Create monitoring task</button>
+              <p>
+                {proactive
+                  ? "Define the task once. Argus monitors connected data, investigates changes and delivers finished work on your schedule."
+                  : "Ask a question in natural language and get an immediate answer with evidence, visualisations and the ability to drill deeper."}
+              </p>
+              <div className="home-work-feature-grid">
+                {features.map(({ icon: Icon, label }) => (
+                  <div className="home-work-feature" key={label}><Icon size={17} /><span>{label}</span></div>
+                ))}
               </div>
+              <a className="home-work-text-link" href="/argus">
+                {proactive ? "Create your first Argus task" : "Explore with Argus"} <ArrowRight size={16} />
+              </a>
             </div>
-          )}
+
+            {proactive ? (
+              <div className="home-work-demo home-work-task-demo">
+                <div className="home-work-demo-head">
+                  <span>Argus Tasks</span><b>{tasks.length} Active</b>
+                </div>
+                <div className="home-work-task-list">
+                  {tasks.map((task) => {
+                    const Icon = task.icon;
+
+                    return (
+                      <div className="home-work-task-row" key={task.name}>
+                        <span className="home-work-task-icon"><Icon aria-hidden="true" size={17} /></span>
+                        <span>
+                          <strong>{task.name}</strong>
+                          <small><Clock aria-hidden="true" size={13} />{task.schedule}</small>
+                        </span>
+                        <span className="home-work-task-meta">
+                          <DeliveryChannels channels={task.channels} />
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="home-work-demo home-work-chat-demo">
+                <div className="home-work-question"><span aria-label="You"><User size={16} weight="bold" /></span><p>Why did conversion drop last week?</p></div>
+                <div className="home-work-answer">
+                  <span className="home-work-answer-orb" aria-label="Argus"><ThinkingOrb state="searching" size={20} theme="dark" /></span>
+                  <div>
+                    <strong>3 drivers identified for the conversion decline:</strong>
+                    <dl>
+                      <div><dt>25K campaign conversion</dt><dd>−1.4 pts <small>52%</small></dd></div>
+                      <div><dt>Acquisition cost increase</dt><dd>+18.2% <small>31%</small></dd></div>
+                      <div><dt>Refund requests</dt><dd>+11.8% <small>17%</small></dd></div>
+                    </dl>
+                  </div>
+                </div>
+                <div className="home-work-chat-actions">
+                  <button type="button"><MagnifyingGlass size={14} /> Review campaign</button>
+                  <button type="button"><ChartBar size={14} /> Show trend</button>
+                  <button type="button"><PaperPlaneTilt size={14} /> Create monitoring task</button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

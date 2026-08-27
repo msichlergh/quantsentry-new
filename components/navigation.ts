@@ -9,22 +9,22 @@ export const industryLinks = [
   {
     href: "/industries-brokerages",
     label: "Brokerages",
-    status: "Early Access",
-    statusColour: "var(--amb)",
+    status: "Soon",
+    statusColour: "var(--ink3)",
     description: "Toxic flow, latency abuse and bonus fraud.",
   },
   {
     href: "/industries-funds",
     label: "Funds and Asset Managers",
-    status: "Early Access",
-    statusColour: "var(--amb)",
+    status: "Soon",
+    statusColour: "var(--ink3)",
     description: "Allocation integrity and mandate breaches.",
   },
   {
     href: "/industries-payments",
     label: "Payments and Fintech",
-    status: "Early Access",
-    statusColour: "var(--amb)",
+    status: "Soon",
+    statusColour: "var(--ink3)",
     description: "Chargebacks, mule networks and identity abuse.",
   },
 ] as const;
@@ -37,7 +37,7 @@ export const primaryLinks = [
 export const solutionLinks = [
   {
     href: "/platform",
-    label: "Platform",
+    label: "Platform Overview",
     description: "Connect every source and operate from one governed data layer.",
   },
   {
@@ -47,30 +47,45 @@ export const solutionLinks = [
   },
   {
     href: "/custom-bi",
-    label: "Custom Business Intelligence",
+    label: "Business Intelligence",
     description: "Build operating views around the metrics that run your business.",
   },
-  {
-    href: "/managed-desk",
-    label: "Managed Desk",
-    description: "Add a dedicated analyst to your daily risk operation.",
-  },
-] as const;
-
-export const resourceLinks = [
   {
     href: "/industry-intelligence",
     label: "Industry Intelligence",
     description: "Competitor research, market reports and monitored changes.",
   },
   {
+    href: "/network",
+    label: "Sentry Risk Network",
+    description: "Share opt-in risk signals without exchanging customer data.",
+  },
+  {
+    href: "/managed-desk",
+    label: "Managed Risk Service",
+    description: "Add a dedicated analyst to your daily risk operation.",
+  },
+] as const;
+
+export const resourceLinks = [
+  {
+    href: "/compare",
+    label: "Trading Risk Comparison",
+    description: "Compare trading risk approaches side by side.",
+  },
+  {
     href: "/proof",
-    label: "Proof",
+    label: "Success Stories",
     description: "See verified outcomes from real customer books.",
   },
   {
     href: "/insights",
     label: "Insights",
     description: "Research on risk, fraud, operations and profitable growth.",
+  },
+  {
+    href: "/roadmap",
+    label: "Roadmap",
+    description: "See what is live, in design and being explored.",
   },
 ] as const;

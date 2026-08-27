@@ -4,7 +4,12 @@ import path from "node:path";
 import { FooterCtaAurora } from "@/components/FooterCtaAurora";
 import { HeroAurora } from "@/components/HeroAurora";
 import { HeroPixelBlast } from "@/components/HeroPixelBlast";
+import { HomeAlwaysOnIntelligence } from "@/components/HomeAlwaysOnIntelligence";
+import { HomeArgusMissions } from "@/components/HomeArgusMissions";
+import { HomeCapabilityShowcase } from "@/components/HomeCapabilityShowcase";
+import { HomeHowItWorks } from "@/components/HomeHowItWorks";
 import { HomeOverviewHero } from "@/components/HomeOverviewHero";
+import { HomeWaysToWork } from "@/components/HomeWaysToWork";
 import { TeamSection } from "@/components/TeamSection";
 import type { PageSlug } from "@/lib/pages";
 import { executiveTeamGroups } from "@/lib/team";
@@ -19,17 +24,23 @@ export function SitePage({ slug }: SitePageProps) {
   const contentId = `page-content-${slug}`;
 
   if (slug === "index") {
-    const [, afterLegacyHero = html] = html.split("<!-- homepage-hero-end -->");
-    const [productSections, unifiedAndAfter = ""] = afterLegacyHero.split("<!-- homepage-unified-start -->");
-    const [unifiedStory = "", closingSections = ""] = unifiedAndAfter.split("<!-- homepage-unified-end -->");
+    const extractSection = (start: string, end: string) => html.split(start)[1]?.split(end)[0] ?? "";
+    const industries = extractSection("<!-- homepage-industries-start -->", "<!-- homepage-industries-end -->");
+    const proof = extractSection("<!-- homepage-proof-start -->", "<!-- homepage-proof-end -->");
+    const finalCta = extractSection("<!-- homepage-final-cta-start -->", "<!-- homepage-final-cta-end -->");
 
     return (
       <>
         <main id={contentId} className="page-content">
           <HomeOverviewHero />
+          <HomeHowItWorks />
+          <HomeAlwaysOnIntelligence />
+          <HomeCapabilityShowcase />
+          <HomeWaysToWork />
+          <HomeArgusMissions />
           <div
             className="page-content-html"
-            dangerouslySetInnerHTML={{ __html: `${productSections}${unifiedStory}${closingSections}` }}
+            dangerouslySetInnerHTML={{ __html: `${industries}${proof}${finalCta}` }}
           />
         </main>
         <HeroAurora targetId={contentId} />

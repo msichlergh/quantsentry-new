@@ -1,11 +1,11 @@
 export const pages = {
   "argus": {
     "title": "Argus AI | QuantSentry",
-    "description": "Ask your own book a question in writing or by call, answered from your data with the working shown."
+    "description": "Ask questions, research the market and assign ongoing monitoring, answered from verified company data and cited public sources."
   },
   "company": {
     "title": "Company | QuantSentry",
-    "description": "QuantSentry is the surveillance and intelligence product of Quant Technology Group."
+    "description": "QuantSentry is the connected data intelligence and risk platform from Quant Technology Group."
   },
   "compare": {
     "title": "How the market compares | QuantSentry",
@@ -46,6 +46,10 @@ export const pages = {
   "industries": {
     "title": "Industries | QuantSentry",
     "description": "Prop trading today, with brokerages, funds and payments businesses in early access."
+  },
+  "industry-intelligence": {
+    "title": "Industry Intelligence | QuantSentry",
+    "description": "Competitive intelligence reports on market rules, pricing, payout conditions and product changes, researched and monitored by Argus AI."
   },
   "managed-desk": {
     "title": "Managed risk desk | QuantSentry",

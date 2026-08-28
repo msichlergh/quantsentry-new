@@ -69,6 +69,11 @@ export const solutionLinks = [
 
 export const resourceLinks = [
   {
+    href: "/integrations",
+    label: "Integrations",
+    description: "See the platforms and tools QuantSentry connects to today.",
+  },
+  {
     href: "/compare",
     label: "Trading Risk Comparison",
     description: "Compare trading risk approaches side by side.",

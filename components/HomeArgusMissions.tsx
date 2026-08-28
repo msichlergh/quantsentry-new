@@ -1,6 +1,10 @@
 import {
   ArrowRight,
+  ChartLineDown,
+  IdentificationCard,
+  ShieldCheck,
   Target,
+  TrendUp,
 } from "@phosphor-icons/react/dist/ssr";
 import type { CSSProperties } from "react";
 
@@ -8,51 +12,35 @@ import { HomeDataPattern } from "./HomeDataPattern";
 
 const missions = [
   {
-    current: "+3.2%",
     description: "Grow revenue by 5%.",
     goal: "Revenue Growth",
+    icon: TrendUp,
     period: "MoM",
     progress: "64%",
     target: "+5%",
   },
   {
-    current: "−12.8%",
     description: "Reduce payout fraud by 20%.",
     goal: "Payout Fraud Detection",
+    icon: ShieldCheck,
     period: "Monthly",
     progress: "64%",
     target: "−20%",
   },
   {
-    current: "−18%",
-    description: "Reduce coordinated abuse by 30%.",
-    goal: "Coordinated Abuse Reduction",
-    period: "QoQ",
-    progress: "60%",
-    target: "−30%",
-  },
-  {
-    current: "−7.4%",
     description: "Reduce acquisition costs by 12%.",
     goal: "Acquisition Cost Reduction",
+    icon: ChartLineDown,
     period: "MoM",
     progress: "62%",
     target: "−12%",
   },
   {
-    current: "96.4%",
     description: "Meet 100% of the KYC SLA.",
     goal: "KYC SLA",
+    icon: IdentificationCard,
     period: "Rolling 30 Days",
     progress: "96.4%",
-    target: "100%",
-  },
-  {
-    current: "82%",
-    description: "Cover 100% of priority markets.",
-    goal: "Priority Market Coverage",
-    period: "Quarterly",
-    progress: "82%",
     target: "100%",
   },
 ] as const;
@@ -70,7 +58,7 @@ export function HomeArgusMissions() {
             </h2>
             <p>
               Each Mission is configured around one business outcome across revenue, risk, fraud, compliance,
-              operations or market intelligence. It applies your metrics and thresholds continuously.
+              operations or market intelligence.
             </p>
             <div className="home-argus-missions-actions">
               <a className="btn solid" href="/argus"><span>Explore Argus AI</span><ArrowRight size={15} /></a>
@@ -79,15 +67,20 @@ export function HomeArgusMissions() {
           </div>
 
           <div className="home-argus-mission-grid">
-            {missions.map(({ current, description, goal, period, progress, target }) => (
+            {missions.map(({ description, goal, icon: Icon, period, progress, target }) => (
               <article className="home-argus-mission-card" key={goal}>
                 <div className="home-argus-mission-body">
-                  <div className="home-argus-mission-head"><h3>{goal}</h3><span>{period}</span></div>
+                  <div className="home-argus-mission-head">
+                    <span className="home-argus-mission-icon" aria-hidden="true"><Icon size={16} /></span>
+                    <span className="home-argus-mission-type">Mission Goal</span>
+                    <span className="home-argus-mission-period">{period}</span>
+                  </div>
+                  <h3>{goal}</h3>
                   <p>{description}</p>
                   <div className="home-argus-mission-progress">
                     <div className="home-argus-mission-progress-labels">
-                      <span><small>Now</small><strong>{current}</strong></span>
-                      <span className="home-argus-mission-goal"><Target size={12} weight="bold" /><small>Goal</small><strong>{target}</strong></span>
+                      <span><small>Progress</small><strong>{progress}</strong></span>
+                      <span className="home-argus-mission-goal"><Target size={12} weight="bold" /><small>Target</small><strong>{target}</strong></span>
                     </div>
                     <span
                       aria-label={`${progress} of the goal reached`}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { InsightCard } from "@/components/InsightCard";
 import {
@@ -13,23 +13,31 @@ type Filter = "All" | InsightCategory;
 
 export function InsightsGrid({ articles }: { articles: readonly InsightArticle[] }) {
   const [filter, setFilter] = useState<Filter>("All");
+  const filtersRef = useRef<HTMLDivElement>(null);
   const visibleArticles =
     filter === "All" ? articles : articles.filter((article) => article.category === filter);
 
+  useEffect(() => {
+    const activeFilter = filtersRef.current?.querySelector<HTMLElement>(".is-active");
+    activeFilter?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [filter]);
+
   return (
     <>
-      <div className="insight-filters" aria-label="Filter insights by category">
-        {(["All", ...insightCategories] as const).map((category) => (
-          <button
-            aria-pressed={filter === category}
-            className={filter === category ? "is-active" : undefined}
-            key={category}
-            onClick={() => setFilter(category)}
-            type="button"
-          >
-            {category}
-          </button>
-        ))}
+      <div className="horizontal-control-shell">
+        <div className="insight-filters" aria-label="Filter insights by category" ref={filtersRef}>
+          {(["All", ...insightCategories] as const).map((category) => (
+            <button
+              aria-pressed={filter === category}
+              className={filter === category ? "is-active" : undefined}
+              key={category}
+              onClick={() => setFilter(category)}
+              type="button"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="insights-grid" aria-live="polite">

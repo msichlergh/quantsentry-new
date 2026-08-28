@@ -143,6 +143,113 @@ At 320 x 800, the document and client widths both measured 305 px, confirming no
 
 final result: blocked
 
+## Integrations category directory — 2026-08-28
+
+- Source visual truth: `.context/attachments/LFXagU/image.png` at 2782 x 1542 px, `.context/attachments/VXkpvQ/image.png` at 879 x 505 px, `.context/attachments/ZTDf9a/image.png` at 745 x 892 px, `.context/attachments/jhQcxb/image.png` at 1478 x 131 px, `.context/attachments/r7IQkv/image.png` at 1796 x 441 px, `.context/attachments/MwLuRt/image.png` at 1125 x 461 px, `.context/attachments/skRFDn/image.png` at 1796 x 461 px, `.context/attachments/aPfGao/image.png` at 2067 x 902 px, `.context/attachments/DKRTVj/image.png` at 1269 x 207 px, `.context/attachments/mauNIC/image.png` at 170 x 477 px, `.context/attachments/71vVS2/image.png` at 284 x 97 px, `.context/attachments/AgRqAt/image.png` at 1766 x 563 px, `.context/attachments/chBC2Y/image.png` at 573 x 379 px, `.context/attachments/PvNxsf/image.png` at 512 x 512 px, `.context/attachments/CTLWzC/image.png` at 689 x 183 px, `.context/attachments/5Ngcgr/image.png` at 2184 x 623 px, `.context/attachments/2803YQ/image.png` at 200 x 200 px, `.context/attachments/kNlW3k/image.png` at 164 x 920 px, `.context/attachments/C8Au9U/image.png` at 166 x 107 px, `.context/attachments/okSemD/image.png` at 1400 x 240 px, `.context/attachments/MNdbVQ/image.png` at 175 x 127 px, and `.context/attachments/l7sf9B/image.png` at 140 x 129 px.
+- Additional focused references: `.context/attachments/ofzmUJ/image.png` at 177 x 128 px, `.context/attachments/BHj9Pz/image.png` at 187 x 157 px, `.context/attachments/UMdHOO/image.png` at 200 x 161 px, `.context/attachments/PBUR16/image.png` at 1898 x 935 px, `.context/attachments/sSQR2o/image.png` at 1672 x 103 px, `.context/attachments/A5zbtE/image.png` at 1875 x 329 px, `.context/attachments/EVOu1O/image.png` at 1876 x 332 px, `.context/attachments/dkm2bq/image.png` at 2109 x 623 px, `.context/attachments/pjtDnI/image.png` at 1938 x 391 px, `.context/attachments/jScZTo/image.png` at 590 x 122 px, `.context/attachments/eQo7UO/image.png` at 2023 x 302 px, `.context/attachments/q2HuEh/image.png` at 1892 x 869 px, `.context/attachments/6LZ8JD/image.png` at 490 x 97 px, `.context/attachments/EOPFiB/image.png` at 1694 x 91 px, and `.context/attachments/Z017kr/image.png` at 153 x 112 px.
+- Implementation target: `http://localhost:55000/integrations`.
+- Intended comparison viewport: 1440 x 900 CSS px at device scale factor 1.
+- Implementation screenshot: unavailable because the in-app browser reports no available browser surfaces.
+- State: `All` selected, with Trading Platforms, Payments & Commerce, Customer & Identity, Acquisition, and Delivery filter states available.
+- Primary interaction: each category button updates the visible integration cards and its selected state; search filters names, descriptions, and categories within the selected category. Browser interaction verification is blocked.
+- Console inspection: blocked without a browser surface.
+
+### Full-view and focused comparison evidence
+
+The reference was inspected at original resolution. Its information architecture is reproduced as a narrow category index beside a three-column integration directory. QuantSentry typography, colors, logo assets, and existing page framing are intentionally retained. A matching implementation capture and focused card comparison could not be produced without a connected browser.
+
+### Findings
+
+- [P1] Rendered directory and filter states are not visually verified.
+  - Location: integrations directory and responsive category controls.
+  - Evidence: the source screenshot is available, but the browser runtime returns an empty browser list.
+  - Impact: final spacing, sticky-filter behavior, logo crop quality, and category transitions cannot be certified against the reference.
+  - Fix: capture the `All`, filtered desktop, and narrow mobile states when the in-app browser is available.
+
+### Required fidelity surfaces
+
+- Fonts and typography: existing QuantSentry font tokens and 500-weight card titles are retained. The directory title is reduced by 10%, integration names are increased from 17 px to 19 px, category labels are 11 px, and the compact data labels are 10 px on one line; visual comparison is blocked.
+- Spacing and layout rhythm: the reference's sidebar structure is retained beside a three-column desktop card grid, collapsing to two columns below 1200 px and one column on mobile. The title/category block is vertically centered against the smaller left logo, the icon-only website control is fixed to the card's top-right, and the description spans the full card width beneath the header row.
+- Colors and visual tokens: the existing light QuantSentry surface, teal selected state, restrained shadows, and subtle dark-grey card-logo borders are retained.
+- Image quality and asset fidelity: every card uses an original local integration logo; no placeholder or recreated logo is used. All logo shells and artwork are approximately 10% smaller; MetaTrader 4, MetaTrader 5, DXtrade, Slack, Klaviyo, Brevo, and ActiveCampaign use the scoped fill treatment; Intercom uses a slightly reduced fill treatment; ThinkTrader uses the supplied square icon; and Sirix uses the supplied official wordmark with excess transparent canvas trimmed.
+- Copy and content: 20 active integrations are retained without repeated category or active-status badges on each card. Klaviyo, Brevo, and ActiveCampaign are included under Acquisition, and MetaTrader uses the same `Trades · Positions · Account Data` label as the other trading platforms. Each card includes a compact external link to the integration provider's website.
+
+### Comparison history
+
+- Initial implementation replaced three static category sections with one working directory and category controls.
+- The repeated `Active` badge was removed; every card now carries only its integration category.
+- Category badges moved to the top-right of every card, all category controls gained a consistent pill treatment, and a functional search field was added above the results.
+- The directory title, one-line desktop description, platform-name alignment, and 12% platform-name size increase follow the supplied focused crops.
+- Integration-card minimum height was reduced from 178 px to 148 px on desktop and from 164 px to 144 px on mobile to remove the marked empty lower area.
+- The visibly rendered search accessibility label was removed; the input now exposes `Search integrations` through `aria-label` and displays a single placeholder beside the search icon.
+- MetaTrader 4 and DXtrade use a scoped 1.08 artwork scale inside their existing shells, and the category pills were removed from all integration cards.
+- The directory now displays three cards per row on desktop, with responsive two- and one-column fallbacks; every card includes an accessible icon-only external website link.
+- Card categories now appear as plain metadata directly below each platform title. Platform logos remain left-aligned at a 10% smaller size, while the website icon sits in the top-right.
+- ThinkTrader now uses the supplied 512 px square icon with the standard logo-shell treatment instead of the previous wide wordmark.
+- The title/category gap and line height are tightened so that the metadata block aligns vertically with the logo. Descriptions now span both card columns instead of inheriting the narrower title-column width.
+- Sirix now uses the supplied official wordmark, center-cropped from its 200 px square canvas to a transparent 180 x 80 px production asset so it fills the existing wide-logo shell cleanly.
+- Every title/category block now uses the same 43 px alignment frame as its logo, removing per-name vertical drift. Logo-shell borders use neutral dark grey instead of teal, and MetaTrader 5, Slack, and Intercom are zoomed to eliminate inner gaps.
+- Integration descriptions are concise dot-separated data labels, limited to two lines and placed in a thin neutral-grey pill. WooCommerce is enlarged by 3%, Intercom uses a softer fill scale, and Sirix uses the standard square shell.
+- Card padding is reduced from 24 px to 20 px, the row gap from 12 px to 10 px, and the desktop minimum height from 148 px to 140 px to trim excess space while preserving the three-column rhythm.
+- The remaining trailing card space is removed by reducing the desktop minimum height to 128 px and the mobile minimum height to 124 px; header and pill spacing remain unchanged.
+- Data pills use a flex alignment shell with a separately clamped text span, keeping one- and two-line labels vertically centered without losing the two-line maximum.
+- Post-fix visual evidence remains blocked because no browser surface is connected.
+
+final result: blocked
+
+## WooCommerce and four-mission refinement — 2026-08-28
+
+- Source visual truth: `.context/attachments/CfvHze/image.png` at 256 x 256 px, `.context/attachments/Ez1ZPw/image.png` at 1517 x 982 px, and `.context/attachments/B8Q5w4/image.png` at 202 x 87 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: WooCommerce replaces Notion in the integration rail, using the existing 128 px brand asset. Every integration shell has a more visible circular border, and all logo artwork—including Slack and WooCommerce—uses a consistent 12 px corner radius.
+- State: the mission grid now contains Revenue Growth, Payout Fraud Detection, Acquisition Cost Reduction, and KYC SLA in a balanced 2 x 2 layout. Coordinated Abuse Reduction is removed.
+- Fonts and typography: the `CONNECTING…` label now uses the site's inherited font at weight 500 rather than a monospace face.
+- Spacing and layout rhythm: mission period badges and icon wrappers use separate selectors, preventing badge padding from distorting the icons. The two mission columns retain a restrained 36 px stagger.
+- Colors and visual tokens: the existing muted integration state and active brand-color transition are preserved.
+- Image quality and asset fidelity: WooCommerce uses the existing product-brand WebP asset; Slack retains the supplied 512 px source asset.
+- Copy and content: no mission copy changes beyond reducing the set to four.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
+- Blocker: matching-state capture, responsive layout review, animation review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Additional integration logo — 2026-08-28
+
+- Source visual truth: `.context/attachments/BAmQvC/image.png` at 512 x 512 px.
+- Implementation target: `http://localhost:55000/#how-it-works`; implementation screenshot unavailable because no browser surface is connected.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the supplied logo is added as an eighth integration item beside the existing trading-platform assets. No existing logo is replaced.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the existing rail sizing, gap, orbit geometry, and responsive behavior are unchanged.
+- Colors and visual tokens: the new asset inherits the same grayscale inactive treatment and rounded integration shell.
+- Image quality and asset fidelity: `public/images/how-it-works/tools/tool-08.png` exactly matches the supplied 512 px source asset.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
+- Blocker: matching-state capture, animation review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Active integration logo color — 2026-08-28
+
+- Source visual truth: `.context/attachments/x5XtWk/image.png` at 245 x 188 px.
+- Implementation target: `http://localhost:55000/#how-it-works`; implementation screenshot unavailable because the connected-browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the enlarged active integration logo displays its original brand colors while every inactive logo remains muted and grayscale. Color transfers to the next logo on the existing 5.2-second focus cycle.
+- Full-view comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Focused region comparison evidence: the supplied crop was inspected at original resolution; source review confirms the desired single colored-logo focus state.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: unchanged; the existing logo sizes, rail movement, borders, and orbit geometry are preserved.
+- Colors and visual tokens: inactive logos retain the existing grayscale treatment; only the active asset returns to its source brand colors at full opacity.
+- Image quality and asset fidelity: existing original logo files remain unchanged and are revealed through the animated image filter.
+- Copy and content: unchanged.
+- Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
+- Blocker: no in-app or connected browser is available for matching-state capture, animation timing review, or console inspection.
+
+final result: blocked
+
 ## Homepage Aurora lower-edge fill — 2026-08-27
 
 - Source visual truth: `.context/attachments/3VjnNN/image.png` at 2048 x 591.
@@ -585,5 +692,74 @@ final result: blocked
 - Interactions: selecting a tab remounts and restarts its animation. Reduced-motion users receive static controls with the complete chart line visible.
 - Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
 - Blocker: no in-app browser or connected browser surface is available, so matching-viewport capture, animation timing review, tab-click verification, console inspection, and source-versus-build comparison cannot be completed.
+
+final result: blocked
+
+## Projected impact text color — 2026-08-28
+
+- Source visual truth: `.context/attachments/ga7AQP/image.png` at 597 x 180 px.
+- Implementation target: `http://localhost:55000/#how-it-works`; implementation screenshot unavailable because no browser surface is connected.
+- State: the `Projected impact +3.8%` text is white while its border and leading status dot retain the existing teal accent.
+- Fonts and typography: family, size, weight, and spacing are unchanged.
+- Spacing and layout rhythm: pill size, padding, placement, and animation are unchanged.
+- Colors and visual tokens: foreground changes from teal to `#f4f7f7`; the semantic teal accent remains on the dot and border.
+- Image quality and asset fidelity: no image assets are affected.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
+- Blocker: matching-state capture, animation review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Mission and workflow refinements — 2026-08-28
+
+- Source visual truth: `.context/attachments/X2OopK/image.png` at 2675 x 1100 px, `.context/attachments/sTeeSl/image.png` at 573 x 729 px, `.context/attachments/ncm8Pz/image.png` at 2489 x 938 px, `.context/attachments/CzqyGP/image.png` at 512 x 512 px, and `.context/attachments/4w57sg/image.png` at 342 x 74 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the mission grid contains four cards in a balanced 2 x 2 composition. Revenue, fraud, acquisition cost, and KYC each use a matching Phosphor icon; Priority Market Coverage and Coordinated Abuse Reduction are removed.
+- State: the Find Insights rows are renamed to Unified Data, Performance Benchmarks, Risk Alerts, Growth Opportunities, and AI Recommendations with concise completion details.
+- State: the supplied 512 px Slack asset replaces the previous logo file and continues to use the existing muted-to-brand-color focus animation.
+- Fonts and typography: the projected-impact label increases from weight 400 to 500; other type settings are unchanged.
+- Spacing and layout rhythm: the right mission column retains a restrained 36 px stagger; mobile remains a single unshifted column.
+- Colors and visual tokens: the large workflow icons use a darker teal foreground, stronger border, and opaque pale-teal surface for better contrast on the light panel.
+- Image quality and asset fidelity: `public/images/slack.png` exactly matches the supplied 512 px source asset.
+- Copy and content: the mission set removes Priority Market Coverage and Coordinated Abuse Reduction; Find Insights terminology now describes outputs rather than internal processing layers.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
+- Blocker: matching-state capture, responsive layout review, animation review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Copy refinements — 2026-08-28
+
+- Source visual truth: `.context/attachments/q4MRMq/image.png` at 642 x 69 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- State: `3 Drivers Identified for the Conversion Decline:` uses natural title case. The redundant mission sentence `It applies your metrics and thresholds continuously.` is removed.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: unchanged.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: no image assets are affected.
+- Copy and content: updated exactly as requested.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
+- Blocker: matching-state capture and console inspection require an available browser surface.
+
+final result: blocked
+
+## Goal hierarchy and integration alignment — 2026-08-28
+
+- Source visual truth: `.context/attachments/EuEdwQ/image.png` at 1395 x 810 px and `.context/attachments/rc5n9t/image.png` at 763 x 543 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: every mission card now leads with `Mission Goal`, followed by the goal name, timeframe, description, progress percentage, and explicit target. The ambiguous `Now` value is removed.
+- State: the eight-item integration rail offsets both animation positions by half a logo step, centering the active logo in the orbit for both phases.
+- Fonts and typography: existing card typography is preserved; the new goal eyebrow uses the existing compact uppercase metadata style.
+- Spacing and layout rhythm: goal names receive their own row, while period badges align to the right of the metadata row. The integration rail retains its existing logo sizes and gaps.
+- Colors and visual tokens: goal metadata uses the existing teal accent; inactive and active integration treatments are unchanged.
+- Image quality and asset fidelity: no image assets are changed in this pass.
+- Copy and content: progress is now labeled directly and the target remains explicit in every card.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
+- Blocker: matching-state capture, responsive review, animation review, and console inspection require an available browser surface.
 
 final result: blocked

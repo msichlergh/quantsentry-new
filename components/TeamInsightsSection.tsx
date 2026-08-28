@@ -10,7 +10,7 @@ import {
   type Icon,
 } from "@phosphor-icons/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { HomeDataPattern } from "./HomeDataPattern";
 
@@ -101,7 +101,13 @@ const teamInsights: readonly TeamInsight[] = [
 
 export function TeamInsightsSection() {
   const [activeId, setActiveId] = useState(teamInsights[0].id);
+  const promptsRef = useRef<HTMLDivElement>(null);
   const active = teamInsights.find((team) => team.id === activeId) ?? teamInsights[0];
+
+  useEffect(() => {
+    const activePrompt = promptsRef.current?.querySelector<HTMLElement>(".is-active");
+    activePrompt?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [activeId]);
 
   return (
     <section className="team-insights-section home-data-section theme-light" aria-labelledby="team-insights-title">
@@ -114,7 +120,7 @@ export function TeamInsightsSection() {
         </div>
 
         <div className="team-insights-stage">
-          <div className="team-insights-prompts" aria-label="Choose a team perspective" role="tablist">
+          <div className="team-insights-prompts" aria-label="Choose a team perspective" ref={promptsRef} role="tablist">
             {teamInsights.map(({ id, label, portrait, icon: TeamIcon, prompt }) => (
               <button
                 aria-controls="team-insights-panel"

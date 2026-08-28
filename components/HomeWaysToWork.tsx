@@ -162,7 +162,7 @@ export function HomeWaysToWork() {
                 <div className="home-work-answer">
                   <span className="home-work-answer-orb" aria-label="Argus"><ThinkingOrb state="searching" size={20} theme="dark" /></span>
                   <div>
-                    <strong>3 drivers identified for the conversion decline:</strong>
+                    <strong>3 Drivers Identified for the Conversion Decline:</strong>
                     <dl>
                       <div><dt>25K campaign conversion</dt><dd>−1.4 pts <small>52%</small></dd></div>
                       <div><dt>Acquisition cost increase</dt><dd>+18.2% <small>31%</small></dd></div>

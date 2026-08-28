@@ -47,6 +47,7 @@ const steps = [
 
 export function HomeHowItWorks() {
   const sectionRef = useRef<HTMLElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const active = steps[activeIndex];
@@ -84,6 +85,11 @@ export function HomeHowItWorks() {
     setActiveIndex(index);
   };
 
+  useEffect(() => {
+    const activeTab = tabsRef.current?.querySelector<HTMLElement>(".is-active");
+    activeTab?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [activeIndex]);
+
   return (
     <section
       className="home-how-it-works home-data-section theme-light"
@@ -103,21 +109,23 @@ export function HomeHowItWorks() {
         </div>
 
         <div className="home-how-showcase">
-          <div className="home-how-tabs" aria-label="How QuantSentry works" role="tablist">
-            {steps.map(({ icon: Icon, tab }, index) => (
-              <button
-                aria-controls="home-how-panel"
-                aria-selected={activeIndex === index}
-                className={activeIndex === index ? "is-active" : ""}
-                key={tab}
-                onClick={() => selectStep(index)}
-                role="tab"
-                type="button"
-              >
-                <Icon size={17} weight="bold" />
-                <span>{tab}</span>
-              </button>
-            ))}
+          <div className="horizontal-control-shell">
+            <div className="home-how-tabs" aria-label="How QuantSentry works" ref={tabsRef} role="tablist">
+              {steps.map(({ icon: Icon, tab }, index) => (
+                <button
+                  aria-controls="home-how-panel"
+                  aria-selected={activeIndex === index}
+                  className={activeIndex === index ? "is-active" : ""}
+                  key={tab}
+                  onClick={() => selectStep(index)}
+                  role="tab"
+                  type="button"
+                >
+                  <Icon size={17} weight="bold" />
+                  <span>{tab}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="home-how-panel" id="home-how-panel" key={active.tab} role="tabpanel">

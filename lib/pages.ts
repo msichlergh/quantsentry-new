@@ -51,6 +51,10 @@ export const pages = {
     "title": "Industry Intelligence | QuantSentry",
     "description": "Competitive intelligence reports on market rules, pricing, payout conditions and product changes, researched and monitored by Argus AI."
   },
+  "integrations": {
+    "title": "Integrations | QuantSentry",
+    "description": "Connect QuantSentry to the trading platforms, payment systems, identity tools, support channels and acquisition sources your team already uses."
+  },
   "managed-desk": {
     "title": "Managed risk desk | QuantSentry",
     "description": "QuantSentry plus a named risk analyst embedded with your team, working your queue daily and bringing you decisions with the evidence attached."

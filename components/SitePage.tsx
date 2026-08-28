@@ -13,6 +13,9 @@ import { HomeHowItWorks } from "@/components/HomeHowItWorks";
 import { HomeOverviewHero } from "@/components/HomeOverviewHero";
 import { HomeWaysToWork } from "@/components/HomeWaysToWork";
 import { IntelligenceGapSection } from "@/components/IntelligenceGapSection";
+import { IntegrationsDirectory } from "@/components/IntegrationsDirectory";
+import { MobileComparison } from "@/components/MobileComparison";
+import { MobileLegacyEnhancer } from "@/components/MobileLegacyEnhancer";
 import { TeamSection } from "@/components/TeamSection";
 import { TeamInsightsSection } from "@/components/TeamInsightsSection";
 import type { PageSlug } from "@/lib/pages";
@@ -106,7 +109,50 @@ export function SitePage({ slug }: SitePageProps) {
           <TeamInsightsSection />
           <ArgusEverywhereSection />
           <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterInsights }} />
+          <MobileLegacyEnhancer targetId={contentId} />
         </main>
+        <HeroPixelBlast targetId={contentId} />
+        <FooterCtaAurora routeKey={slug} />
+      </>
+    );
+  }
+
+  if (slug === "integrations") {
+    const [beforeDirectory, afterDirectory] = html.split("<!-- integrations-directory-slot -->");
+
+    return (
+      <>
+        <main id={contentId} className="page-content">
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: beforeDirectory }} />
+          <IntegrationsDirectory />
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterDirectory }} />
+        </main>
+        <HeroPixelBlast targetId={contentId} />
+        <FooterCtaAurora routeKey={slug} />
+      </>
+    );
+  }
+
+  if (slug === "compare") {
+    const legendMarker = '<div class="row" style="gap:18px;margin-top:16px;flex-wrap:wrap">';
+    const mobileComparisonId = "mobile-comparison-slot";
+    const compareHtml = html.replace(legendMarker, `<div id="${mobileComparisonId}"></div>${legendMarker}`);
+
+    return (
+      <>
+        <main id={contentId} className="page-content" dangerouslySetInnerHTML={{ __html: compareHtml }} />
+        <MobileComparison targetId={mobileComparisonId} />
+        <HeroPixelBlast targetId={contentId} />
+        <FooterCtaAurora routeKey={slug} />
+      </>
+    );
+  }
+
+  if (slug === "custom-bi" || slug === "industries-prop-trading") {
+    return (
+      <>
+        <main id={contentId} className="page-content" dangerouslySetInnerHTML={{ __html: html }} />
+        <MobileLegacyEnhancer targetId={contentId} />
         <HeroPixelBlast targetId={contentId} />
         <FooterCtaAurora routeKey={slug} />
       </>

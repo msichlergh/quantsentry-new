@@ -15,19 +15,20 @@ import { ThinkingOrb } from "thinking-orbs";
 const integrationLogos = [
   "/images/sumsub.svg",
   "/images/intercom.svg",
-  "/images/how-it-works/tools/tool-03.png",
+  "/images/slack.png",
   "/images/how-it-works/tools/mt5-transparent.png",
+  "/images/how-it-works/tools/tool-08.png",
   "/images/how-it-works/tools/tool-05.png",
-  "/images/how-it-works/tools/tool-06.png",
+  "/images/how-it-works/tools/woocommerce.webp",
   "/images/how-it-works/tools/tool-07.png",
 ] as const;
 
 const intelligenceRows = [
-  [Database, "Data model", "Sources unified"],
-  [Gauge, "Benchmark engine", "Calibrated recently"],
-  [Warning, "Risk monitoring", "Scanning continuously"],
-  [ChartLineUp, "Growth signals", "12 opportunities found"],
-  [Brain, "Intelligence layer", "Ready for analysis"],
+  [Database, "Unified Data", "Sources analyzed"],
+  [Gauge, "Performance Benchmarks", "Benchmarks calculated"],
+  [Warning, "Risk Alerts", "3 risks flagged"],
+  [ChartLineUp, "Growth Opportunities", "12 opportunities found"],
+  [Brain, "AI Recommendations", "Recommendations ready"],
 ] as const;
 
 type HomeHowItWorksVisualProps = {

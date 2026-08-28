@@ -12,12 +12,13 @@ import {
   Gauge,
   Globe,
   MapTrifold,
+  PlugsConnected,
   ShareNetwork,
   Sparkle,
   SquaresFour,
   Trophy,
 } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 
 import { BrandLockup } from "./BrandLockup";
 import { industryLinks, primaryLinks, resourceLinks, solutionLinks } from "./navigation";
@@ -38,6 +39,7 @@ function MenuIcon({ href }: { href: string }) {
   if (href === "/compare") return <ArrowsLeftRight {...props} />;
   if (href === "/proof") return <Trophy {...props} />;
   if (href === "/roadmap") return <MapTrifold {...props} />;
+  if (href === "/integrations") return <PlugsConnected {...props} />;
   return <FileText {...props} />;
 }
 
@@ -52,6 +54,22 @@ export function Header() {
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
+  const closeMobileMenu = () => setOpen(false);
+  const handleMobileMenuClick = (event: MouseEvent<HTMLDivElement>) => {
+    if ((event.target as Element).closest("a")) closeMobileMenu();
+  };
 
   return (
     <header id="hdr">
@@ -166,7 +184,7 @@ export function Header() {
           <span />
         </button>
 
-        <div className="mobile-menu" id="mobile-navigation" hidden={!open}>
+        <div className="mobile-menu" id="mobile-navigation" hidden={!open} onClick={handleMobileMenuClick}>
           <a href="/industries">Industries</a>
           {industryLinks.map((item) => (
             <a className="mobile-sub-link" href={item.href} key={item.href}>

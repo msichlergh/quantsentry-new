@@ -17,6 +17,7 @@ const footerGroups = [
   {
     title: "Resources",
     links: [
+      ["Integrations", "/integrations"],
       ["Insights", "/insights"],
       ["Success Stories", "/proof"],
       ["Blind Spot Finder", "/diagnostic"],

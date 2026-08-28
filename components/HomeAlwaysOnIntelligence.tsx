@@ -216,7 +216,7 @@ export function HomeAlwaysOnIntelligence() {
       <HomeDataPattern tone="dark" />
       <div className="wrap">
         <div className="home-always-on-heading">
-          <div className="kicker home-always-on-kicker"><span className="dot" /><span>Always-on intelligence</span></div>
+          <div className="kicker home-always-on-kicker"><span className="dot" /><span>Always-on Intelligence</span></div>
           <h2 id="home-always-on-title">Your Data Never Stops. <span className="c">Neither Does Argus.</span></h2>
           <p className="lede">
             QuantSentry connects to your data, investigates what changed and why,

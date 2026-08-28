@@ -108,7 +108,7 @@ export function TeamInsightsSection() {
       <HomeDataPattern />
       <div className="wrap">
         <div className="team-insights-heading">
-          <div className="kicker team-insights-kicker"><span className="dot" /><span>Intelligence for every team</span></div>
+          <div className="kicker team-insights-kicker"><span className="dot" /><span>Intelligence for Every Team</span></div>
           <h2 id="team-insights-title">One Data Layer. <span className="c">Answers for Every Team.</span></h2>
           <p className="lede">Finance, growth, marketing and risk ask different questions.<br /> Argus answers all of them from the same verified numbers.</p>
         </div>

@@ -567,3 +567,23 @@ final result: blocked
 - Browser-rendered comparison remains blocked because the in-app browser is unavailable.
 
 final result: blocked
+
+## How QuantSentry Works animated visuals — 2026-08-28
+
+- Source visual truth: `.context/attachments/fwpkvc/image.png` at 2048 x 632 and `.context/attachments/cHVY7C/image.png` at 2048 x 708.
+- Source implementation: `msichlergh/quantsentry-website`, specifically `CodexaHowItWorksVisuals.tsx` and `CodexaHowItWorks.module.css` in the local `ndjamena` checkout.
+- Implementation target: `http://localhost:55000/#how-it-works`; implementation screenshot unavailable because the connected-browser list is empty.
+- Intended viewport and density: desktop, matching the supplied 2048 px reference width at device scale factor 1. Viewport normalization and a browser-rendered pixel comparison are blocked.
+- State: each existing tab activates one remounted animation—tool integration, intelligence processing, or action impact—while the selector, copy, CTA, and section layout remain unchanged.
+- Full-view comparison evidence: the reference and source component were inspected at original resolution; the local page responds with HTTP 200 and includes the new active integration animation marker.
+- Focused region comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Fonts and typography: the existing QuantSentry section typography is unchanged; animation labels use the source component's compact monospace treatment.
+- Spacing and layout rhythm: the source visual's 336 px frame is adapted to the existing 340 px visual slot, preserving the left copy column and tab selector.
+- Colors and visual tokens: the animation surface uses the source's restrained near-black panel, neutral grey controls, and QuantSentry teal state accents.
+- Image quality and asset fidelity: the seven original integration logo assets are copied from the supplied repository and rendered through `next/image`; no placeholder logos were introduced.
+- Copy and content: the surrounding product messaging is unchanged. Internal status labels are adapted to data unification, benchmarking, risk monitoring, growth signals, and intelligence readiness.
+- Interactions: selecting a tab remounts and restarts its animation. Reduced-motion users receive static controls with the complete chart line visible.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: no in-app browser or connected browser surface is available, so matching-viewport capture, animation timing review, tab-click verification, console inspection, and source-versus-build comparison cannot be completed.
+
+final result: blocked

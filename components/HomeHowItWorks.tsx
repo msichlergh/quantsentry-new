@@ -2,47 +2,44 @@
 
 import {
   ArrowUpRight,
-  ChartLineUp,
   Database,
+  Lightning,
   SquaresFour,
 } from "@phosphor-icons/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { HomeDataPattern } from "./HomeDataPattern";
+import { HomeHowItWorksVisual } from "./HomeHowItWorksVisual";
 
 const steps = [
   {
     icon: Database,
-    tab: "Connect Your Data",
+    tab: "Connect Data",
     title: "Connect Every Source",
     description:
       "Bring trading, payment, identity, customer, marketing and operational data into one governed platform.",
-    image: "/images/how-it-works/connect-data-light.jpg",
-    imageAlt: "Connected business data sources converging into one governed data layer",
+    visual: 0,
     cta: "Explore Data Connectivity",
     href: "/platform",
   },
   {
     icon: SquaresFour,
-    tab: "Build Intelligence",
+    tab: "Find Insights",
     title: "Build Intelligence Around Your Business",
     description:
       "Turn verified data into custom views, benchmarks, monitoring and analysis shaped around how your business operates.",
-    image: "/images/how-it-works/build-intelligence-light.jpg",
-    imageAlt: "Verified data being synthesized into business intelligence and analysis",
+    visual: 1,
     cta: "Explore Business Intelligence",
     href: "/custom-bi",
   },
   {
-    icon: ChartLineUp,
+    icon: Lightning,
     tab: "Take Action",
     title: "Act on What Matters",
     description:
       "Use Argus AI and clear recommendations to reduce risk, improve performance and grow more profitably.",
-    image: "/images/how-it-works/take-action-light.jpg",
-    imageAlt: "A verified recommendation becoming a completed action and improved performance",
+    visual: 2,
     cta: "Meet Argus AI",
     href: "/argus",
   },
@@ -97,7 +94,7 @@ export function HomeHowItWorks() {
       <HomeDataPattern />
       <div className="wrap">
         <div className="home-how-heading">
-          <div className="kicker home-how-kicker"><span className="dot" /><span>From data to action</span></div>
+          <div className="kicker home-how-kicker"><span className="dot" /><span>From Data to Action</span></div>
           <h2 id="home-how-title">How QuantSentry <span className="c">Works.</span></h2>
           <p className="lede">
             QuantSentry unifies your systems, builds intelligence around your business,
@@ -134,13 +131,7 @@ export function HomeHowItWorks() {
             </div>
 
             <div className="home-how-visual">
-              <Image
-                alt={active.imageAlt}
-                fill
-                priority={activeIndex === 0}
-                sizes="(max-width: 860px) 92vw, 52vw"
-                src={active.image}
-              />
+              <HomeHowItWorksVisual step={active.visual} />
             </div>
           </div>
         </div>

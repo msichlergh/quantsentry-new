@@ -41,7 +41,7 @@ export default function DemoPage() {
         <div className="wrap">
           <div className="kicker">
             <span className="dot" />
-            <span>How you turn it on</span>
+            <span>How You Turn It On</span>
           </div>
           <h2>
             Three steps,
@@ -86,7 +86,7 @@ export default function DemoPage() {
             <div>
               <div className="kicker">
                 <span className="dot" />
-                <span>Talk to us</span>
+                <span>Talk to Us</span>
               </div>
               <h2>
                 Not ready to book?

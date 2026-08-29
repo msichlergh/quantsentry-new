@@ -328,6 +328,7 @@ export function HomeOverviewHero() {
     let sequenceRunning = false;
     let autoSequenceScheduled = false;
     let autoSequenceTimer = 0;
+    let argusChat: HTMLElement | null = null;
 
     const applyArgusSequence = (progress: number) => {
       sequenceProgress = progress;
@@ -356,6 +357,14 @@ export function HomeOverviewHero() {
       section.style.setProperty("--home-ai-action", aiAction.toFixed(4));
       section.style.setProperty("--home-ai-suggestions", aiSuggestions.toFixed(4));
       section.dataset.storyStage = ai > 0.5 ? "ai" : "dashboard";
+
+      if (!argusChat?.isConnected) {
+        argusChat = section.querySelector<HTMLElement>(".home-argus-chat");
+      }
+      if (argusChat) {
+        const chatScroll = ease(clamp((progress - 0.68) / 0.25));
+        argusChat.scrollTop = (argusChat.scrollHeight - argusChat.clientHeight) * chatScroll;
+      }
     };
 
     const startArgusSequence = () => {

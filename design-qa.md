@@ -143,6 +143,15 @@ At 320 x 800, the document and client widths both measured 305 px, confirming no
 
 final result: blocked
 
+## Argus short-viewport sequence visibility — 2026-08-29
+
+- Review finding: the recommendation could animate below the visible chat area on short desktop viewports.
+- Fix: the Argus sequence now scrolls the chat progressively as the follow-up and recommendation appear, ending with the primary action in view.
+- Reduced-motion and mobile layouts retain their existing static presentation.
+- Blocker: matching-state capture and direct short-viewport comparison require an available browser surface.
+
+final result: blocked
+
 ## Argus navigation and insight actions — 2026-08-29
 
 - Source visual truth: `.context/attachments/ceueBR/image.png` at 357 x 181 px and `.context/attachments/02iCJn/image.png` at 758 x 429 px.

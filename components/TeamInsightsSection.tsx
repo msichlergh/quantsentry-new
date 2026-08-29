@@ -105,8 +105,16 @@ export function TeamInsightsSection() {
   const active = teamInsights.find((team) => team.id === activeId) ?? teamInsights[0];
 
   useEffect(() => {
-    const activePrompt = promptsRef.current?.querySelector<HTMLElement>(".is-active");
-    activePrompt?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const prompts = promptsRef.current;
+    const activePrompt = prompts?.querySelector<HTMLElement>(".is-active");
+    if (!prompts || !activePrompt) return;
+
+    const promptsRect = prompts.getBoundingClientRect();
+    const activePromptRect = activePrompt.getBoundingClientRect();
+    prompts.scrollTo({
+      behavior: "smooth",
+      left: prompts.scrollLeft + activePromptRect.left - promptsRect.left - (promptsRect.width - activePromptRect.width) / 2,
+    });
   }, [activeId]);
 
   return (

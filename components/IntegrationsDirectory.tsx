@@ -69,8 +69,16 @@ export function IntegrationsDirectory() {
   });
 
   useEffect(() => {
-    const activeFilter = filtersRef.current?.querySelector<HTMLElement>(".is-active");
-    activeFilter?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const filters = filtersRef.current;
+    const activeFilter = filters?.querySelector<HTMLElement>(".is-active");
+    if (!filters || !activeFilter) return;
+
+    const filtersRect = filters.getBoundingClientRect();
+    const activeFilterRect = activeFilter.getBoundingClientRect();
+    filters.scrollTo({
+      behavior: "smooth",
+      left: filters.scrollLeft + activeFilterRect.left - filtersRect.left - (filtersRect.width - activeFilterRect.width) / 2,
+    });
   }, [activeCategory]);
 
   return (

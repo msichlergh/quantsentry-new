@@ -11,15 +11,17 @@ import {
   CreditCard,
   FileText,
   Gauge,
-  Layout,
+  Graph,
   MagnifyingGlass,
   Microphone,
   PaperPlaneTilt,
   ShareNetwork,
+  ShieldWarning,
   Sparkle,
   SquaresFour,
+  Target,
+  UsersThree,
   Waveform,
-  Warning,
 } from "@phosphor-icons/react";
 import type { CSSProperties, FocusEvent, FormEvent, KeyboardEvent } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -83,7 +85,9 @@ const argusStatusLabels: Record<OrbState, string> = {
 };
 
 function ArgusOrb({ state }: { state: OrbState }) {
-  return <ThinkingOrb state={state} size={64} theme="dark" />;
+  const visualState: OrbState = state === "working" ? "solving" : state;
+
+  return <ThinkingOrb aria-label={argusStatusLabels[state]} state={visualState} size={64} theme="dark" />;
 }
 
 export function HomeOverviewHero() {
@@ -381,9 +385,9 @@ export function HomeOverviewHero() {
     const setStage = (progress: number) => {
       storyProgress = progress;
       const dashboardShell = ease(clamp(progress / 0.08));
-      const signals = ease(clamp((progress - 0.1) / 0.1));
-      const ingestionIn = ease(clamp((progress - 0.18) / 0.08));
-      const ingestionOut = ease(clamp((progress - 0.55) / 0.07));
+      const ingestionIn = ease(clamp((progress - 0.08) / 0.08));
+      const signals = ease(clamp((progress - 0.3) / 0.1));
+      const ingestionOut = ease(clamp((progress - 0.5) / 0.07));
       const ingestion = ingestionIn * (1 - ingestionOut);
       const converge = ease(clamp((progress - 0.57) / 0.15));
       const dashboard = ease(clamp((progress - 0.72) / 0.12));
@@ -396,8 +400,8 @@ export function HomeOverviewHero() {
       section.style.setProperty("--home-dashboard", dashboard.toFixed(4));
       section.style.setProperty("--home-copy-fade", copyFade.toFixed(4));
 
-      if (ingestionIn > 0.35) startIngestionTypingRef.current?.();
-      if (progress < 0.07) resetIngestionTypingRef.current?.();
+      if (ingestionIn > 0) startIngestionTypingRef.current?.();
+      if (progress === 0) resetIngestionTypingRef.current?.();
 
       metrics.forEach(({ element, x, y, scale }) => {
         element.style.setProperty("--home-card-x", `${x * converge}px`);
@@ -820,13 +824,16 @@ export function HomeOverviewHero() {
               <span className="home-dashboard-nav-label">Overview</span>
               <span className="home-dashboard-nav-item home-dashboard-nav-overview"><SquaresFour />Dashboard</span>
               <span className="home-dashboard-nav-item"><Database />Data sources</span>
-              <span className="home-dashboard-nav-item"><Layout />Custom views</span>
+              <span className="home-dashboard-nav-item"><Target />Targets</span>
               <span className="home-dashboard-nav-label">Analytics</span>
               <span className="home-dashboard-nav-item"><ChartLineUp />Performance</span>
-              <span className="home-dashboard-nav-item"><Warning />Anomalies</span>
+              <span className="home-dashboard-nav-item"><UsersThree />Traders</span>
               <span className="home-dashboard-nav-item"><Gauge />Benchmarks</span>
+              <span className="home-dashboard-nav-label">Risk</span>
+              <span className="home-dashboard-nav-item"><ShieldWarning />Cases</span>
+              <span className="home-dashboard-nav-item"><Graph />Relationships</span>
               <span className="home-dashboard-nav-label">Operations</span>
-              <span className="home-dashboard-nav-item"><CheckSquare />Tasks</span>
+              <span className="home-dashboard-nav-item"><CreditCard />Payouts</span>
               <span className="home-dashboard-nav-item"><FileText />Reports</span>
               <span className="home-dashboard-nav-label">Intelligence</span>
               <span className="home-dashboard-nav-item"><ShareNetwork />Network</span>
@@ -880,73 +887,105 @@ export function HomeOverviewHero() {
                         <span className="home-argus-console-status"><i />{argusStatusLabels[activeArgusOrbState]}</span>
                       </div>
                     </div>
-                    <div className="home-argus-modes" aria-label="Argus mode">
-                      <button className={argusMode === "chat" ? "on" : ""} type="button" onClick={() => setArgusMode("chat")}>
-                        <ChatCircleDots />Chat
-                      </button>
-                      <button className={argusMode === "voice" ? "on" : ""} type="button" onClick={() => setArgusMode("voice")}>
-                        <Microphone />Voice
-                      </button>
+                    <div className="home-argus-console-tools">
+                      <div className="home-argus-modes" aria-label="Argus mode">
+                        <button className={argusMode === "chat" ? "on" : ""} type="button" onClick={() => setArgusMode("chat")}>
+                          <ChatCircleDots />Chat
+                        </button>
+                        <button className={argusMode === "voice" ? "on" : ""} type="button" onClick={() => setArgusMode("voice")}>
+                          <Microphone />Voice
+                        </button>
+                      </div>
                     </div>
                   </div>
 
                   {argusMode === "chat" ? (
                     <div className="home-argus-chat">
-                      <div className="home-argus-user">{argusQuestion}</div>
-                      <div className="home-argus-response home-argus-analysis home-argus-message-insight">
-                        <div className="home-argus-analysis-head">
-                          <span><ChartLineUp />Today’s performance drivers</span>
-                          <small>Verified across 6 sources</small>
+                      <div className="home-argus-thread">
+                        <div className="home-argus-user">{argusQuestion}</div>
+
+                        <div className="home-argus-thread-answer home-argus-message-insight">
+                          <div className="home-argus-response-author">
+                            <span className="home-argus-response-orb" aria-hidden="true">
+                              <ArgusOrb state={activeArgusOrbState} />
+                            </span>
+                            <strong>Argus AI</strong>
+                          </div>
+                          <div className="home-argus-answer-grid">
+                            <div className="home-argus-response home-argus-analysis">
+                              <div className="home-argus-analysis-head">
+                                <span><ChartLineUp />Today’s performance drivers</span>
+                                <small>Live operating view</small>
+                              </div>
+                              <div className="home-argus-analysis-table-wrap">
+                                <table>
+                                  <thead>
+                                    <tr><th>Driver</th><th>Change</th><th>Business impact</th></tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr><td>Acquisition cost</td><td className="is-negative"><span>+18.2%</span></td><td>Margin pressure</td></tr>
+                                    <tr><td>25K conversion</td><td className="is-negative"><span>−1.4 pts</span></td><td>Largest opportunity</td></tr>
+                                    <tr><td>Refund requests</td><td className="is-negative"><span>+11.8%</span></td><td>6 cases to review</td></tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <div className="home-argus-insight-card">
+                              <span className="home-argus-card-label"><Sparkle />Key insight</span>
+                              <p aria-label={argusInsightCopy}>
+                                <span aria-hidden="true" ref={argusInsightTypeRef}>{argusInsightCopy}</span>
+                                <i className="home-argus-type-caret is-complete" aria-hidden="true" />
+                              </p>
+                              <div className="home-argus-suggestions home-argus-insight-actions home-argus-message-suggestions">
+                                <button type="button"><MagnifyingGlass size={14} />Review Anomaly</button>
+                                <button type="button"><ChartBar size={14} />Affected Segment</button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="home-argus-analysis-table-wrap">
-                          <table>
-                            <thead>
-                              <tr><th>Driver</th><th>Change</th><th>Business impact</th></tr>
-                            </thead>
-                            <tbody>
-                              <tr><td>Acquisition cost</td><td className="is-negative">+18.2%</td><td>Margin pressure</td></tr>
-                              <tr><td>25K conversion</td><td className="is-negative">−1.4 pts</td><td>Largest opportunity</td></tr>
-                              <tr><td>Refund requests</td><td className="is-negative">+11.8%</td><td>6 cases to review</td></tr>
-                            </tbody>
-                          </table>
+
+                        <div className="home-argus-user home-argus-user-short home-argus-message-followup" aria-label={argusFollowupCopy}>
+                          <span aria-hidden="true" ref={argusFollowupTypeRef}>{argusFollowupCopy}</span>
+                          <i className="home-argus-type-caret is-complete" aria-hidden="true" />
                         </div>
-                        <div className="home-argus-analysis-insight">
-                          <strong>Key insight</strong>
-                          <p aria-label={argusInsightCopy}>
-                            <span aria-hidden="true" ref={argusInsightTypeRef}>{argusInsightCopy}</span>
-                            <i className="home-argus-type-caret is-complete" aria-hidden="true" />
-                          </p>
+
+                        <div className="home-argus-thread-answer home-argus-message-action">
+                          <div className="home-argus-response-author">
+                            <span className="home-argus-response-orb" aria-hidden="true">
+                              <ArgusOrb state={activeArgusOrbState} />
+                            </span>
+                            <strong>Argus AI</strong>
+                          </div>
+                          <div className={`home-argus-recommendation${argusTaskCreated ? " is-created" : ""}`}>
+                            <button
+                              className="home-argus-task"
+                              aria-pressed={argusTaskCreated}
+                              onClick={() => setArgusTaskCreated(true)}
+                              type="button"
+                            >
+                              <CheckSquare weight={argusTaskCreated ? "fill" : "regular"} />
+                              <span className="home-argus-task-copy">
+                                <strong>{argusTaskCreated ? "Monitoring active" : "Recommended action"}</strong>
+                                <span aria-label={argusTaskCreated ? argusTaskCreatedCopy : argusActionCopy}>
+                                  {argusTaskCreated ? (
+                                    <span>{argusTaskCreatedCopy}</span>
+                                  ) : (
+                                    <>
+                                      <span aria-hidden="true" ref={argusActionTypeRef}>{argusActionCopy}</span>
+                                      <i className="home-argus-type-caret is-complete" aria-hidden="true" />
+                                    </>
+                                  )}
+                                </span>
+                              </span>
+                            </button>
+                            <div className="home-argus-suggestions home-argus-message-suggestions">
+                              <button disabled={argusTaskCreated} onClick={() => setArgusTaskCreated(true)} type="button">
+                                <PaperPlaneTilt size={14} />
+                                {argusTaskCreated ? "Task Created" : "Create Task"}
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="home-argus-user home-argus-user-short home-argus-message-followup" aria-label={argusFollowupCopy}>
-                        <span aria-hidden="true" ref={argusFollowupTypeRef}>{argusFollowupCopy}</span>
-                        <i className="home-argus-type-caret is-complete" aria-hidden="true" />
-                      </div>
-                      <button
-                        className={`home-argus-response home-argus-task home-argus-message-action${argusTaskCreated ? " is-created" : ""}`}
-                        aria-pressed={argusTaskCreated}
-                        onClick={() => setArgusTaskCreated(true)}
-                        type="button"
-                      >
-                        <CheckSquare weight={argusTaskCreated ? "fill" : "regular"} />
-                        <span aria-label={argusTaskCreated ? argusTaskCreatedCopy : argusActionCopy}>
-                          {argusTaskCreated ? (
-                            <span>{argusTaskCreatedCopy}</span>
-                          ) : (
-                            <>
-                              <span aria-hidden="true" ref={argusActionTypeRef}>{argusActionCopy}</span>
-                              <i className="home-argus-type-caret is-complete" aria-hidden="true" />
-                            </>
-                          )}
-                        </span>
-                      </button>
-                      <div className="home-argus-suggestions home-argus-message-suggestions">
-                        <button type="button"><MagnifyingGlass size={14} />Review the Anomaly</button>
-                        <button type="button"><ChartBar size={14} />Show the Affected Segment</button>
-                        <button disabled={argusTaskCreated} onClick={() => setArgusTaskCreated(true)} type="button">
-                          <PaperPlaneTilt size={14} />
-                          {argusTaskCreated ? "Monitoring task created" : "Create Monitoring Task"}
-                        </button>
                       </div>
                     </div>
                   ) : (
@@ -962,9 +1001,6 @@ export function HomeOverviewHero() {
                     </div>
                   )}
 
-                  <div className="home-argus-console-foot">
-                    <span>Grounded in verified data</span><span>Actions require approval</span>
-                  </div>
                 </div>
               </div>
             </div>

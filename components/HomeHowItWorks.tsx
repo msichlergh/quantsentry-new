@@ -86,8 +86,16 @@ export function HomeHowItWorks() {
   };
 
   useEffect(() => {
-    const activeTab = tabsRef.current?.querySelector<HTMLElement>(".is-active");
-    activeTab?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const tabs = tabsRef.current;
+    const activeTab = tabs?.querySelector<HTMLElement>(".is-active");
+    if (!tabs || !activeTab) return;
+
+    const tabsRect = tabs.getBoundingClientRect();
+    const activeTabRect = activeTab.getBoundingClientRect();
+    tabs.scrollTo({
+      behavior: "smooth",
+      left: tabs.scrollLeft + activeTabRect.left - tabsRect.left - (tabsRect.width - activeTabRect.width) / 2,
+    });
   }, [activeIndex]);
 
   return (

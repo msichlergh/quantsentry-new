@@ -143,6 +143,78 @@ At 320 x 800, the document and client widths both measured 305 px, confirming no
 
 final result: blocked
 
+## Argus navigation and insight actions — 2026-08-29
+
+- Source visual truth: `.context/attachments/ceueBR/image.png` at 357 x 181 px and `.context/attachments/02iCJn/image.png` at 758 x 429 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- State: the inactive Dashboard item now uses the same neutral navigation foreground as Data sources and Targets.
+- State: Review Anomaly and Affected Segment are grouped at the bottom of the Key insight card; Create Task remains with the recommendation it executes.
+- Typography, card dimensions, semantic colors, and the existing Argus sequence are preserved.
+- Blocker: matching-state capture and direct source-versus-build comparison require an available browser surface.
+
+final result: blocked
+
+## Argus header simplification — 2026-08-29
+
+- Source visual truth: `.context/attachments/vDw9HD/image.png` at 1836 x 1183 px and `.context/attachments/21hgP8/image.png` at 165 x 97 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- State: the `Verified across 6 sources` and `Actions require approval` header metadata is removed. The Chat and Voice selector remains right aligned.
+- Typography: the main `Argus AI` header label decreases from weight 600 to 500; its size and status label are unchanged.
+- Spacing, panel surfaces, chat content, and interactions are unchanged.
+- Blocker: matching-state capture and direct source-versus-build comparison require an available browser surface.
+
+final result: blocked
+
+## Argus analysis surface neutralization — 2026-08-29
+
+- Source visual truth: `.context/attachments/ud30tB/image.png` at 1678 x 999 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- State: the green-tinted analysis, insight, and recommendation surface is replaced by the shared neutral near-black panel color `#0b0d0e`; user bubbles use the adjacent neutral `#101214`.
+- Typography, spacing, borders, interaction behavior, and semantic red/teal states are unchanged.
+- Automated checks: whitespace validation, ESLint, TypeScript, and local HTTP 200 pass.
+- Blocker: matching-state capture and direct source-versus-build comparison require an available browser surface.
+
+final result: blocked
+
+## Argus chronological chat thread — 2026-08-29
+
+- Source visual truth: `.context/attachments/KZQQlT/image.png` at 2372 x 1376 px.
+- Implementation target: `http://localhost:55000/` in the final Argus dashboard state.
+- Implementation screenshot: unavailable because the in-app browser reports `Browser is not available: iab`.
+- Intended viewport and density: desktop dashboard state at device scale factor 1; matching-state normalization is blocked without a browser capture.
+- State: Chat mode, first user question, Argus analysis with performance table and key insight, second user question, and Argus recommended action with suggestion buttons.
+- Primary interactions: Chat/Voice mode switching and task creation remain wired; browser interaction verification is blocked.
+- Console inspection: blocked without a browser surface.
+
+### Full-view and focused comparison evidence
+
+The 2372 x 1376 source was opened at original resolution. It showed that the two-column workspace visually separated the user questions from their answers, weakening the AI conversation model. The implementation now uses one chronological thread while retaining the compact table and insight grid inside the first Argus reply. A matching implementation capture and focused comparison could not be produced without a connected browser.
+
+### Findings
+
+- [P1] The revised chronological thread is not visually verified.
+  - Location: homepage Argus dashboard panel.
+  - Evidence: the source screenshot is available, but no browser-rendered implementation screenshot can be captured.
+  - Impact: final response density, bubble alignment, and the desktop-to-mobile collapse cannot be certified visually.
+  - Fix: capture the final Chat state at the supplied viewport and compare the complete panel plus the response-author and bubble-tail details.
+
+### Required fidelity surfaces
+
+- Fonts and typography: existing dashboard type tokens and weights are unchanged; the new Argus author labels use the existing UI font at 10.5 px and weight 600.
+- Spacing and layout rhythm: the thread is constrained to 980 px, questions remain right-aligned, first-response content uses a compact 1.55-to-.75 grid, and the grid collapses to one column below 900 px.
+- Colors and visual tokens: existing dark surfaces, teal accents, negative-value pills, borders, and shadows are retained.
+- Image quality and asset fidelity: response authors reuse the production QuantSentry `Logo` component; no replacement asset or placeholder was introduced.
+- Copy and content: all existing questions, table values, insight copy, recommendation copy, action labels, accessible labels, and typing refs are preserved.
+
+### Comparison history
+
+- The earlier implementation split the analysis and recommendation across independent workspace columns.
+- The revised implementation restores the sequence: user question, Argus analysis, user follow-up, Argus recommendation.
+- Argus author labels and restrained message tails clarify speaker ownership without widening the cards.
+- Post-fix visual evidence remains blocked because no browser surface is connected.
+
+final result: blocked
+
 ## Integrations category directory — 2026-08-28
 
 - Source visual truth: `.context/attachments/LFXagU/image.png` at 2782 x 1542 px, `.context/attachments/VXkpvQ/image.png` at 879 x 505 px, `.context/attachments/ZTDf9a/image.png` at 745 x 892 px, `.context/attachments/jhQcxb/image.png` at 1478 x 131 px, `.context/attachments/r7IQkv/image.png` at 1796 x 441 px, `.context/attachments/MwLuRt/image.png` at 1125 x 461 px, `.context/attachments/skRFDn/image.png` at 1796 x 461 px, `.context/attachments/aPfGao/image.png` at 2067 x 902 px, `.context/attachments/DKRTVj/image.png` at 1269 x 207 px, `.context/attachments/mauNIC/image.png` at 170 x 477 px, `.context/attachments/71vVS2/image.png` at 284 x 97 px, `.context/attachments/AgRqAt/image.png` at 1766 x 563 px, `.context/attachments/chBC2Y/image.png` at 573 x 379 px, `.context/attachments/PvNxsf/image.png` at 512 x 512 px, `.context/attachments/CTLWzC/image.png` at 689 x 183 px, `.context/attachments/5Ngcgr/image.png` at 2184 x 623 px, `.context/attachments/2803YQ/image.png` at 200 x 200 px, `.context/attachments/kNlW3k/image.png` at 164 x 920 px, `.context/attachments/C8Au9U/image.png` at 166 x 107 px, `.context/attachments/okSemD/image.png` at 1400 x 240 px, `.context/attachments/MNdbVQ/image.png` at 175 x 127 px, and `.context/attachments/l7sf9B/image.png` at 140 x 129 px.

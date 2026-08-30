@@ -176,6 +176,12 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
     stage?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   };
 
+  const replayJourneyFromStart = () => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion || window.innerWidth <= 900) showDashboardRef.current?.();
+    else playStoryRef.current?.();
+  };
+
   useEffect(() => {
     if (isLightDashboard) return;
     if (argusPrompt) return;
@@ -661,7 +667,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
               <p className="lede">{isJourney ? <>Connect every source, give each team clear answers, and act on what matters.</> : <>Finance, growth, marketing and risk ask different questions.<br /> Argus answers all of them from the same verified numbers.</>}</p>
               {isJourney ? (
                 <div className="home-dashboard-journey-selector" aria-label="Choose a platform stage">
-                  <button aria-pressed={journeyStage === "connect"} data-journey-step="connect" onClick={() => playStoryRef.current?.()} type="button"><Database weight="regular" />Unified Data</button>
+                  <button aria-pressed={journeyStage === "connect"} data-journey-step="connect" onClick={replayJourneyFromStart} type="button"><Database weight="regular" />Unified Data</button>
                   <button aria-pressed={journeyStage === "teams"} data-journey-step="teams" onClick={() => showDashboardRef.current?.()} type="button"><UsersThree weight="regular" />Team Intelligence</button>
                   <button aria-pressed={journeyStage === "argus"} data-journey-step="argus" onClick={() => applyEndStateRef.current?.()} type="button"><Sparkle weight="regular" />Argus AI</button>
                 </div>
@@ -740,7 +746,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
               <button
                 className="home-argus-voice-action"
                 type="button"
-                onClick={() => activateArgusMode("chat")}
+                onClick={() => activateArgusMode("voice")}
                 aria-label="Send a voice message"
                 title="Send a voice message"
               >

@@ -513,12 +513,12 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
       storyRunning = false;
       sequenceRunning = false;
       storyCompleted = false;
-      storyProgress = 0;
+      storyProgress = 0.4;
       sequenceProgress = 0;
       sequenceAi = 0;
       setArgusTaskCreated(false);
       applyArgusSequence(0);
-      setStage(0);
+      setStage(0.4);
       setJourneyStage("connect");
     };
 

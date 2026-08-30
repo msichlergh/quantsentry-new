@@ -24,8 +24,8 @@ export const pages = {
     "description": "Six questions on how you run risk today, and a written read on where your blind spots are."
   },
   "index": {
-    "title": "QuantSentry | The data intelligence layer for trading businesses",
-    "description": "One layer over every trade, payment and identity in your business. Coordinated behaviour proved with evidence, and the business intelligence that sits on the same data."
+    "title": "QuantSentry | From Disconnected Data to Profitable Action",
+    "description": "Unify your data, turn it into intelligence tailored to your business, and let Argus AI uncover risks, identify opportunities, and take action."
   },
   "industries-brokerages": {
     "title": "Brokerages | QuantSentry",

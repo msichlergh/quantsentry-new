@@ -41,12 +41,12 @@ export function SitePage({ slug }: SitePageProps) {
         <main id={contentId} className="page-content">
           <HomeOverviewHero />
           <HomeHowItWorks />
-          <HomeAlwaysOnIntelligence />
-          <TeamInsightsSection />
           <HomeCapabilityShowcase />
+          <HomeOverviewHero variant="light-journey" />
+          <HomeAlwaysOnIntelligence />
           <HomeWaysToWork />
-          <ArgusEverywhereSection />
           <HomeArgusMissions />
+          <ArgusEverywhereSection />
           <div
             className="page-content-html"
             dangerouslySetInnerHTML={{ __html: `${industries}${proof}${finalCta}` }}

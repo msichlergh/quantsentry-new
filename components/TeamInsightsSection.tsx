@@ -140,11 +140,13 @@ export function TeamInsightsSection() {
                 type="button"
               >
                 <span className={`team-insights-prompt-label${portrait ? " has-portrait" : ""}`}>
-                  {portrait ? <Image alt="" aria-hidden="true" height={38} src={portrait} width={38} /> : null}
+                  {portrait ? <Image alt="" aria-hidden="true" height={50} src={portrait} width={50} /> : null}
                   <i><TeamIcon size={16} weight="bold" /></i>
-                  <strong>{label}</strong>
                 </span>
-                <span>{prompt}</span>
+                <span className="team-insights-prompt-copy">
+                  <strong>{label}</strong>
+                  <span>{prompt}</span>
+                </span>
               </button>
             ))}
           </div>

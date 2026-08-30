@@ -5,7 +5,10 @@ import {
   ChartBar,
   ChartLineUp,
   ChatCircleDots,
+  CheckCircle,
   CheckSquare,
+  ClockCountdown,
+  CurrencyDollar,
   CursorClick,
   Database,
   CreditCard,
@@ -13,6 +16,7 @@ import {
   Gauge,
   Graph,
   MagnifyingGlass,
+  Megaphone,
   Microphone,
   PaperPlaneTilt,
   ShareNetwork,
@@ -23,12 +27,13 @@ import {
   UsersThree,
   Waveform,
 } from "@phosphor-icons/react";
-import type { CSSProperties, FocusEvent, FormEvent, KeyboardEvent } from "react";
+import Image from "next/image";
+import type { CSSProperties, FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { ThinkingOrb, type OrbState } from "thinking-orbs";
 
 import { BrandLockup } from "./BrandLockup";
-import { Logo } from "./Logo";
+import { HomeDataPattern } from "./HomeDataPattern";
 
 type DockMetric = {
   element: HTMLElement;
@@ -58,7 +63,7 @@ const ingestionStatuses = [
 ];
 const argusInsightCopy =
   "Recovering one point of 25K conversion could add an estimated $18.4K in monthly contribution margin.";
-const argusFollowupCopy = "What should we do next?";
+const argusFollowupCopy = "What should we prioritise next?";
 const argusActionCopy =
   "Review the affected campaign and six linked payout requests. I can monitor both every morning and alert the team when thresholds are crossed.";
 const argusTaskCreatedCopy =
@@ -68,6 +73,36 @@ const argusIdlePrompts = [
   "What would you like me to do?",
   "What should I look into?",
 ];
+const journeyTeams = [
+  {
+    id: "finance",
+    label: "Finance",
+    prompt: "Where did margin move?",
+    portrait: "/images/personas/finance.jpg",
+    icon: CurrencyDollar,
+  },
+  {
+    id: "growth",
+    label: "Growth",
+    prompt: "Which channels drive value?",
+    portrait: "/images/personas/growth.jpg",
+    icon: ChartLineUp,
+  },
+  {
+    id: "marketing",
+    label: "Marketing",
+    prompt: "What creates qualified demand?",
+    portrait: "/images/personas/marketing.jpg",
+    icon: Megaphone,
+  },
+  {
+    id: "risk",
+    label: "Risk",
+    prompt: "Where is exposure building?",
+    portrait: "/images/personas/risk.jpg",
+    icon: ShieldWarning,
+  },
+] as const;
 const argusFocusedPrompt = "Tell me what you’d like me to do.";
 // Labels track what Argus is actually doing: idle rest = "Ready" (breathing),
 // dialog open = "Listening", ingest/docking = "Connecting", console typing =
@@ -90,24 +125,31 @@ function ArgusOrb({ state }: { state: OrbState }) {
   return <ThinkingOrb aria-label={argusStatusLabels[state]} state={visualState} size={64} theme="dark" />;
 }
 
-export function HomeOverviewHero() {
+type HomeOverviewHeroProps = {
+  variant?: "hero" | "light-dashboard" | "light-journey";
+};
+
+export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
+  const isLightDashboard = variant !== "hero";
+  const isJourney = variant === "light-journey";
+  const headingId = isJourney ? "home-light-journey-title" : "home-light-dashboard-title";
+  const journeyStageRef = useRef<"connect" | "teams" | "argus">("connect");
   const sectionRef = useRef<HTMLElement>(null);
   const storyStageRef = useRef<HTMLDivElement>(null);
   const argusPromptInputRef = useRef<HTMLInputElement>(null);
   const startArgusStoryRef = useRef<(() => void) | null>(null);
   const playStoryRef = useRef<(() => void) | null>(null);
+  const showDashboardRef = useRef<(() => void) | null>(null);
   const applyEndStateRef = useRef<(() => void) | null>(null);
   const startIngestionTypingRef = useRef<(() => void) | null>(null);
   const resetIngestionTypingRef = useRef<(() => void) | null>(null);
-  const argusDialogDismissedRef = useRef(false);
   const storyActiveRef = useRef(false);
-  const [argusDialogOpen, setArgusDialogOpen] = useState(false);
   const [argusMode, setArgusMode] = useState<"chat" | "voice">("chat");
   const [argusOrbState, setArgusOrbState] = useState<OrbState>("breathing");
   const [argusPrompt, setArgusPrompt] = useState("");
   const [argusPromptHint, setArgusPromptHint] = useState("");
   const [argusPromptFocused, setArgusPromptFocused] = useState(false);
-  const [argusQuestion, setArgusQuestion] = useState("What changed today?");
+  const [argusQuestion, setArgusQuestion] = useState("Can you give me an update on performance?");
   const [industryText, setIndustryText] = useState(industries[0]);
   const [ingestionCopyLength, setIngestionCopyLength] = useState(0);
   const [ingestionStatusCount, setIngestionStatusCount] = useState(0);
@@ -115,25 +157,16 @@ export function HomeOverviewHero() {
   const argusFollowupTypeRef = useRef<HTMLSpanElement | null>(null);
   const argusActionTypeRef = useRef<HTMLSpanElement | null>(null);
   const [argusTaskCreated, setArgusTaskCreated] = useState(false);
+  const [journeyStage, setJourneyStageState] = useState<"connect" | "teams" | "argus">("connect");
 
-  const openArgusDialog = (mode: "chat" | "voice") => {
+  const activateArgusMode = (mode: "chat" | "voice") => {
     setArgusMode(mode);
     setArgusOrbState(mode === "voice" ? "listening" : "breathing");
-    setArgusDialogOpen(true);
-  };
-
-  const dismissArgusDialog = () => {
-    argusDialogDismissedRef.current = true;
-    // Refocus first: the input's onFocus re-opens the dialog synchronously, so
-    // the close below must be the last state write to win the batch.
-    argusPromptInputRef.current?.focus();
-    setArgusDialogOpen(false);
   };
 
   const confirmArgusIngest = () => {
     storyActiveRef.current = true;
     setArgusOrbState("working");
-    setArgusDialogOpen(false);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     // Reveal + start first so the stage has layout before we focus/scroll to it.
     if (reducedMotion || window.innerWidth <= 900) applyEndStateRef.current?.();
@@ -143,31 +176,8 @@ export function HomeOverviewHero() {
     stage?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   };
 
-  const handleArgusDialogKeyDown = (event: KeyboardEvent<HTMLFormElement>) => {
-    if (event.key !== "Escape" || !argusDialogOpen) return;
-    event.preventDefault();
-    dismissArgusDialog();
-  };
-
-  const handleArgusBlur = (event: FocusEvent<HTMLFormElement>) => {
-    const next = event.relatedTarget;
-    if (next instanceof Node && event.currentTarget.contains(next)) return;
-    argusDialogDismissedRef.current = true;
-    setArgusDialogOpen(false);
-  };
-
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      if (argusDialogDismissedRef.current || storyActiveRef.current) return;
-      setArgusMode("chat");
-      setArgusOrbState("breathing");
-      setArgusDialogOpen(true);
-    }, 2000);
-
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
+    if (isLightDashboard) return;
     if (argusPrompt) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -203,7 +213,7 @@ export function HomeOverviewHero() {
     }
 
     return () => window.clearTimeout(timer);
-  }, [argusPrompt, argusPromptFocused]);
+  }, [argusPrompt, argusPromptFocused, isLightDashboard]);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -269,6 +279,7 @@ export function HomeOverviewHero() {
   }, []);
 
   useEffect(() => {
+    if (isLightDashboard) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let industryIndex = 0;
@@ -295,7 +306,7 @@ export function HomeOverviewHero() {
     }
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [isLightDashboard]);
 
   const activeArgusOrbState: OrbState = argusMode === "voice" ? "listening" : argusOrbState;
 
@@ -303,7 +314,7 @@ export function HomeOverviewHero() {
     event.preventDefault();
     const question = argusPrompt.trim();
     if (question) setArgusQuestion(question);
-    openArgusDialog("chat");
+    confirmArgusIngest();
   };
 
   useEffect(() => {
@@ -329,6 +340,12 @@ export function HomeOverviewHero() {
     let autoSequenceScheduled = false;
     let autoSequenceTimer = 0;
     let argusChat: HTMLElement | null = null;
+
+    const setJourneyStage = (stage: "connect" | "teams" | "argus") => {
+      if (!isJourney || journeyStageRef.current === stage) return;
+      journeyStageRef.current = stage;
+      setJourneyStageState(stage);
+    };
 
     const applyArgusSequence = (progress: number) => {
       sequenceProgress = progress;
@@ -357,6 +374,7 @@ export function HomeOverviewHero() {
       section.style.setProperty("--home-ai-action", aiAction.toFixed(4));
       section.style.setProperty("--home-ai-suggestions", aiSuggestions.toFixed(4));
       section.dataset.storyStage = ai > 0.5 ? "ai" : "dashboard";
+      if (ai > 0.5) setJourneyStage("argus");
 
       if (!argusChat?.isConnected) {
         argusChat = section.querySelector<HTMLElement>(".home-argus-chat");
@@ -394,12 +412,12 @@ export function HomeOverviewHero() {
     const setStage = (progress: number) => {
       storyProgress = progress;
       const dashboardShell = ease(clamp(progress / 0.08));
-      const ingestionIn = ease(clamp((progress - 0.08) / 0.08));
+      const ingestionIn = ease(clamp((progress - 0.04) / 0.06));
       const signals = ease(clamp((progress - 0.3) / 0.1));
-      const ingestionOut = ease(clamp((progress - 0.5) / 0.07));
+      const ingestionOut = ease(clamp((progress - 0.68) / 0.1));
       const ingestion = ingestionIn * (1 - ingestionOut);
-      const converge = ease(clamp((progress - 0.57) / 0.15));
-      const dashboard = ease(clamp((progress - 0.72) / 0.12));
+      const converge = ease(clamp((progress - 0.78) / 0.1));
+      const dashboard = ease(clamp((progress - 0.88) / 0.1));
       const copyFade = dashboardShell;
 
       section.style.setProperty("--home-progress", progress.toFixed(4));
@@ -425,10 +443,11 @@ export function HomeOverviewHero() {
         autoSequenceTimer = window.setTimeout(() => {
           autoSequenceScheduled = false;
           startArgusSequence();
-        }, 1200);
+        }, isJourney ? 2600 : 1200);
       }
 
       section.dataset.storyStage = sequenceAi > 0.5 ? "ai" : dashboard > 0.5 ? "dashboard" : "signals";
+      setJourneyStage(sequenceAi > 0.5 ? "argus" : dashboard > 0.5 ? "teams" : "connect");
     };
 
     const startStory = () => {
@@ -461,8 +480,6 @@ export function HomeOverviewHero() {
     };
 
     const playStory = () => {
-      if (storyRunning) return;
-
       openStage();
       window.cancelAnimationFrame(storyFrame);
       window.cancelAnimationFrame(sequenceFrame);
@@ -478,6 +495,26 @@ export function HomeOverviewHero() {
     };
 
     playStoryRef.current = playStory;
+
+    const showDashboard = () => {
+      openStage();
+      window.cancelAnimationFrame(storyFrame);
+      window.cancelAnimationFrame(sequenceFrame);
+      window.clearTimeout(autoSequenceTimer);
+      autoSequenceScheduled = false;
+      storyRunning = false;
+      sequenceRunning = false;
+      storyCompleted = true;
+      storyProgress = 1;
+      sequenceProgress = 0;
+      sequenceAi = 0;
+      setArgusTaskCreated(false);
+      applyArgusSequence(0);
+      setStage(1);
+      setJourneyStage("teams");
+    };
+
+    showDashboardRef.current = showDashboard;
 
     // Static jump to the finished conversation, used when the visitor confirms
     // under prefers-reduced-motion or on mobile (no timeline plays there).
@@ -553,6 +590,8 @@ export function HomeOverviewHero() {
 
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(section);
+    const dashboardOverview = section.querySelector<HTMLElement>(".home-dashboard-overview");
+    if (dashboardOverview) resizeObserver.observe(dashboardOverview);
     window.addEventListener("resize", measure);
     reducedMotion.addEventListener("change", measure);
     measure();
@@ -563,20 +602,74 @@ export function HomeOverviewHero() {
       window.clearTimeout(autoSequenceTimer);
       startArgusStoryRef.current = null;
       playStoryRef.current = null;
+      showDashboardRef.current = null;
       applyEndStateRef.current = null;
       resizeObserver.disconnect();
       window.removeEventListener("resize", measure);
       reducedMotion.removeEventListener("change", measure);
     };
-  }, []);
+  }, [isJourney]);
+
+  useEffect(() => {
+    if (!isLightDashboard) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const play = () => {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (isJourney && (reducedMotion || window.innerWidth <= 900)) showDashboardRef.current?.();
+      else if (reducedMotion || window.innerWidth <= 900) applyEndStateRef.current?.();
+      else playStoryRef.current?.();
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      play();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+        play();
+      },
+      { threshold: 0.28 },
+    );
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, [isJourney, isLightDashboard]);
 
   return (
     <section
       ref={sectionRef}
-      className="hero dots home-overview-hero"
+      className={isLightDashboard
+        ? `home-overview-hero home-dashboard-light-section${isJourney ? " home-dashboard-journey-section" : ""} home-data-section theme-light`
+        : "hero dots home-overview-hero"}
       data-story-stage="signals"
-      data-story-open="false"
+      data-story-open={isLightDashboard ? "true" : "false"}
+      data-journey-stage={isJourney ? journeyStage : undefined}
+      aria-labelledby={isLightDashboard ? headingId : undefined}
     >
+      {isLightDashboard ? (
+        <>
+          <HomeDataPattern tone={isJourney ? "dark" : "light"} />
+          <div className="wrap home-dashboard-light-heading">
+            <div className="team-insights-heading">
+              <div className="kicker team-insights-kicker"><span className="dot" /><span>Intelligence for Every Team</span></div>
+              <h2 id={headingId}>{isJourney ? <>Turn Data Into <span className="c">Team-Wide Action.</span></> : <>One Data Layer. <span className="c">Answers for Every Team.</span></>}</h2>
+              <p className="lede">{isJourney ? <>Connect every source, give each team clear answers, and act on what matters.</> : <>Finance, growth, marketing and risk ask different questions.<br /> Argus answers all of them from the same verified numbers.</>}</p>
+              {isJourney ? (
+                <div className="home-dashboard-journey-selector" aria-label="Choose a platform stage">
+                  <button aria-pressed={journeyStage === "connect"} data-journey-step="connect" onClick={() => playStoryRef.current?.()} type="button"><Database weight="regular" />Unified Data</button>
+                  <button aria-pressed={journeyStage === "teams"} data-journey-step="teams" onClick={() => showDashboardRef.current?.()} type="button"><UsersThree weight="regular" />Team Intelligence</button>
+                  <button aria-pressed={journeyStage === "argus"} data-journey-step="argus" onClick={() => applyEndStateRef.current?.()} type="button"><Sparkle weight="regular" />Argus AI</button>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </>
+      ) : null}
       {/* The same aurora continues behind the complete opening story. */}
       <div className="home-scroll-stage">
         <div className="wrap home-overview-wrap">
@@ -615,8 +708,6 @@ export function HomeOverviewHero() {
             className="home-argus-preview"
             aria-label="Ask Argus AI"
             onSubmit={submitArgusPrompt}
-            onKeyDown={handleArgusDialogKeyDown}
-            onBlur={handleArgusBlur}
           >
             <span className="home-argus-icon" aria-hidden="true">
               <ArgusOrb state={activeArgusOrbState} />
@@ -636,7 +727,6 @@ export function HomeOverviewHero() {
                 onFocus={() => {
                   setArgusPromptHint("");
                   setArgusPromptFocused(true);
-                  setArgusDialogOpen(true);
                 }}
                 onBlur={() => {
                   setArgusPromptHint("");
@@ -644,30 +734,24 @@ export function HomeOverviewHero() {
                 }}
                 placeholder={argusPromptHint}
                 aria-label="Question for Argus AI"
-                aria-haspopup="dialog"
-                aria-controls="home-argus-confirm-dialog"
               />
             </label>
             <div className="home-argus-voice-actions">
               <button
                 className="home-argus-voice-action"
                 type="button"
-                onClick={() => openArgusDialog("chat")}
+                onClick={() => activateArgusMode("chat")}
                 aria-label="Send a voice message"
                 title="Send a voice message"
-                aria-haspopup="dialog"
-                aria-expanded={argusDialogOpen}
               >
                 <Microphone />
               </button>
               <button
                 className="home-argus-voice-action home-argus-speech-action"
                 type="button"
-                onClick={() => openArgusDialog("voice")}
+                onClick={() => activateArgusMode("voice")}
                 aria-label="Start speech mode"
                 title="Start speech mode"
-                aria-haspopup="dialog"
-                aria-expanded={argusDialogOpen}
               >
                 <Waveform />
               </button>
@@ -675,28 +759,6 @@ export function HomeOverviewHero() {
             <button className="home-argus-arrow" type="submit" aria-label="Ask Argus">
               <ArrowUp />
             </button>
-            {argusDialogOpen ? (
-              <div
-                className="home-argus-confirm"
-                id="home-argus-confirm-dialog"
-                role="dialog"
-                aria-label="Argus AI ingestion"
-                onMouseDown={(event) => event.preventDefault()}
-              >
-                <small className="home-argus-confirm-kicker">Argus AI</small>
-                <p className="home-argus-confirm-copy">
-                  I can ingest your connected data and build your dashboard around it. Ready?
-                </p>
-                <div className="home-argus-confirm-actions">
-                  <button className="home-argus-confirm-yes" type="button" onClick={confirmArgusIngest}>
-                    Yes, get started
-                  </button>
-                  <button className="home-argus-confirm-no" type="button" onClick={dismissArgusDialog}>
-                    Not now
-                  </button>
-                </div>
-              </div>
-            ) : null}
           </form>
         </div>
       </div>
@@ -805,7 +867,9 @@ export function HomeOverviewHero() {
 
           <div className="home-argus-ingestion">
             <div className="home-argus-ingestion-head">
-              <Logo compact />
+              <span className="home-argus-ingestion-orb" aria-hidden="true">
+                <ArgusOrb state={activeArgusOrbState} />
+              </span>
               <div>
                 <strong>Argus AI</strong>
                 <span><i />Bringing your data together</span>
@@ -821,11 +885,23 @@ export function HomeOverviewHero() {
             <div className="home-argus-ingestion-status">
               {ingestionStatuses.map((status, index) => (
                 <span className={index < ingestionStatusCount ? "is-visible" : ""} key={status}>
-                  <CheckSquare weight="fill" />{status}
+                  <CheckCircle weight="fill" />{status}
                 </span>
               ))}
             </div>
           </div>
+
+          {isJourney ? (
+            <div className="home-journey-team-cards" aria-label="Verified intelligence for each team">
+              {journeyTeams.map(({ id, label, prompt, portrait, icon: TeamIcon }) => (
+                <article className={`home-journey-team-card home-journey-team-card-${id}`} key={id}>
+                  <Image alt="" aria-hidden="true" height={42} src={portrait} width={42} />
+                  <span><TeamIcon size={14} weight="bold" /></span>
+                  <div><strong>{label}</strong><small>{prompt}</small></div>
+                </article>
+              ))}
+            </div>
+          ) : null}
 
           <div className="home-dashboard-shell" aria-label="Unified QuantSentry dashboard">
             <aside className="home-dashboard-nav">
@@ -850,6 +926,13 @@ export function HomeOverviewHero() {
             </aside>
 
             <div className="home-dashboard-main">
+              <div className="home-dashboard-overview-head">
+                <span className="home-dashboard-overview-title">
+                  <i aria-hidden="true"><SquaresFour weight="bold" /></i>
+                  <span><strong>Business Overview</strong><small><b />Live Operating View</small></span>
+                </span>
+                <span className="home-dashboard-overview-sync">Updated Now</span>
+              </div>
               <div className="home-dashboard-overview">
                 <div className="home-dashboard-targets" aria-hidden="true">
                   <div data-home-target="risk" />
@@ -866,20 +949,28 @@ export function HomeOverviewHero() {
                 </div>
                 <div className="home-dashboard-activity">
                   <div className="home-dashboard-activity-head">
-                    <strong>Connected activity</strong>
-                    <span>Risk, finance and identity on the same timeline</span>
+                    <strong>Priority signals</strong>
+                    <span>What Needs Attention Across the Business</span>
                   </div>
                   <div className="home-dashboard-row">
-                    <span className="home-dashboard-row-status home-dashboard-row-danger" />
-                    <strong>Hedge trading ring</strong><span>2 accounts · 17 matched trades</span><b>974</b>
+                    <span className="home-dashboard-row-status home-dashboard-row-danger" aria-hidden="true"><ShieldWarning weight="bold" /></span>
+                    <strong>Payout anomaly</strong><span>6 Requests Linked to 2 Accounts</span><b><ShieldWarning weight="bold" />Review</b>
                   </div>
                   <div className="home-dashboard-row">
-                    <span className="home-dashboard-row-status home-dashboard-row-warning" />
-                    <strong>Payout review</strong><span>TR-4182 · evidence kit QS-1140</span><b>$2,940</b>
+                    <span className="home-dashboard-row-status home-dashboard-row-warning" aria-hidden="true"><ChartLineUp weight="bold" /></span>
+                    <strong>Conversion opportunity</strong><span>Instant Funded 25K · 2.8% Below Target</span><b><CurrencyDollar weight="bold" />$18.4K</b>
                   </div>
                   <div className="home-dashboard-row">
-                    <span className="home-dashboard-row-status" />
-                    <strong>Revenue movement</strong><span>Instant Funded 25k · 77% kept</span><b>+19.4%</b>
+                    <span className="home-dashboard-row-status home-dashboard-row-warning" aria-hidden="true"><ClockCountdown weight="bold" /></span>
+                    <strong>KYC backlog</strong><span>23 Checks Above the Verification SLA</span><b><ClockCountdown weight="bold" />23 Pending</b>
+                  </div>
+                  <div className="home-dashboard-row">
+                    <span className="home-dashboard-row-status home-dashboard-row-danger" aria-hidden="true"><UsersThree weight="bold" /></span>
+                    <strong>Retention signal</strong><span>High-Value Trader Activity Declined</span><b><UsersThree weight="bold" />8 Accounts</b>
+                  </div>
+                  <div className="home-dashboard-row">
+                    <span className="home-dashboard-row-status" aria-hidden="true"><Megaphone weight="bold" /></span>
+                    <strong>Campaign efficiency</strong><span>Paid Social Acquisition Improved MoM</span><b><ChartLineUp weight="bold" />+12.6%</b>
                   </div>
                 </div>
               </div>
@@ -911,7 +1002,10 @@ export function HomeOverviewHero() {
                   {argusMode === "chat" ? (
                     <div className="home-argus-chat">
                       <div className="home-argus-thread">
-                        <div className="home-argus-user">{argusQuestion}</div>
+                        <div className="home-argus-user-message">
+                          <div className="home-argus-user">{argusQuestion}</div>
+                          <Image className="home-argus-user-avatar" src="/images/personas/finance.jpg" alt="User" width={32} height={32} />
+                        </div>
 
                         <div className="home-argus-thread-answer home-argus-message-insight">
                           <div className="home-argus-response-author">
@@ -953,9 +1047,12 @@ export function HomeOverviewHero() {
                           </div>
                         </div>
 
-                        <div className="home-argus-user home-argus-user-short home-argus-message-followup" aria-label={argusFollowupCopy}>
-                          <span aria-hidden="true" ref={argusFollowupTypeRef}>{argusFollowupCopy}</span>
-                          <i className="home-argus-type-caret is-complete" aria-hidden="true" />
+                        <div className="home-argus-user-message home-argus-message-followup" aria-label={argusFollowupCopy}>
+                          <div className="home-argus-user home-argus-user-short">
+                            <span aria-hidden="true" ref={argusFollowupTypeRef}>{argusFollowupCopy}</span>
+                            <i className="home-argus-type-caret is-complete" aria-hidden="true" />
+                          </div>
+                          <Image className="home-argus-user-avatar" src="/images/personas/finance.jpg" alt="User" width={32} height={32} />
                         </div>
 
                         <div className="home-argus-thread-answer home-argus-message-action">

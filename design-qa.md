@@ -143,6 +143,141 @@ At 320 x 800, the document and client widths both measured 305 px, confirming no
 
 final result: blocked
 
+## How-it-works selector icon weight — 2026-08-30
+
+- Source visual truth: `.context/attachments/KBUpmx/image.png` for the three How QuantSentry Works selector icons and `.context/attachments/2RIkNj/image.png` for the three journey-stage selector icons.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- Intended viewport and density: supplied desktop crop; exact viewport normalization is unavailable without a rendered implementation capture.
+- State: How QuantSentry Works selector with Connect Data active.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: icon size, tab dimensions, gaps, and alignment remain unchanged.
+- Colors and visual tokens: existing active and inactive teal colors remain unchanged.
+- Image quality and asset fidelity: the existing Phosphor icons in both three-stage selectors move from bold/fill to regular weight for a thinner, cleaner treatment.
+- Copy and content: unchanged.
+- Primary interaction: tab selection and automatic rotation remain unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after the scoped component change.
+- Blocker: a matching-state implementation capture and visual comparison require an available in-app browser.
+
+final result: blocked
+
+## Conversational prompts and exploration-row clarity — 2026-08-30
+
+- Source visual truth: `.context/attachments/TgDJQM/image.png` for the light user-text tone, `.context/attachments/JNPAOd/image.png` and `.context/attachments/1W64kH/image.png` for the two dashboard prompts, `.context/attachments/RORV9w/image.png`, `.context/attachments/zuKahT/image.png`, and `.context/attachments/L4upjG/image.png` for the speech-tail and avatar alignment correction, `.context/attachments/8Xi2qU/image.png` for the exploration rows, `.context/attachments/sTMu8X/image.png` and `.context/attachments/yD8xuj/image.png` for selector scale, and `.context/attachments/KfNjX3/image.png` for the final conversational prompt.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- State: light Argus dashboard conversation, dark Exploration Mode answer, and the dark journey-stage selector.
+- Fonts and typography: the exploration driver names use natural title case. The journey selector finishes 8% larger than its original dimensions after the requested 20% increase and subsequent 10% reduction. The `End call` action increases from weight 400 to 500.
+- Spacing and layout rhythm: the journey selector scales proportionally across its shell, buttons, icons, type, gaps, padding, and radii. The exploration question now follows the established user-message order with the bubble first, avatar on the right, and an integrated right-facing tail. Exploration rows retain their existing height and now align each label with a dedicated 17 px icon.
+- Colors and visual tokens: the light user bubble keeps its original `#eaf5f2` surface while only its question text is dimmed by a 10% mix toward that surface. Exploration-row icons reuse the established teal token.
+- Image quality and asset fidelity: existing Phosphor icons are used for conversion, acquisition cost, and refund requests; no new assets or dependencies are introduced.
+- Copy and content: the primary prompt becomes `Can you give me an update on performance?`, the follow-up becomes `What should we prioritise next?`, and the exploration question becomes `What caused last week's conversion decline?`.
+- Primary interaction: existing selector, typing, and stage behavior remains unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after these scoped changes.
+- Blocker: matching-state captures, responsive review, and interaction verification require an available in-app browser.
+
+final result: blocked
+
+## Dashboard overview top bar — 2026-08-30
+
+- Source visual truth: `.context/attachments/7vpLUG/image.png` at 2554 x 411 px for the existing Argus header and `.context/attachments/DUItTa/image.png` at 2954 x 622 px for the overview state without a header.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- Intended viewport and density: supplied desktop crops; exact CSS viewport and device-density normalization are unavailable without a browser-rendered implementation capture.
+- State: dashboard overview visible before the transition into Argus AI.
+- Fonts and typography: the new overview title uses 13 px at weight 500; supporting status copy uses 9.5 px.
+- Spacing and layout rhythm: the new 44 px header matches the existing Argus console header. Overview content starts at 63 px instead of 19 px so the cards remain below the bar without overlap.
+- Colors and visual tokens: the header reuses the dashboard surface, border, teal status, and muted text tokens in both dark and light dashboard variants.
+- Image quality and asset fidelity: no new image assets are introduced; the existing Phosphor overview icon is reused.
+- Copy and content: the bar identifies the view as `Business Overview`, adds `Live Operating View`, and shows `Updated Now` at the right.
+- Primary interaction: no interaction changes; the header follows the existing overview fade and Argus transition state.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after this scoped change.
+- Blocker: matching-state captures, responsive review, and interaction/console verification require an available in-app browser.
+
+final result: blocked
+
+## Argus reset and priority-signal readability — 2026-08-30
+
+- Source visual truth: `.context/attachments/Fa3pCL/image.png` at 1974 x 1506 px for the removable standalone confirmation row, `.context/attachments/Vr6fmZ/image.png` at 2016 x 525 px for the priority-signal detail sizing, and `.context/attachments/DQpozb/image.png` at 2127 x 1126 px for the signal-table icon readability.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app and connected browser lists are empty.
+- Intended viewport and density: supplied desktop crops; exact CSS viewport and density normalization are unavailable from the screenshots alone.
+- State: dark hero at rest and the light dashboard overview with all five priority signals visible.
+- Fonts and typography: priority-signal descriptions increase exactly 12%, from 9.5 px to 10.64 px, in the light-dashboard variant only.
+- Spacing and layout rhythm: the five table rows use a 22 px icon column and 40 px minimum height so the new icons remain legible without changing the surrounding panel geometry materially.
+- Colors and visual tokens: signal icons reuse the established teal, amber, and red semantic colors in restrained tinted containers.
+- Image quality and asset fidelity: the signal dots are replaced with existing Phosphor icons for payout risk, conversion, KYC timing, retention, and campaign performance; no new or approximate assets are introduced.
+- Copy and content: the standalone `Data Unification Ready` confirmation row is removed. The existing Argus prompt copy and priority-signal content remain unchanged.
+- Primary interaction: the Argus pill returns to its regular idle breathing animation and rotating prompt animation. Submitting through the arrow or Enter starts the existing dashboard story directly.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after the scoped component and CSS changes.
+- Blocker: a matching-state animation capture, responsive visual review, and console inspection require an available in-app browser.
+
+final result: blocked
+
+## Combined data-to-action comparison — 2026-08-30
+
+- Source visual truth: `.context/attachments/uOZMLh/image.png` and `.context/attachments/dbfJQx/image.png`, combined according to the approved three-stage structure: Connect Data, Team Intelligence, and Argus AI.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser and connected browser list are empty.
+- Intended viewport and density: desktop at device scale factor 1, plus 900 px and 560 px responsive states; matching-viewport normalization is blocked without a browser capture.
+- State: a third comparison section renders after both existing versions. It reuses the current ingestion, dashboard, role portraits, and Argus recommendation sequence without replacing either existing section.
+- Fonts and typography: the heading and lede reuse the existing light-section hierarchy; the stage selector uses the current interface font at 12 px and IBM Plex Mono only for the numeric step markers.
+- Spacing and layout rhythm: the selector sits 26 px below the lede and the visual begins 24 px below the selector. Desktop role cards sit around the 1120 px dashboard; tablet and mobile role cards enter a two-column and one-column flow respectively.
+- Colors and visual tokens: the section uses the established light grey surface, white cards, dark text, teal active accents, and restrained shadows from the existing light dashboard experiment.
+- Image quality and asset fidelity: the four existing optimized persona images and Phosphor role icons are reused. No placeholder or generated assets were introduced.
+- Copy and content: `From Data to Team-Wide Action` makes the combined story explicit; the three controls are `Connect Data`, `Team Intelligence`, and `Argus AI`.
+- Primary interactions intended: Connect Data replays the 12-second ingestion sequence, Team Intelligence pauses on the dashboard and role views, and Argus AI jumps to the completed recommendation state. The active selector follows the running timeline.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP 200 pass.
+- Blocker: matching-state desktop/mobile capture, selector interaction review, animation timing review, responsive overflow review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Compact Argus confirmation width — 2026-08-29
+
+- Source visual truth: `.context/attachments/FI5aZJ/image.png` at 1257 x 528 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the browser runtime reports `No browser is available`.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the confirmation card width is reduced from 390 px to 280 px while preserving its existing title, icon flow, and actions.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the narrower frame removes the unused right-hand area; internal vertical spacing remains unchanged because it already fits the three content rows tightly.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged; the existing Argus orb and Phosphor icons remain intact.
+- Copy and content: priority-signal descriptions and natural status/value words use title case while numbers, acronyms, and sentence-style team prompts retain their appropriate casing.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Data, dashboard, and insights setup icons — 2026-08-29
+
+- Source visual truth: `.context/attachments/eCP6B4/image.png` at 923 x 478 px, `.context/attachments/mIh2wB/image.png` at 195 x 133 px, and `.context/attachments/BMw3m2/image.png` at 106 x 133 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the browser runtime reports `No browser is available` and lists no connected browser surfaces.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the setup flow now communicates Data to Dashboard to Insights with three equal icon tiles.
+- Fonts and typography: unchanged; the flow remains intentionally icon-only with a descriptive accessible label.
+- Spacing and layout rhythm: the existing single-row layout and 30 px tile sizing are preserved.
+- Colors and visual tokens: all three tiles now share the same restrained dark teal treatment.
+- Image quality and asset fidelity: Database, SquaresFour, and Lightning are standard icons from the site’s existing Phosphor library; the mismatched animated Argus orb is removed from the flow.
+- Copy and content: the accessible label reads `Data to dashboard to insights`.
+- Full-view and focused comparison evidence: blocked pending a browser-rendered implementation capture.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Argus ingestion identity — 2026-08-29
+
+- Source visual truth: `.context/attachments/dFTcmz/image.png` at 934 x 507 px.
+- Implementation target: `http://localhost:55000/`, ingestion stage.
+- Implementation screenshot: unavailable because the in-app browser reports `Browser is not available: iab`.
+- State: the ingestion card now uses the same animated Argus orb as the prompt, dashboard bubble, and AI console instead of the QuantSentry brand mark.
+- Fonts, copy, card spacing, status animation, and ingestion timing are unchanged.
+- Automated checks: ESLint, TypeScript, whitespace validation, local HTTP 200, and server-rendered marker validation pass.
+- Blocker: matching-state capture and direct source-versus-build comparison require an available browser surface.
+
+final result: blocked
+
 ## Argus short-viewport sequence visibility — 2026-08-29
 
 - Review finding: the recommendation could animate below the visible chat area on short desktop viewports.
@@ -842,5 +977,585 @@ final result: blocked
 - Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
 - Automated checks: whitespace validation, ESLint, TypeScript, and production build pass.
 - Blocker: matching-state capture, responsive review, animation review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Argus confirmation, priority signals, and response avatar — 2026-08-29
+
+- Source visual truth: `.context/attachments/btYBAQ/image.png` at 1056 x 357 px, `.context/attachments/HqyRFC/image.png` at 2426 x 1357 px, `.context/attachments/XTTlRR/image.png` at 152 x 159 px, and `.context/attachments/gjJMgu/image.png` at 86 x 696 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser reports `Browser is not available: iab` and no alternate browser is connected.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the ingestion confirmation now has a compact Argus identity row, a short dashboard-building prompt, one clear primary action, and a quiet secondary action; both existing interactions are preserved.
+- State: the sparse Connected activity panel is replaced by five cross-team Priority signals covering payout risk, conversion, KYC, retention, and campaign efficiency with concise context and outcome pills.
+- State: the two small chat response avatars use the supplied dotted solving treatment while the larger header orb remains tied to live Argus status.
+- Fonts and typography: the existing General Sans hierarchy is retained; the confirmation card now separates metadata, title, description, and actions at compact UI sizes.
+- Spacing and layout rhythm: the confirmation card is denser and the five 36 px signal rows use the previously empty dashboard space without changing the surrounding shell.
+- Colors and visual tokens: existing neutral near-black surfaces, teal primary action, semantic signal dots, and restrained borders are retained.
+- Image quality and asset fidelity: the production `ThinkingOrb` supplies the selected dotted avatar state; no placeholder or approximate asset is introduced.
+- Copy and content: the confirmation is shortened and the dashboard feed now demonstrates actionable cross-functional intelligence.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, and TypeScript pass.
+- Blocker: matching-state capture, responsive review, animation review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Argus confirmation focus state — 2026-08-29
+
+- Source visual truth: `.context/attachments/cjLP5Q/image.png` at 1020 x 315 px, `.context/attachments/nYrmaP/image.png` at 1059 x 493 px, and `.context/attachments/W9mSUw/image.png` at 1190 x 464 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser reports `Browser is not available: iab`.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the title-to-description gap is reduced from 10 px to 4 px.
+- State: while the confirmation is open, the underlying Argus prompt, avatar, voice controls, and send action use a subtle 48% opacity with reduced saturation.
+- State: the rotating input prompt pauses and displays `Waiting on confirmation`; it resumes only after the popup closes.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: only the highlighted confirmation gap is reduced.
+- Colors and visual tokens: the inactive prompt uses a restrained grayscale treatment without affecting the active confirmation panel.
+- Image quality and asset fidelity: existing Argus orbs remain unchanged.
+- Copy and content: the inactive input now communicates its actual waiting state.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, and TypeScript pass.
+- Blocker: matching-state capture, animation review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Argus confirmation benefit copy — 2026-08-29
+
+- Source visual truth: `.context/attachments/JyxeXa/image.png` at 792 x 248 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no browser surface is connected.
+- State: the confirmation title now reads `Turn your data into clear action`.
+- State: the supporting copy now explains the actual benefit: `I’ll unify your systems, surface what matters, and recommend what to do next.`
+- Fonts, spacing, colors, image assets, actions, and interaction behavior are unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Argus setup connection visual — 2026-08-29
+
+- Source visual truth: `.context/attachments/hJVp8P/image.png` at 882 x 335 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser reports `Browser is not available: iab`.
+- State: the setup paragraph is replaced by a compact MT5, Stripe, and Intercom connection flow leading into the Argus orb.
+- Fonts and typography: the setup title and button labels are unchanged; the body paragraph is removed.
+- Spacing and layout rhythm: the flow occupies one compact 32 px row aligned with the setup content.
+- Colors and visual tokens: platform tiles reuse the existing dark neutral surface and restrained teal borders.
+- Image quality and asset fidelity: the flow reuses the production MT5, Stripe, and Intercom assets plus the existing animated Argus orb.
+- Copy and content: an accessible label communicates the same connection relationship without visible body copy.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, and TypeScript pass.
+- Blocker: matching-state capture, responsive review, animation review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Generic data-to-insights setup flow — 2026-08-29
+
+- Source visual truth: `.context/attachments/kjM6VM/image.png` at 98 x 88 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser reports `Browser is not available: iab`.
+- State: platform-specific logos are replaced by a generic Data to Argus AI to Insights flow.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the setup flow remains a single compact 32 px row.
+- Colors and visual tokens: the data tile follows the supplied pale surface and teal icon treatment; the insights tile uses the existing restrained dark teal output treatment.
+- Image quality and asset fidelity: standard Database and Sparkle icons come from the existing Phosphor library; the central Argus orb remains animated.
+- Copy and content: the accessible label now reads `Data connects to Argus AI and becomes insights`.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, and TypeScript pass.
+- Blocker: matching-state capture, responsive review, animation review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Anchored single-action confirmation — 2026-08-29
+
+- Source visual truth: `.context/attachments/dZxNxQ/image.png` at 1027 x 445 px and `.context/attachments/RjJdpU/image.png` at 1047 x 338 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the browser runtime reports `No browser is available`.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the confirmation now sits 6 px above the Argus widget and uses a centered filled CaretDown icon as a visual pointer into the widget.
+- State: the secondary `Not now` action is removed; the smaller 29 px `Confirm` button is aligned to the right edge of the popup.
+- Fonts and typography: the primary action is reduced to 11 px while the existing question hierarchy remains unchanged.
+- Spacing and layout rhythm: the popup-to-widget gap is halved and the action row is right aligned with a compact 10 px top gap.
+- Colors and visual tokens: the pointer matches the popup surface and retains the existing subtle teal edge treatment.
+- Image quality and asset fidelity: the pointer uses the existing Phosphor icon library; the Argus orb remains unchanged.
+- Copy and content: the confirmation remains `Ready to unify your data?` with one decisive `Confirm` action.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, hover/active review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Inline Argus confirmation — 2026-08-29
+
+- Source visual truth: `.context/attachments/qAzH7J/image.png` at 713 x 241 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the browser runtime reports `No browser is available`.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the popup is widened from 280 px to 350 px and uses a two-column grid so the Argus identity, question, and `Confirm` button remain on one horizontal row.
+- Fonts and typography: the question is prevented from wrapping at standard desktop widths; screens at or below 360 px return to the stacked responsive layout.
+- Spacing and layout rhythm: the button’s former top margin is removed and a 14 px inline gap separates it from the question.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: the Argus orb and pointer remain unchanged.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Confirmation inside the Argus widget — 2026-08-29
+
+- Source visual truth: `.context/attachments/ZTZLcw/image.png` at 1354 x 331 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the browser runtime reports `No browser is available`.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the separate confirmation popup and pointer are removed completely.
+- State: while confirmation is active, the widget’s input line reads `Ready to unify your data?`, the voice and send controls are replaced by a compact `Confirm` button, and Enter confirms the action.
+- Fonts and typography: the existing widget hierarchy and 12.6 px input text are retained; the confirmation button remains 11 px.
+- Spacing and layout rhythm: the widget keeps its existing 62 px pill frame and switches from four columns to three while confirming.
+- Colors and visual tokens: the active widget receives the existing teal focus border; the separate popup surface is no longer present.
+- Image quality and asset fidelity: the existing Argus orb remains the sole identity asset.
+- Copy and content: duplicated Argus branding and confirmation copy are removed; the message now belongs directly to the widget.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, focus/keyboard behavior review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Expanded Argus confirmation row — 2026-08-29
+
+- Source visual truth: `.context/attachments/ZTZLcw/image.png` at 1354 x 331 px, plus the user-selected two-row refinement that keeps the original widget controls intact.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the browser runtime reports `No browser is available` and its browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the original Argus input, microphone, voice, and send controls remain unchanged in the first row.
+- State: the active confirmation appears in a distinct teal-tinted second row with `Ready to unify your data?` and a compact right-aligned `Confirm` action.
+- Fonts and typography: the existing widget typography is retained; the confirmation label is 11.5 px at weight 500 and the action is 11 px at weight 500.
+- Spacing and layout rhythm: the widget expands from its resting pill into a 22 px-radius panel; the second row aligns beneath the input and becomes full-width on narrow screens.
+- Colors and visual tokens: the confirmation uses the existing restrained teal border and surface tint rather than a separate floating card.
+- Image quality and asset fidelity: the existing Argus orb and Phosphor controls are unchanged; no replacement assets were introduced.
+- Copy and content: the confirmation is visually tied to the widget without replacing its primary prompt or controls.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: this replaces the prior inline state that hid the voice/send controls and lacked enough emphasis; the new layout preserves those controls and adds a highlighted second row.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, focus/keyboard behavior review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Compact confirmation hierarchy — 2026-08-29
+
+- Source visual truth: `.context/attachments/i5ZuEl/image.png` at 1110 x 313 px, with the accepted recommendation to reduce confirmation height and de-emphasize the send action while confirmation is active.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the open confirmation keeps the input, microphone, voice, and send controls available.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: vertical confirmation padding is reduced from 8 px to 4 px, reducing the strip by 8 px while preserving its inline alignment and 28 px action target.
+- Colors and visual tokens: the active-state send arrow changes from a filled teal circle to a restrained teal-tinted surface and border so `Confirm` remains the primary action.
+- Image quality and asset fidelity: unchanged; the existing Argus orb and Phosphor controls remain intact.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the source state presented two equally strong teal actions and an overly tall confirmation strip; the code now establishes one primary action and a tighter vertical rhythm.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Reserved Argus expansion space — 2026-08-29
+
+- Source visual truth: `.context/attachments/dMUH2Z/image.png` at 1562 x 534 px, with the requested redistribution of empty space from above the widget to below it.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: both collapsed and confirmation-open widget states use the same surrounding hero spacing; no open-state margin is introduced.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: desktop top margin is reduced by 48 px and the resting hero bottom padding is increased by the same 48 px, preserving the section height while reserving the expansion clearance below Argus.
+- Responsive behavior: the existing mobile spacing remains unchanged below 900 px.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the source state left excessive aurora space above Argus and insufficient clearance below; the same fixed space is now redistributed without layout growth on expansion.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, expansion behavior, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Waiting-on-confirmation prompt state — 2026-08-29
+
+- Source visual truth: `.context/attachments/GIxN6H/image.png` at 948 x 350 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: while the confirmation strip is visible, the Argus status reads `Waiting on confirmation` instead of `Ready`.
+- State and motion: the rotating placeholder animation is paused and replaced by the fixed prompt `How can I help today?`; Argus does not enter the working/solving state until confirmation.
+- Fonts and typography: the existing status and placeholder typography are unchanged.
+- Spacing and layout rhythm: unchanged from the reserved expansion-space iteration.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged.
+- Copy and content: the visible status now accurately describes the blocking interaction.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the source showed `Ready` and a partially typed placeholder during confirmation; both misleading motion states are now removed.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, motion behavior, focus behavior, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Confirmation copy placement correction — 2026-08-29
+
+- Source visual truth: `.context/attachments/tSD4sk/image.png` at 882 x 369 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the compact status beside `Argus AI` remains `Ready` while the confirmation is pending.
+- State and motion: the highlighted input line now reads the fixed `Waiting on confirmation`; the rotating placeholder animation remains paused for the entire confirmation state.
+- Fonts and typography: restoring the short `Ready` status prevents the two-line wrap shown in the source screenshot.
+- Spacing and layout rhythm: unchanged.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged.
+- Copy and content: the waiting message now appears in the exact prompt line identified by the user.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the previous iteration placed `Waiting on confirmation` in the small status and left `How can I help today?` in the highlighted line; those texts are now assigned to the intended positions.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, motion behavior, focus behavior, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Data icon in confirmation prompt — 2026-08-29
+
+- Source visual truth: `.context/attachments/DiVMHj/image.png` at 58 x 60 px and `.context/attachments/u8q8Nk/image.png` at 658 x 105 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the supplied data icon appears immediately before `Ready to unify your data?` in the confirmation strip.
+- Fonts and typography: unchanged; the label remains 11.5 px at weight 500.
+- Spacing and layout rhythm: the icon is rendered at 15 x 15 px with a 6 px gap and vertical centering against the prompt text.
+- Colors and visual tokens: the supplied teal icon is used unchanged.
+- Image quality and asset fidelity: the exact supplied PNG is copied to `public/images/argus-data-confirmation.png`; no substitute or recreated icon is used.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## White confirmation data icon — 2026-08-29
+
+- Source visual truth: `.context/attachments/u7hxCU/image.png` at 111 x 111 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the data icon remains immediately before `Ready to unify your data?`.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the icon remains 15 x 15 px with a 6 px gap and vertical centering.
+- Colors and visual tokens: the icon is now solid white and no longer carries the supplied PNG's light square background.
+- Image quality and asset fidelity: a matching Database icon from the existing Phosphor library replaces the opaque raster so it renders cleanly at UI scale; the superseded raster asset was removed.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Confirmation data icon outside the pill — 2026-08-29
+
+- Source visual truth: `.context/attachments/H3ffHs/image.png` at 803 x 265 px, with the data icon identified inside the confirmation pill.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the white data icon is now a separate lead-in outside the confirmation pill; the pill contains only `Ready to unify your data?` and `Confirm`.
+- Fonts and typography: unchanged; the label remains 11.5 px at weight 500.
+- Spacing and layout rhythm: the icon occupies the same 42 px lead column as the Argus avatar above, with a 10 px gap before the confirmation pill.
+- Colors and visual tokens: the icon remains white; the confirmation pill keeps its existing dark teal treatment.
+- Image quality and asset fidelity: the existing Phosphor Database icon is retained at 15 x 15 px for clean UI-scale rendering.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the source showed the icon enclosed by the confirmation pill; the implementation now separates the icon structurally and visually while preserving the prompt alignment.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Confirmation row outside the Argus pill — 2026-08-29
+
+- Source visual truth: `.context/attachments/f6IoeH/image.png` at 916 x 295 px, with the complete confirmation row identified inside the expanded Argus container.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: while confirmation is pending, the main Argus control remains its original compact pill and the full database prompt row is positioned 10 px below it as a separate element.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the detached confirmation row retains the 42 px icon column and full widget width without increasing the height or changing the radius of the main Argus pill.
+- Colors and visual tokens: unchanged; both elements keep the existing dark teal system.
+- Image quality and asset fidelity: unchanged; the Phosphor Database icon remains 15 x 15 px.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the source showed the confirmation row enclosed by the expanded Argus frame; absolute positioning now separates the complete row while preserving its interaction inside the form.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Opaque confirmation action row — 2026-08-29
+
+- Source visual truth: `.context/attachments/RWTU11/image.png` at 860 x 130 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the detached confirmation row now contains its action icon rather than leaving the icon in a separate external column.
+- Fonts and typography: unchanged; the label remains 11.5 px at weight 500.
+- Spacing and layout rhythm: the row uses its full widget width, with a 7 px gap between the 15 px action arrow and prompt label.
+- Colors and visual tokens: the row background is now `rgba(8, 15, 16, .96)` with a restrained dark shadow, substantially reducing transparency over the aurora.
+- Image quality and asset fidelity: the Database icon is replaced by the existing Phosphor ArrowRight icon to communicate forward action without a custom asset.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the source showed a detached database icon and a visibly transparent row; the icon is now inside the row, action-oriented, and supported by a nearly opaque background.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Compact confirmation action row — 2026-08-29
+
+- Source visual truth: `.context/attachments/znAQ5x/image.png` at 1005 x 314 px, with the confirmation row identified as unnecessarily matching the full Argus width.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the detached confirmation row remains centered below Argus but now sizes to its arrow, prompt, and Confirm button rather than filling the widget width.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the visible row uses `width: max-content` with `max-width: 100%`; its full-width invisible positioning wrapper only provides centering and does not create visible chrome.
+- Colors and visual tokens: unchanged from the opaque action-row iteration.
+- Image quality and asset fidelity: unchanged; the Phosphor ArrowRight icon remains at 15 x 15 px.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the source showed the row spanning the complete 368 px widget width; intrinsic sizing now removes the unused horizontal space while preserving responsive containment.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Play affordance for data unification — 2026-08-30
+
+- Source visual truth: `.context/attachments/t2gkWI/image.png` at 622 x 172 px.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable and the browser list is empty.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: the compact `Data Unification Ready` action row remains above the dimmed Argus control with the `Start` button active.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: the icon remains inside the intrinsic-width row with the existing 7 px text gap.
+- Colors and visual tokens: the icon retains the teal action color while the main Argus control stays visually subdued during confirmation.
+- Image quality and asset fidelity: the 7 px status dot is replaced by a 9 px filled Play icon from the existing Phosphor library, clarifying that the row starts a process.
+- Copy and content: unchanged (`Data Unification Ready` and `Start`).
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the status dot communicated readiness but not initiation; the play affordance now matches the adjacent Start action without changing the component structure.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Scoped inactive Argus controls — 2026-08-30
+
+- Source visual truth: `.context/attachments/HYyrRE/image.png` at 933 x 277 px, marking only the microphone, waveform, and submit controls for dimming.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: when `Data Unification Ready` is active, only the three right-side Argus controls receive the inactive treatment.
+- Fonts and typography: the Argus name, Ready status, and `Waiting on confirmation` text remain at their normal opacity and color.
+- Spacing and layout rhythm: unchanged.
+- Colors and visual tokens: the Argus orb, text, pill background, and teal focus border are restored to normal contrast; the voice-action group and submit button remain at 44% opacity with grayscale treatment.
+- Image quality and asset fidelity: unchanged.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Comparison history: the previous state muted the full Argus control, obscuring useful context; the inactive selector is now limited to the controls identified in the source.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, interaction testing, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Argus task panel header removal — 2026-08-30
+
+- Source visual truth: `.context/attachments/Huq5jr/image.png` at 1175 x 113 px, with `.context/attachments/pYIp0u/image.png` at 1366 x 939 px for full-panel context.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no in-app or connected browser is available.
+- Intended viewport and density: desktop at device scale factor 1; matching-viewport normalization is blocked without a browser capture.
+- State: proactive Argus task panel with four scheduled tasks.
+- Fonts and typography: the redundant uppercase `Argus Tasks` heading and `4 Active` status text are removed.
+- Spacing and layout rhythm: the empty header row and its 12 px list offset are removed, moving the task cards up cleanly without changing their geometry.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged.
+- Copy and content: the panel header is removed; task names, schedules, and delivery channels are preserved.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: whitespace validation, ESLint, TypeScript, production build, and local HTTP 200 pass.
+- Blocker: matching-state capture, responsive review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Duplicated light dashboard experiment — 2026-08-30
+
+- Source visual truth: `.context/attachments/52Lgqi/image.png` at 3034 x 1808 px for the duplicated light section structure, and `.context/attachments/8cpqRz/image.png` at 2752 x 1648 px for the reusable dashboard and animated widget sequence.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser and connected browser list are empty.
+- Intended viewport and density: desktop at device scale factor 1, plus 900 px and 560 px responsive states; matching-viewport normalization is blocked without a browser capture.
+- State: a second `One Data Layer. Answers for Every Team.` section renders immediately after the current team-insights section and automatically plays the existing widget-to-dashboard-to-Argus sequence when it enters the viewport.
+- Fonts and typography: the duplicated heading reuses the current `team-insights-heading`, kicker, lede, and typography hierarchy rather than introducing new type styles.
+- Spacing and layout rhythm: the light variant uses the existing 1120 px dashboard frame, 64 px heading-to-stage gap, and contained responsive stacking at the existing 900 px and 560 px breakpoints.
+- Colors and visual tokens: the reused dashboard, navigation, signals, source cards, ingestion prompt, and Argus console are scoped to the existing light theme tokens with white and pale-grey surfaces, dark text, teal accents, and restrained shadows. The original dark hero remains unchanged.
+- Image quality and asset fidelity: all existing platform, acquisition, engagement, KYC, payment, portrait, and brand assets are reused at their current sizes; no placeholders or regenerated assets were introduced.
+- Copy and content: the duplicated section keeps the supplied team-intelligence copy and the existing dashboard story content.
+- Primary interaction intended: the duplicate auto-plays once at 28% viewport visibility; reduced-motion and mobile states jump to the existing completed view.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, local HTTP 200, and server-rendered light-section marker checks pass.
+- Blocker: matching-state desktop/mobile capture, animation timing review, responsive overflow review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Light Argus frame border correction — 2026-08-30
+
+- Source visual truth: `.context/attachments/AINWAv/image.png` at 2269 x 78 px, marking the duplicated horizontal edge above the light Argus console.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no in-app or connected browser is available.
+- Intended viewport and density: the supplied cropped desktop/tablet state; exact CSS viewport and density normalization are unavailable from the crop alone.
+- State: light dashboard with the Argus console visible inside the existing framed dashboard shell.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: unchanged; the dashboard shell retains its single outer border and radius.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged.
+- Copy and content: unchanged.
+- Focused comparison evidence: the source shows both the dashboard shell border and the console's redundant top border. The light console now sets `border-top: 0`, leaving the shell as the sole frame edge.
+- Automated checks: ESLint, TypeScript, whitespace validation, and local HTTP 200 pass.
+- Blocker: a matching-state browser capture and console inspection require an available browser surface.
+
+final result: blocked
+
+## Light dashboard depth and Argus contrast refinements — 2026-08-30
+
+- Source visual truth: `.context/attachments/jZiJQN/image.png` at 2048 x 561 px for the source-card shadow, `.context/attachments/omXZQU/image.png` and `.context/attachments/hGZe25/image.png` for the pale Argus orb, `.context/attachments/3t9UWg/image.png` for the requested dark orb treatment, and `.context/attachments/Dk6JpP/image.png` at 1385 x 969 px for the proactive-task panel gap.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no in-app or connected browser is available.
+- Intended viewport and density: supplied desktop crops; exact CSS viewport and density normalization are unavailable from the crops alone.
+- State: light dashboard team view, light dashboard Argus view, and proactive Argus task list.
+- Fonts and typography: unchanged.
+- Spacing and layout rhythm: source widgets keep their geometry but use a smaller 10 px by 24 px shadow; the proactive panel now sizes to its four rows with 22 px vertical padding instead of retaining the shared 420 px minimum height.
+- Colors and visual tokens: Argus orb containers inside the light dashboard now use the established near-black surface, teal edge, white-rendered orb detail, and restrained shadow from the supplied dark reference.
+- Image quality and asset fidelity: the existing animated ThinkingOrb remains in use; only its container and filter treatment changed.
+- Copy and content: unchanged.
+- Focused comparison evidence: the requested regions are isolated to `.home-source-signal`, the light-section Argus orb selectors, and `.home-work-task-demo`; surrounding dashboard cards, team views, and task-row spacing are unchanged.
+- Automated checks: ESLint, TypeScript, whitespace validation, and local HTTP 200 pass.
+- Blocker: matching-state browser captures and console inspection require an available browser surface.
+
+final result: blocked
+
+## Light Argus title sizing — 2026-08-30
+
+- Source visual truth: `.context/attachments/31tYie/image.png` at 1946 x 1277 px, highlighting the user prompts, analysis title, and recommendation label.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because no in-app or connected browser is available.
+- Intended viewport and density: supplied desktop crop; exact CSS viewport and density normalization are unavailable from the screenshot alone.
+- State: completed Argus conversation inside the light dashboard.
+- Fonts and typography: the light Argus console now sets `--argus-font-title: 13px`, covering both user prompts and the analysis heading; the recommendation label already inherits the existing 13 px body token.
+- Spacing and layout rhythm: unchanged.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged.
+- Copy and content: unchanged.
+- Focused comparison evidence: all four marked labels resolve to the 13 px title/body tokens without affecting the main Argus identity heading or surrounding table copy.
+- Automated checks: ESLint, TypeScript, whitespace validation, and local HTTP 200 pass.
+- Blocker: a matching-state browser capture and console inspection require an available browser surface.
+
+final result: blocked
+
+## Light ingestion timing and Argus header refinements — 2026-08-30
+
+- Source visual truth: `.context/attachments/PIvQRB/image.png` at 999 x 486 px for ingestion status sizing, `.context/attachments/fi2JHv/image.png` at 1144 x 550 px for the premature status fade, `.context/attachments/LR0E0M/image.png` at 1976 x 174 px and `.context/attachments/DX9ETV/image.png` at 2143 x 333 px for the Argus header density, `.context/attachments/0WKLVk/image.png` at 380 x 86 px and `.context/attachments/04LPac/image.png` at 443 x 85 px for dashboard wordmark proportion, `.context/attachments/k0mkkH/image.png` at 281 x 67 px for wordmark weights, `.context/attachments/9sCG8I/image.png` at 2005 x 201 px for the final header-height refinement, `.context/attachments/spjXx7/image.png` at 215 x 67 px and `.context/attachments/F8j9Y1/image.png` at 376 x 54 px for label weights, and `.context/attachments/HInLAx/image.png` at 787 x 191 px for title-to-status spacing.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app and connected browser lists are empty.
+- Intended viewport and density: supplied desktop crops; exact CSS viewport and device density normalization are unavailable from the crops alone.
+- State: the light dashboard ingestion animation transitioning into its dashboard and Argus conversation states.
+- Fonts and typography: ingestion status copy increases from 11 px to 12.65 px, exactly 15%; the contained dashboard wordmark increases from 15 px to 17 px so its optical height better balances the 24 px icon, with explicit 450 and 550 weights for `Quant` and `Sentry` respectively. `Key insight` and `Recommended action` decrease from weight 600 to 500.
+- Spacing and layout rhythm: the light Argus header decreases from 64 px to 44 px with 5 px vertical padding; its orb decreases from 42 px to 34 px with a 31 px canvas. Tighter title and status line heights remove the excessive internal gap. The dark hero remains unchanged.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: the existing animated Argus orb and QuantSentry image assets remain in use; only their rendered scale changes.
+- Copy and content: unchanged.
+- Interaction timing: the completed ingestion status list remains fully visible for roughly two seconds before a 1.2-second fade; card convergence and dashboard reveal now follow that fade instead of overlapping the final checkmark.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP 200 pass before the final wordmark-only CSS adjustment; final checks are repeated after that adjustment.
+- Blocker: matching-state animation capture, responsive visual review, and console inspection require an available browser surface.
+
+final result: blocked
+
+## Light ingestion status subtitle sizing — 2026-08-30
+
+- Source visual truth: `.context/attachments/CrQiIa/image.png` at 955 x 512 px, highlighting the `Bringing your data together` subtitle in the light ingestion card; `.context/attachments/5EjqbQ/image.png` at 556 x 78 px and `.context/attachments/i9Htld/image.png` at 202 x 56 px for the response-author label; `.context/attachments/L8ku2X/image.png` at 280 x 126 px and `.context/attachments/Kb5CFO/image.png` at 247 x 68 px for the suggestion-button weights.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is not available.
+- Intended viewport and density: supplied desktop crop; exact CSS viewport and density normalization are unavailable from the crop alone.
+- State: light dashboard ingestion card after its status subtitle appears.
+- Fonts and typography: the highlighted subtitle increases exactly 10%, from 10.5 px to 11.55 px. The response-author label increases 10%, from 11.5 px to 12.65 px, while decreasing from weight 600 to 500. The insight and task suggestion buttons increase from weight 400 to 500.
+- Spacing and layout rhythm: unchanged.
+- Colors and visual tokens: the response-author label now uses the established near-black `#152021` light-dashboard ink token.
+- Image quality and asset fidelity: unchanged; the existing Argus orb remains in use.
+- Copy and content: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after the scoped CSS change.
+- Blocker: a matching-state implementation capture and visual comparison require an available in-app browser.
+
+final result: blocked
+
+## Light ingestion title weight and team-card readability — 2026-08-30
+
+- Source visual truth: `.context/attachments/Ut5bo1/image.png` at 969 x 532 px for the light ingestion-card title weight, `.context/attachments/rJBzBU/image.png` at 701 x 198 px for the truncated Marketing prompt, `.context/attachments/WmNQKx/image.png` at 1023 x 499 px for the ingestion description and checklist sizing, and `.context/attachments/rq0bIu/image.png` at 539 x 254 px for the light Argus console identity scale.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app and connected browser lists are empty.
+- Intended viewport and density: supplied desktop crops; exact CSS viewport and density normalization are unavailable from the crops alone.
+- State: light dashboard ingestion and team-intelligence transition states.
+- Fonts and typography: the light ingestion-card `Argus AI` title decreases from weight 600 to 500. Its description increases exactly 10%, from 13 px to 14.3 px, while the checklist increases exactly 10% from its adjusted 12.65 px size to 13.915 px. The light Argus console identity decreases exactly 10%, from 15.5 px to 13.95 px. Team prompts keep their existing 9 px size and 1.35 line height.
+- Spacing and layout rhythm: team cards increase from 212 px to 232 px and allow a maximum of two lines, replacing the unreadable single-line ellipsis while preserving the existing grid, portraits, icons, and card positions. The light Argus header orb and canvas decrease exactly 10%, from 34/31 px to 30.6/27.9 px, without changing the header height.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged; the supplied persona portraits and existing icon library remain in use.
+- Copy and content: all team prompts remain unchanged and can now display without premature truncation.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after the scoped CSS changes.
+- Blocker: a matching-state implementation capture, responsive review, and visual comparison require an available in-app browser.
+
+final result: blocked
+
+## Compact team-perspective cards — 2026-08-30
+
+- Source visual truth: `.context/attachments/UoU03H/image.png` at 611 x 268 px for the current two-row Marketing card, `.context/attachments/jr2uHF/image.png` at 552 x 170 px for the requested compact Finance-card structure, and `.context/attachments/r1vNkO/image.png` at 964 x 357 px for the light dashboard sidebar-logo position.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app and connected browser lists are empty.
+- Intended viewport and density: supplied desktop crops at an inferred 2x density; exact CSS viewport normalization is unavailable without an implementation capture.
+- State: team-intelligence section with a team-perspective card visible around the central dashboard.
+- Fonts and typography: the role name remains 13 px/600 and the prompt becomes compact 10 px supporting a maximum of two lines.
+- Spacing and layout rhythm: all four cards retain the compact 276 x 86 CSS px horizontal structure, with the established 50 px circular portrait and 24 px circular role icon overlapping its edge before the stacked role name and prompt. The previous large prompt row remains removed. The light dashboard sidebar lockup moves upward by 6% without changing the navigation flow below it.
+- Colors and visual tokens: the existing white surface, dark text, teal icon treatment, active border, and restrained shadow are preserved.
+- Image quality and asset fidelity: the existing optimized persona portraits and Phosphor role icons remain in use; portrait crop and corner treatment now match the supplied compact target.
+- Copy and content: all four existing role questions are preserved.
+- Primary interaction: the cards remain keyboard-accessible tabs and retain active, hover, and focus behavior.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after the component and CSS changes.
+- Blocker: matching-state implementation capture, responsive review, and interaction/console verification require an available in-app browser.
+
+final result: blocked
+
+## Hero text and dark journey-section contrast — 2026-08-30
+
+- Source visual truth: `.context/attachments/Djihw1/image.png` at 359 x 61 px for the hero kicker, `.context/attachments/Qmp4F1/image.png` at 782 x 185 px for the Argus placeholder, `.context/attachments/aHmWhU/image.png` at 3803 x 1718 px for the light journey-section background, `.context/attachments/6SqzUm/image.png` at 320 x 144 px for the Chat/Voice control density, `.context/attachments/6KW1f6/image.png` at 1050 x 212 px for the light Argus analysis-table body copy, and `.context/attachments/CB4aBu/image.png` at 562 x 236 px for the journey-card prompt sizing.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- Intended viewport and density: supplied desktop crops; exact CSS viewport and device-density normalization are unavailable without a browser-rendered implementation capture.
+- State: dark homepage hero at rest and the three-stage team-intelligence journey with the light Argus dashboard visible.
+- Fonts and typography: the hero kicker keeps its existing size and weight but receives a subtle near-white-to-teal text gradient. The Argus placeholder moves from a 15% to a 35% white mix, producing roughly 20% more perceived brightness. Chat and Voice labels now use weight 500. The light Argus analysis-table body cells use an explicit 12 px size. Journey-card prompts increase exactly 40%, from 9 px to 12.6 px, while retaining their two-line limit. The priority-panel helper increases exactly 20%, from 9 px to 10.8 px.
+- Spacing and layout rhythm: the Chat/Voice buttons decrease from 32 px to 30 px minimum height and from 11 px to 9 px inline padding; no surrounding dashboard geometry changes.
+- Colors and visual tokens: the combined journey section moves to the established near-black `#080b0c` surface. Its heading, kicker, supporting copy, stage selector, border, and pattern switch to the corresponding dark-mode treatments while the embedded dashboard remains light for deliberate contrast. The highlighted title uses the brighter dark-mode teal `#48c7c3`, and both dark-section descriptions use the readable neutral `#c2cbca`.
+- Image quality and asset fidelity: the existing animated PixelBlast pattern is reused with its established dark tone; no new assets are introduced. Journey overlay cards now reuse the same circular portrait and lower-right overlapping circular role-icon treatment as the main team-perspective cards.
+- Copy and content: unchanged.
+- Primary interaction: the stage selector and Chat/Voice controls retain their existing active, click, and focus behavior.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after these scoped changes.
+- Blocker: matching-state captures, responsive review, and interaction/console verification require an available in-app browser.
+
+final result: blocked
+
+## Journey dashboard alignment and controls — 2026-08-30
+
+- Source visual truth: `.context/attachments/wR1t1y/image.png` for the stale widget overlap, `.context/attachments/wGaoLd/image.png` and `.context/attachments/HT5mak/image.png` for header-height parity, `.context/attachments/WHC1qU/image.png` and `.context/attachments/GDOKsP/image.png` for the stage-selector treatment, `.context/attachments/xq6ySv/image.png` at 1198 x 85 px and `.context/attachments/JO2YUD/image.png` at 195 x 267 px for the analysis-table typography, `.context/attachments/D09IHL/image.png` at 747 x 248 px for round ingest-status icons, `.context/attachments/rvhYOH/image.png` at 1335 x 547 px for the analysis-card bottom spacing, `.context/attachments/omfbcz/image.png` at 2020 x 1412 px for the Connect Data entry timing, and the subsequent supplied crops for icon, contrast, pattern, spacing, and depth adjustments.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- State: dark journey section with Team Intelligence or Argus AI selected, plus the homepage Argus prompt at rest.
+- Fonts and typography: the overview labels and priority header are darkened by a 10% black mix in the light dashboard. The standalone Argus status increases 10%, from 10 px to 11 px. The Argus analysis-table headings and change-value pills now use the site-standard General Sans instead of the inherited IBM Plex Mono treatment.
+- Spacing and layout rhythm: the overview header grows to the rendered 49 px Argus header height and its content inset follows to 68 px. The floating dashboard widgets now remeasure when the overview geometry changes, preventing stale coordinates from overlapping the header. The standalone Argus prompt moves 15% farther down. The analysis table no longer stretches to the neighboring insight-card height, removing the empty band below its final row.
+- Colors and visual tokens: the selector uses the supplied dark shell and teal active treatment. The dark PixelBlast pattern increases 15% in relative opacity, from .20 to .23. The dashboard receives a restrained layered shadow and edge highlight for depth without geometric distortion.
+- Image quality and asset fidelity: existing Phosphor icons are added to the selector and priority-value pills, and ingest statuses use the library's round filled check icon; no new assets are introduced.
+- Copy and content: step numbering is removed while the three stage labels remain unchanged.
+- Primary interaction: all three selector buttons retain their existing click, pressed, keyboard, and focus behavior. The Connect Data ingestion panel now starts entering at roughly 0.5 seconds and reaches full opacity around 1.2 seconds, while its typing and subsequent stages retain their existing durations.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after these scoped changes.
+- Blocker: matching-state captures, responsive review, and interaction/console verification require an available in-app browser.
+
+final result: blocked
+
+## Chat identity and workflow-icon polish — 2026-08-30
+
+- Source visual truth: `.context/attachments/deCs7N/image.png` and `.context/attachments/hiMs5p/image.png` for the main Argus user avatar, `.context/attachments/IsUJ5s/image.png` at 100 x 91 px and `.context/attachments/wqgGbv/image.png` at 103 x 122 px for the exploration-chat avatar, `.context/attachments/r4699Y/image.png` at 1656 x 126 px for workflow icon sharpness, `.context/attachments/WWltow/image.png` at 565 x 146 px and `.context/attachments/NyHuhY/image.png` at 457 x 107 px for user-message readability, `.context/attachments/pgc4NZ/image.png` at 417 x 124 px and `.context/attachments/HUXoEu/image.png` at 558 x 115 px for bubble spacing, `.context/attachments/OgUagR/image.png` at 578 x 496 px for Argus-orb consistency, and `.context/attachments/e0JyEC/image.png` at 72 x 97 px with `.context/attachments/KrEv56/image.png` at 107 x 74 px for the speech tail.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser remains unavailable.
+- State: light Argus dashboard conversation and dark Exploration Mode chat example.
+- Fonts and typography: both main user-message bubbles use weight 500 for clearer reading.
+- Spacing and layout rhythm: main user-message vertical padding decreases from 8 px to 7 px. The exploration question decreases from 12 x 14 px to 11 x 13 px padding.
+- Colors and visual tokens: avatar borders and shadows reuse the existing teal-neutral treatment; the exploration speech tail reuses its dark bubble border and surface colors.
+- Image quality and asset fidelity: main user messages use the existing Finance persona, Exploration Mode uses the requested Marketing persona, workflow tabs move to an even 18 px icon grid with geometric-precision rendering, and response orbs match the header orb state and rendered dimensions.
+- Copy and content: unchanged.
+- Primary interaction: no behavior changes.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after these scoped changes.
+- Blocker: matching-state captures, responsive review, and interaction/console verification require an available in-app browser.
 
 final result: blocked

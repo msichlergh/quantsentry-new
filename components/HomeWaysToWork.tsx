@@ -1,9 +1,11 @@
 "use client";
 
 import {
+  ArrowCounterClockwise,
   ArrowRight,
   ChartBar,
   Clock,
+  CurrencyDollar,
   Export,
   FileText,
   Lightning,
@@ -11,7 +13,7 @@ import {
   Monitor,
   PaperPlaneTilt,
   PresentationChart,
-  User,
+  TrendUp,
   Warning,
 } from "@phosphor-icons/react";
 import Image from "next/image";
@@ -134,9 +136,6 @@ export function HomeWaysToWork() {
 
             {proactive ? (
               <div className="home-work-demo home-work-task-demo">
-                <div className="home-work-demo-head">
-                  <span>Argus Tasks</span><b>{tasks.length} Active</b>
-                </div>
                 <div className="home-work-task-list">
                   {tasks.map((task) => {
                     const Icon = task.icon;
@@ -158,15 +157,18 @@ export function HomeWaysToWork() {
               </div>
             ) : (
               <div className="home-work-demo home-work-chat-demo">
-                <div className="home-work-question"><span aria-label="You"><User size={16} weight="bold" /></span><p>Why did conversion drop last week?</p></div>
+                <div className="home-work-question">
+                  <p>What drove last week&apos;s revenue growth?</p>
+                  <span aria-label="You"><Image alt="User" height={34} src="/images/personas/marketing.jpg" width={34} /></span>
+                </div>
                 <div className="home-work-answer">
                   <span className="home-work-answer-orb" aria-label="Argus"><ThinkingOrb state="searching" size={20} theme="dark" /></span>
                   <div>
-                    <strong>3 Drivers Identified for the Conversion Decline:</strong>
+                    <strong>3 Drivers Behind Last Week&apos;s Revenue Growth:</strong>
                     <dl>
-                      <div><dt>25K campaign conversion</dt><dd>−1.4 pts <small>52%</small></dd></div>
-                      <div><dt>Acquisition cost increase</dt><dd>+18.2% <small>31%</small></dd></div>
-                      <div><dt>Refund requests</dt><dd>+11.8% <small>17%</small></dd></div>
+                      <div><dt><TrendUp aria-hidden="true" size={17} />25K Campaign Conversion</dt><dd>+1.8 pts <small>48%</small></dd></div>
+                      <div><dt><CurrencyDollar aria-hidden="true" size={17} />Acquisition Efficiency</dt><dd>+12.4% <small>33%</small></dd></div>
+                      <div><dt><ArrowCounterClockwise aria-hidden="true" size={17} />Repeat Purchases</dt><dd>+9.6% <small>19%</small></dd></div>
                     </dl>
                   </div>
                 </div>

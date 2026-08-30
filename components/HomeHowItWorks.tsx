@@ -129,7 +129,7 @@ export function HomeHowItWorks() {
                   role="tab"
                   type="button"
                 >
-                  <Icon size={17} weight="bold" />
+                  <Icon size={18} weight="regular" />
                   <span>{tab}</span>
                 </button>
               ))}

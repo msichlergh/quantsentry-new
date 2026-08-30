@@ -321,6 +321,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
     event.preventDefault();
     const question = argusPrompt.trim();
     if (question) setArgusQuestion(question);
+    activateArgusMode("chat");
     confirmArgusIngest();
   };
 

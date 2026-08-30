@@ -219,7 +219,7 @@ final result: blocked
 - Source visual truth: `.context/attachments/uOZMLh/image.png` and `.context/attachments/dbfJQx/image.png`, combined according to the approved three-stage structure: Connect Data, Team Intelligence, and Argus AI.
 - Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser and connected browser list are empty.
 - Intended viewport and density: desktop at device scale factor 1, plus 900 px and 560 px responsive states; matching-viewport normalization is blocked without a browser capture.
-- State: a third comparison section renders after both existing versions. It reuses the current ingestion, dashboard, role portraits, and Argus recommendation sequence without replacing either existing section.
+- State: the approved combined comparison replaces the two redundant homepage experiments while retaining their reusable components for platform routes. It reuses the current ingestion, dashboard, role portraits, and Argus recommendation sequence in one continuous section.
 - Fonts and typography: the heading and lede reuse the existing light-section hierarchy; the stage selector uses the current interface font at 12 px and IBM Plex Mono only for the numeric step markers.
 - Spacing and layout rhythm: the selector sits 26 px below the lede and the visual begins 24 px below the selector. Desktop role cards sit around the 1120 px dashboard; tablet and mobile role cards enter a two-column and one-column flow respectively.
 - Colors and visual tokens: the section uses the established light grey surface, white cards, dark text, teal active accents, and restrained shadows from the existing light dashboard experiment.

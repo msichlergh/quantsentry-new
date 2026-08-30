@@ -621,8 +621,16 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
     resizeObserver.observe(section);
     const dashboardOverview = section.querySelector<HTMLElement>(".home-dashboard-overview");
     if (dashboardOverview) resizeObserver.observe(dashboardOverview);
+    const handleReducedMotionChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        if (isJourney) showDashboard();
+        else applyEndState();
+        return;
+      }
+      measure();
+    };
     window.addEventListener("resize", measure);
-    reducedMotion.addEventListener("change", measure);
+    reducedMotion.addEventListener("change", handleReducedMotionChange);
     measure();
 
     return () => {
@@ -636,7 +644,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
       applyEndStateRef.current = null;
       resizeObserver.disconnect();
       window.removeEventListener("resize", measure);
-      reducedMotion.removeEventListener("change", measure);
+      reducedMotion.removeEventListener("change", handleReducedMotionChange);
     };
   }, [isJourney]);
 

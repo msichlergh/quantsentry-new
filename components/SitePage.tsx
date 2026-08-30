@@ -44,12 +44,13 @@ export function SitePage({ slug }: SitePageProps) {
           <HomeCapabilityShowcase />
           <HomeOverviewHero variant="light-journey" />
           <HomeAlwaysOnIntelligence />
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: industries }} />
           <HomeWaysToWork />
           <HomeArgusMissions />
           <ArgusEverywhereSection />
           <div
             className="page-content-html"
-            dangerouslySetInnerHTML={{ __html: `${industries}${proof}${finalCta}` }}
+            dangerouslySetInnerHTML={{ __html: `${proof}${finalCta}` }}
           />
         </main>
         <HeroAurora targetId={contentId} />
@@ -101,11 +102,15 @@ export function SitePage({ slug }: SitePageProps) {
   if (slug === "platform") {
     const beforeInsights = html.split("<!-- team-insights-start -->")[0];
     const afterInsights = html.split("<!-- team-insights-end -->")[1] ?? "";
+    const beforeCapabilities = beforeInsights.split("<!-- platform-capabilities-start -->")[0];
+    const afterCapabilities = beforeInsights.split("<!-- platform-capabilities-end -->")[1] ?? "";
 
     return (
       <>
         <main id={contentId} className="page-content">
-          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: beforeInsights }} />
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: beforeCapabilities }} />
+          <HomeCapabilityShowcase sectionId="engines" />
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterCapabilities }} />
           <TeamInsightsSection />
           <ArgusEverywhereSection />
           <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterInsights }} />

@@ -11,7 +11,7 @@ export function HeroPixelBlast({ targetId }: { targetId: string }) {
   useEffect(() => {
     const root = document.getElementById(targetId);
     const hero = root?.querySelector<HTMLElement>(
-      ":scope > section.hero:first-child, :scope > article:first-child > section.insight-article-hero:first-child",
+      ":scope > section.hero:first-child, :scope > .page-content-html:first-child > section.hero:first-child, :scope > article:first-child > section.insight-article-hero:first-child",
     );
     if (!hero) return;
 

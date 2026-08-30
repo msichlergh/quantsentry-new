@@ -143,6 +143,35 @@ At 320 x 800, the document and client widths both measured 305 px, confirming no
 
 final result: blocked
 
+## Homepage ingestion type and Industries rhythm — 2026-08-30
+
+- Source visual truth: `.context/attachments/U1xpaj/image.png` for the light ingestion checklist and the approved homepage discussion placing Industries between the dark intelligence sections.
+- Implementation target: `http://localhost:55000/`; implementation screenshot unavailable because the in-app browser is unavailable.
+- State: light journey ingestion checklist and the default homepage section order.
+- Fonts and typography: the three light ingestion checklist labels increase exactly 10%, from 13.915 px to 15.307 px. Other ingestion copy, icons, and spacing remain unchanged.
+- Spacing and layout rhythm: the existing light Industries section moves from the lower page group to immediately after Always-On Intelligence, separating the dark intelligence content before the following Argus sections. The section itself is not duplicated or restyled.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged; the existing checklist and Industries assets are reused.
+- Copy and content: unchanged.
+- Primary interaction: unchanged.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: ESLint, TypeScript, whitespace validation, production build, and local HTTP verification are run after these scoped changes.
+- Blocker: matching-state captures, responsive review, and interaction/console verification require an available in-app browser.
+
+final result: blocked
+
+## Homepage, platform, integrations, and roadmap refinement pass — 2026-08-30
+
+- Source visual truth: `.context/attachments/8UTcsz/image.png`, `.context/attachments/WAg3YJ/image.png`, `.context/attachments/Hi0118/image.png`, `.context/attachments/ekuNBi/image.png`, `.context/attachments/nspv44/image.png`, `.context/attachments/2AXeBr/image.png`, `.context/attachments/WsEJyD/image.png`, `.context/attachments/cT0jFs/image.png`, `.context/attachments/UUcS2n/image.png`, `.context/attachments/1k08kB/image.png`, `.context/attachments/gciaXX/image.png`, and `.context/attachments/Msrw7W/image.png`.
+- Implementation targets: `/`, `/platform`, `/integrations`, `/industries`, and `/roadmap` at `http://localhost:55000`.
+- Typography: integration card names decrease exactly 15%, from 19 px to 16.15 px; category counts increase exactly 15%, from 11 px to 12.65 px.
+- Content and structure: the homepage Industries heading and Industries-page introduction are simplified; the platform's legacy status-card grid is replaced by the existing updated six-capability layout; the QuantSentry Futures detail section is removed from Roadmap.
+- Icons and motion: QuantSentry marks inside the Argus Everywhere examples are replaced by the established animated Argus orb; the hero pixel field now attaches when a route's hero is nested in the first HTML wrapper, restoring it on Platform and Integrations.
+- Automated checks: ESLint, TypeScript, production build, whitespace validation, and local HTTP checks pass. Route content checks confirm the updated platform layout is present, the legacy platform heading is absent, the simplified Industries copy is present, and the Roadmap detail heading is absent.
+- Blocker: matching-state screenshots, animation appearance, and responsive visual comparison remain blocked because the in-app browser is unavailable.
+
+final result: blocked
+
 ## How-it-works selector icon weight — 2026-08-30
 
 - Source visual truth: `.context/attachments/KBUpmx/image.png` for the three How QuantSentry Works selector icons and `.context/attachments/2RIkNj/image.png` for the three journey-stage selector icons.

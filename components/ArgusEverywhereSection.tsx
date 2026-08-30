@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Browser,
   CheckCircle,
@@ -5,9 +7,9 @@ import {
   PaperPlaneTilt,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+import { ThinkingOrb } from "thinking-orbs";
 
 import { HomeDataPattern } from "./HomeDataPattern";
-import { Logo } from "./Logo";
 
 export function ArgusEverywhereSection() {
   return (
@@ -29,7 +31,7 @@ export function ArgusEverywhereSection() {
               </div>
               <div className="argus-surface-body argus-surface-chat">
                 <div className="argus-message is-user"><b>@Argus</b> Which payout requests need review?</div>
-                <div className="argus-message is-argus"><Logo compact /><span><strong>Two requests.</strong> Both link to the same 17-account cluster. Evidence is ready.</span></div>
+                <div className="argus-message is-argus"><ThinkingOrb state="breathing" size={20} style={{ height: 15, width: 15 }} theme="light" /><span><strong>Two requests.</strong> Both link to the same 17-account cluster. Evidence is ready.</span></div>
               </div>
             </div>
             <h3>Slack</h3>
@@ -62,7 +64,7 @@ export function ArgusEverywhereSection() {
               <div className="argus-surface-body argus-browser-body">
                 <div className="argus-browser-chart"><i /><i /><i /><i /><i /><i /></div>
                 <div className="argus-browser-panel">
-                  <span><Logo compact /><strong>Argus</strong></span>
+                  <span><ThinkingOrb state="breathing" size={20} style={{ height: 13, width: 13 }} theme="light" /><strong>Argus</strong></span>
                   <p>Ask about this page without leaving your work.</p>
                   <small>What changed here?</small>
                 </div>
@@ -80,7 +82,7 @@ export function ArgusEverywhereSection() {
               </div>
               <div className="argus-surface-body argus-embedded-body">
                 <div className="argus-embedded-metrics"><span><strong>$164.2K</strong><small>Revenue</small></span><span><strong>+5.2%</strong><small>vs target</small></span></div>
-                <div className="argus-embedded-prompt"><Logo compact /><span>Ask Argus about this dashboard…</span></div>
+                <div className="argus-embedded-prompt"><ThinkingOrb state="breathing" size={20} style={{ height: 14, width: 14 }} theme="light" /><span>Ask Argus about this dashboard…</span></div>
               </div>
             </div>
             <h3>Embedded in Your Tools</h3>

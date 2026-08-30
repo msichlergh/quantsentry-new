@@ -139,6 +139,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
   const argusPromptInputRef = useRef<HTMLInputElement>(null);
   const startArgusStoryRef = useRef<(() => void) | null>(null);
   const playStoryRef = useRef<(() => void) | null>(null);
+  const showConnectRef = useRef<(() => void) | null>(null);
   const showDashboardRef = useRef<(() => void) | null>(null);
   const applyEndStateRef = useRef<(() => void) | null>(null);
   const startIngestionTypingRef = useRef<(() => void) | null>(null);
@@ -178,7 +179,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
 
   const replayJourneyFromStart = () => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion || window.innerWidth <= 900) showDashboardRef.current?.();
+    if (reducedMotion || window.innerWidth <= 900) showConnectRef.current?.();
     else playStoryRef.current?.();
   };
 
@@ -491,6 +492,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
       window.cancelAnimationFrame(sequenceFrame);
       window.clearTimeout(autoSequenceTimer);
       autoSequenceScheduled = false;
+      storyRunning = false;
       sequenceRunning = false;
       storyCompleted = false;
       storyProgress = 0;
@@ -501,6 +503,26 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
     };
 
     playStoryRef.current = playStory;
+
+    const showConnect = () => {
+      openStage();
+      window.cancelAnimationFrame(storyFrame);
+      window.cancelAnimationFrame(sequenceFrame);
+      window.clearTimeout(autoSequenceTimer);
+      autoSequenceScheduled = false;
+      storyRunning = false;
+      sequenceRunning = false;
+      storyCompleted = false;
+      storyProgress = 0;
+      sequenceProgress = 0;
+      sequenceAi = 0;
+      setArgusTaskCreated(false);
+      applyArgusSequence(0);
+      setStage(0);
+      setJourneyStage("connect");
+    };
+
+    showConnectRef.current = showConnect;
 
     const showDashboard = () => {
       openStage();
@@ -608,6 +630,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
       window.clearTimeout(autoSequenceTimer);
       startArgusStoryRef.current = null;
       playStoryRef.current = null;
+      showConnectRef.current = null;
       showDashboardRef.current = null;
       applyEndStateRef.current = null;
       resizeObserver.disconnect();

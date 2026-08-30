@@ -66,9 +66,9 @@ const capabilities: readonly Capability[] = [
   },
 ];
 
-export function HomeCapabilityShowcase() {
+export function HomeCapabilityShowcase({ sectionId = "capabilities" }: { sectionId?: string }) {
   return (
-    <section className="home-capabilities home-data-section theme-light" id="capabilities">
+    <section className="home-capabilities home-data-section theme-light" id={sectionId}>
       <HomeDataPattern />
       <div className="wrap">
         <div className="home-capabilities-heading">

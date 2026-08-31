@@ -3864,3 +3864,76 @@ html { scroll-padding-top: 92px; }
   }
   .mobile-menu .btn { min-height: 44px; }
 }
+
+/* ==========================================================================
+   Mobile refinements: slimmer header, centred hero, side-by-side hero CTAs.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* A slimmer header band. The controls shrink visually but keep a 44px
+     touch area through the ::after expanders below. */
+  header,
+  header.stuck { padding-block: 6px; }
+  header .navpill,
+  header.stuck .navpill { height: 52px; }
+
+  header .brand,
+  .mobile-demo,
+  .mobile-toggle { min-height: 36px; }
+  .mobile-demo { height: 36px; padding-inline: 12px; font-size: 12.5px; }
+  .mobile-toggle { width: 36px; height: 36px; padding-inline: 9px; }
+
+  header .brand,
+  .mobile-demo,
+  .mobile-toggle { position: relative; }
+  /* .btn.solid clips its box and blanks its ::after, so the demo button needs
+     both undone before it can carry a hit area larger than its visual box. */
+  .mobile-demo.btn.solid { overflow: visible; }
+  header .brand::after,
+  .mobile-demo.btn.solid::after,
+  .mobile-toggle::after {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: -4px 0;
+    min-height: 44px;
+    border-radius: inherit;
+    background: none;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Centre the hero copy and sit both calls to action on one line. */
+  .home-hero-copy { text-align: center; }
+  .home-hero-copy h1,
+  .home-hero-copy .lede { margin-inline: auto; }
+  .home-hero-kicker { justify-content: center; }
+
+  .home-hero-actions {
+    align-items: stretch;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+  .home-hero-actions .btn {
+    width: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding-inline: 10px;
+    font-size: 13.5px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .home-hero-actions { gap: 8px; }
+  .home-hero-actions .btn { padding-inline: 7px; font-size: 12.5px; }
+
+  /* With both CTAs on one line the Argus bar now sits above the fold on the
+     narrowest phones, where its label column was too tight and "Argus AI"
+     broke across two lines. Drop the decorative status to give it room. */
+  .home-argus-meta > b { display: none; }
+  .home-argus-meta > span { white-space: nowrap; }
+  .home-argus-preview { gap: 8px; }
+}

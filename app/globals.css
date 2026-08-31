@@ -3853,8 +3853,6 @@ html { scroll-padding-top: 92px; }
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 28px), transparent);
-    mask-image: linear-gradient(180deg, #000 calc(100% - 28px), transparent);
   }
   .mobile-menu::-webkit-scrollbar { display: none; }
   .mobile-menu > a:not(.btn) {
@@ -3966,4 +3964,120 @@ html { scroll-padding-top: 92px; }
   .home-always-source-card { min-height: 0; padding: 14px; }
   .home-always-source-tags { margin-top: 10px; }
   .home-always-output-column > button { min-height: 56px; }
+}
+
+/* ==========================================================================
+   Stacked-layout flow connectors.
+   The SVG connectors carry hardcoded paths for the three-column desktop
+   diagram, so they stay hidden once the diagram stacks. These CSS connectors
+   replace them: a marching dashed line drawn in the gap above each block, so
+   the data-flow animation stays visible on tablets and phones.
+   ========================================================================== */
+
+@keyframes home-always-flow-y { to { background-position: 0 15px; } }
+
+@media (max-width: 1040px) {
+  /* Give the connectors room to read as a run of flow rather than a tick. */
+  .home-always-diagram { gap: 38px; }
+
+  .home-always-source-column::before,
+  .home-always-output-column::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: -38px;
+    left: 50%;
+    width: 2px;
+    height: 31px;
+    margin-left: -1px;
+    background-image: linear-gradient(180deg, rgba(72, 199, 195, .62) 0 8px, transparent 8px 15px);
+    background-size: 2px 15px;
+    background-repeat: repeat-y;
+    animation: home-always-flow-y 2.2s linear infinite;
+  }
+
+  /* A soft node where each line meets its block, so the run reads as a link
+     rather than a stray rule. */
+  .home-always-source-column::after,
+  .home-always-output-column::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: -8px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    border-radius: 50%;
+    background: var(--cy);
+    box-shadow: 0 0 0 3px rgba(72, 199, 195, .16);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-always-source-column::before,
+  .home-always-output-column::before { animation: none; }
+}
+
+/* ==========================================================================
+   Mobile drawer: collapsible groups.
+   Nineteen links in one list meant scrolling past most of the navigation to
+   reach Pricing, Company or the demo CTA. Collapsed groups put the whole menu
+   on one screen; opening one reveals its links in place.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .mobile-menu-group { display: grid; }
+  .mobile-menu-group-toggle {
+    appearance: none;
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 8px;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+  }
+  .mobile-menu-group-toggle svg {
+    flex: none;
+    color: var(--ink3);
+    transition: transform 180ms ease, color 180ms ease;
+  }
+  .mobile-menu-group-toggle[aria-expanded="true"] { color: var(--cy); }
+  .mobile-menu-group-toggle[aria-expanded="true"] svg { color: var(--cy); transform: rotate(180deg); }
+  .mobile-menu-group-toggle:focus-visible { outline: 2px solid rgba(72, 199, 195, .5); outline-offset: -2px; }
+
+  .mobile-menu-group-panel {
+    display: grid;
+    gap: 2px;
+    margin: 2px 0 6px;
+    padding-left: 10px;
+    border-left: 1px solid rgba(72, 199, 195, .22);
+  }
+  /* These sit inside the panel, so they fall outside the 44px rule that
+     applies to the drawer's direct children. Give them the same rows. */
+  .mobile-menu-group-panel a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 8px;
+    color: var(--ink3);
+    font-size: 13.5px;
+  }
+  .mobile-menu-group-panel a:hover { color: var(--ink); background: rgba(255, 255, 255, .04); }
+  .mobile-menu-group-panel[hidden] { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu-group-toggle svg { transition: none; }
 }

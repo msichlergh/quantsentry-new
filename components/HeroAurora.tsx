@@ -286,7 +286,6 @@ export function DispersionBandsCanvas() {
     gl.uniform1f(uniforms.edges, 5);
     gl.uniform1f(uniforms.ephemeral, 0);
     gl.uniform1f(uniforms.radius, 0.1);
-    gl.uniform1f(uniforms.scale, 15);
     gl.uniform1f(uniforms.spacingX, 0.4);
     gl.uniform1f(uniforms.spacingY, 0.01);
     gl.uniform1f(uniforms.seed, 748);
@@ -304,6 +303,16 @@ export function DispersionBandsCanvas() {
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     };
 
+    // The shader normalises coordinates by height, so a narrow viewport fits far
+    // fewer bands across its width and the field reads as zoomed in. Scaling the
+    // lens by how much narrower the canvas is than the reference aspect keeps the
+    // texture at a consistent size. The reference is the canvas aspect this was
+    // tuned against at desktop, so wide screens land back on exactly 15; the max
+    // keeps phones from turning into a busy moire.
+    const REFERENCE_ASPECT = 1.22;
+    const BASE_LENS_SCALE = 15;
+    const MAX_LENS_SCALE = 30;
+
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       const resolutionScale = Math.min(window.devicePixelRatio || 1, 2) * 0.5;
@@ -314,6 +323,13 @@ export function DispersionBandsCanvas() {
         canvas.width = width;
         canvas.height = height;
       }
+
+      const aspect = rect.height > 0 ? rect.width / rect.height : REFERENCE_ASPECT;
+      const lensScale = Math.min(
+        MAX_LENS_SCALE,
+        Math.max(BASE_LENS_SCALE, (BASE_LENS_SCALE * REFERENCE_ASPECT) / Math.max(aspect, 0.01)),
+      );
+      gl.uniform1f(uniforms.scale, lensScale);
 
       if (reducedMotion) render(5.5);
     };

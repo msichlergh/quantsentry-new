@@ -4081,3 +4081,53 @@ html { scroll-padding-top: 92px; }
 @media (prefers-reduced-motion: reduce) {
   .mobile-menu-group-toggle svg { transition: none; }
 }
+
+/* ==========================================================================
+   Mobile: keep both chip rows on a single line, and restore the footer's
+   category-over-item hierarchy.
+   ========================================================================== */
+
+@media (max-width: 620px) {
+  /* Industry chips: four chips needed ~350px in a 339px row, so "Funds" wrapped.
+     Trimming the horizontal padding buys back more than enough. */
+  .home-always-industries {
+    flex-wrap: nowrap;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+  }
+  .home-always-industries::-webkit-scrollbar { display: none; }
+  .home-always-industries button { flex: none; padding-inline: 8px; }
+
+  /* Mode chips sit beside the Send action, which left them only 231px for
+     ~291px of content. Giving the row its own line and tightening the chips
+     lets all four fit; the row still scrolls rather than wraps if a narrower
+     screen runs out of room. */
+  .home-always-input-bar { align-items: stretch; flex-direction: column; gap: 8px; }
+  .home-always-input-bar > a { align-self: flex-end; }
+  .home-always-modes {
+    flex-wrap: nowrap;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+  }
+  .home-always-modes::-webkit-scrollbar { display: none; }
+  .home-always-modes button { flex: none; gap: 4px; padding-inline: 7px; font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+  /* At 320px the four industry chips still ran ~25px past the row, so trim a
+     little further rather than leaving "Funds" behind a swipe. */
+  .home-always-industries button { padding-inline: 6px; font-size: 12px; }
+}
+
+@media (max-width: 560px) {
+  /* The footer read with its items larger than the categories above them.
+     20% smaller than the category is the ask; taking it off the item would
+     drop below the 12px mobile legibility floor, so the category scales up
+     and the item lands exactly on the floor (12 / 15 = 0.8). */
+  .fcols h4 { font-size: 15px; letter-spacing: .1em; }
+  .fcols ul { font-size: 12px; }
+}

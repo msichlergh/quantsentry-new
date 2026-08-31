@@ -4251,3 +4251,25 @@ html { scroll-padding-top: 92px; }
      input still renders at 16px and the zoom stays fixed. */
   .home-argus-input input::placeholder { font-size: 12.8px; }
 }
+
+/* ==========================================================================
+   Quieter background dot texture.
+   Was rgba(255,255,255,.16) on a 26px grid at opacity .5 - an effective alpha
+   of .08. Dropping the layer opacity and widening the grid roughly halves the
+   effective alpha and thins the field by about a third, so it reads as texture
+   rather than a visible pattern.
+   ========================================================================== */
+
+.dots::before {
+  background-size: 32px 32px;
+  opacity: .28;
+}
+
+@media (max-width: 760px) {
+  /* Only 2px separated the "Argus AI - Ready" line from the prompt beneath it,
+     so the two read as one crowded block. Trade height from the field back
+     into that gap: the prompt sits clear of the label and the bar stays 68px. */
+  .home-argus-meta { margin-bottom: 5px; }
+  .home-argus-input { min-height: 34px; }
+  .home-argus-input input { min-height: 34px; }
+}

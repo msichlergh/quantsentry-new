@@ -4273,3 +4273,12 @@ html { scroll-padding-top: 92px; }
   .home-argus-input { min-height: 34px; }
   .home-argus-input input { min-height: 34px; }
 }
+
+@media (max-width: 760px) {
+  /* Nudge the label-and-prompt block down inside the pill. The orb and the
+     actions stay centred; only the text column shifts, so it no longer sits
+     high against them. Height traded out of the field keeps the bar at 64px. */
+  .home-argus-input { position: relative; top: 4px; }
+  .home-argus-meta { margin-bottom: 7px; }
+  .home-argus-input input { min-height: 30px; }
+}

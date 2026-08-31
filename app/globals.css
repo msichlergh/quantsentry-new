@@ -4255,14 +4255,14 @@ html { scroll-padding-top: 92px; }
 /* ==========================================================================
    Quieter background dot texture.
    Was rgba(255,255,255,.16) on a 26px grid at opacity .5 - an effective alpha
-   of .08. Dropping the layer opacity and widening the grid roughly halves the
-   effective alpha and thins the field by about a third, so it reads as texture
-   rather than a visible pattern.
+   of .08, which read as a pattern rather than texture. Now .15 on a 38px grid:
+   an effective alpha of .024, roughly a third of the original, with about half
+   as many dots per area.
    ========================================================================== */
 
 .dots::before {
-  background-size: 32px 32px;
-  opacity: .28;
+  background-size: 38px 38px;
+  opacity: .15;
 }
 
 @media (max-width: 760px) {
@@ -4281,4 +4281,23 @@ html { scroll-padding-top: 92px; }
   .home-argus-input { position: relative; top: 4px; }
   .home-argus-meta { margin-bottom: 7px; }
   .home-argus-input input { min-height: 30px; }
+}
+
+@media (max-width: 760px) {
+  /* The 126px stage padding was tuned against a 76px header. The header is
+     64px here now, so the same value left a 66px gap above the eyebrow.
+     Trimmed to hold roughly 38px of clearance instead. */
+  .home-scroll-stage { padding-top: 98px; }
+}
+
+@media (max-width: 560px) {
+  /* At 32px "From Disconnected Data" measured 345px against a 339px column and
+     broke onto its own second line, pushing the headline to three lines. 30px
+     brings it to 322px so the headline reads as the intended two. */
+  .home-hero-copy h1 { font-size: 30px; }
+}
+
+@media (max-width: 360px) {
+  /* Same again for the 284px column on the narrowest phones. */
+  .home-hero-copy h1 { font-size: 26px; }
 }

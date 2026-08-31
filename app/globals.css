@@ -3564,7 +3564,9 @@ footer .brand { font-size: 26.93px; }
   .insight-filters > *,
   .seg > * { scroll-snap-align: start; }
   .home-how-tabs,
-  .insight-filters { padding-right: 42px; }
+  .integrations-filter-list,
+  .insight-filters,
+  .seg { padding-right: 48px; scroll-padding-right: 48px; }
   .insight-filters button,
   .integrations-filter-list button,
   .home-always-modes button,
@@ -3578,6 +3580,40 @@ footer .brand { font-size: 26.93px; }
     border-radius: 10px;
   }
   .integration-directory-card-heading { padding-right: 52px; }
+
+  /* Keep focused fields stable in iOS Safari. */
+  .home-argus-input input,
+  .integrations-search input { font-size: 16px; }
+
+  /* Preserve the compact visuals while giving repeated mobile actions room. */
+  .home-how-cta,
+  .seg button { min-height: 44px; }
+  .home-capability-card-link { position: relative; }
+  .home-capability-card-link::after {
+    content: "";
+    position: absolute;
+    inset: -11px -8px;
+  }
+
+  /* Raise the legibility floor for information users need to interpret. */
+  .integration-card-category,
+  .integration-directory-card p,
+  .team-insights-metrics span,
+  .team-insights-metrics small,
+  .team-insights-evidence span,
+  .team-insights-evidence b { font-size: 12px; }
+  .simhead { font-size: 10px; }
+  .simrow .v { font-size: 12px; }
+  .simrow .a,
+  .simrow .b { font-size: 11.5px; }
+  .simrow .m { font-size: 10px; }
+  .home-always-column-label,
+  .home-argus-mission-type { font-size: 10.5px; }
+  .home-always-source-tags > span,
+  .home-work-channel,
+  .home-always-output-column small { font-size: 11.5px; }
+  .home-argus-mission-period,
+  .home-argus-mission-progress-labels small { font-size: 9.5px; }
 
   .cmp { display: none; }
   .mobile-comparison {

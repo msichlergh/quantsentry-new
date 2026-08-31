@@ -3937,3 +3937,33 @@ html { scroll-padding-top: 92px; }
   .home-argus-meta > span { white-space: nowrap; }
   .home-argus-preview { gap: 8px; }
 }
+
+/* ==========================================================================
+   Mobile: footer, connected-data columns and journey card list.
+   ========================================================================== */
+
+@media (max-width: 560px) {
+  /* The footer collapsed to a single column of ~20 links at 44px each, which
+     made it taller than the viewport twice over. Two columns halves it while
+     keeping every row a comfortable target. */
+  .fcols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 20px;
+  }
+  .fcols > div:first-child { grid-column: 1 / -1; }
+  .fcols h4 { margin-bottom: 2px; }
+  .fcols ul { font-size: 13px; }
+  .footer-summary { max-width: none; }
+}
+
+@media (max-width: 620px) {
+  /* Connected Data and Outputs were forced to two columns, squeezing each card
+     to ~164px. Every title and description wrapped, and the source chips broke
+     onto three rows. One column gives each card the full width its horizontal
+     icon-and-text layout was designed for, and comes out shorter overall. */
+  .home-always-source-column,
+  .home-always-output-column { grid-template-columns: minmax(0, 1fr); }
+  .home-always-source-card { min-height: 0; padding: 14px; }
+  .home-always-source-tags { margin-top: 10px; }
+  .home-always-output-column > button { min-height: 56px; }
+}

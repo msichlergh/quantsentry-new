@@ -27,6 +27,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en-GB">
+      <head>
+        {/* Preload the two faces used for above-the-fold text so `font-display: swap` never flashes. */}
+        <link rel="preload" href="/fonts/general-sans-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/general-sans-500.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      </head>
       <body className={instrumentSans.variable}>
         <Header />
         {children}

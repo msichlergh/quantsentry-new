@@ -61,8 +61,17 @@ export function Header() {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    const closeOnOutsideTap = (event: PointerEvent) => {
+      const target = event.target as Element | null;
+      if (target?.closest("#mobile-navigation, .mobile-toggle")) return;
+      setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsideTap);
+
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.removeEventListener("pointerdown", closeOnOutsideTap);
     };
   }, [open]);
 

@@ -4301,3 +4301,8 @@ html { scroll-padding-top: 92px; }
   /* Same again for the 284px column on the narrowest phones. */
   .home-hero-copy h1 { font-size: 26px; }
 }
+
+@media (max-width: 760px) {
+  /* How-it-Works tab labels down 10% (15.5px -> 13.95px). */
+  .home-how-tabs button { font-size: 13.95px; }
+}

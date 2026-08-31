@@ -4131,3 +4131,30 @@ html { scroll-padding-top: 92px; }
   .fcols h4 { font-size: 15px; letter-spacing: .1em; }
   .fcols ul { font-size: 12px; }
 }
+
+/* ==========================================================================
+   Mobile: slimmer composer mode chips.
+   The 44px minimum made these read as heavy slabs inside the light card. They
+   render at 34px now and keep the full 44px touch area through an expander,
+   the same trade used for the header controls.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* The row scrolls horizontally, and a scroll container clips at its padding
+     box - so it needs padding for the expanders to live in, or they are cut
+     off and the chips stay 34px targets. */
+  .home-always-modes { padding-block: 5px; }
+  .home-always-modes button {
+    position: relative;
+    min-height: 34px;
+    padding-block: 0;
+  }
+  .home-always-modes button::after {
+    content: "";
+    position: absolute;
+    inset: -5px 0;
+    min-height: 44px;
+  }
+  /* Claw back the row's new padding so the card does not grow. */
+  .home-always-input-bar { gap: 2px; padding-bottom: 8px; }
+}

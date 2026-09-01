@@ -65,7 +65,7 @@
       scope.querySelectorAll('.tabpane[data-tab="'+n+'"]').forEach(function(pn){
         pn.classList.toggle('on', pn.dataset.i === i); });
     };
-    b.addEventListener('mouseenter', go); b.addEventListener('click', go); b.addEventListener('focus', go);
+    b.addEventListener('click', go);
   });
   var chatIo = new IntersectionObserver(function(es){
     es.forEach(function(e){
@@ -268,7 +268,7 @@
       if (rm){
         body.innerHTML = d.rows.map(function(r){
           return '<div class="arow in" style="padding:10px 0"><span class="dot" style="margin-top:8px"></span>'
-            + '<span><b style="color:var(--ink);font-size:14px;font-weight:600">' + r[0] + '</b>'
+            + '<span><b style="color:var(--ink);font-size:14px;font-weight:500">' + r[0] + '</b>'
             + '<span style="display:block;font-size:13px;color:var(--ink3);margin-top:3px">' + r[1]
             + '</span></span></div>'; }).join('');
         return;
@@ -279,7 +279,7 @@
         state.textContent = 'Answered against your own data';
         body.innerHTML = d.rows.map(function(r){
           return '<div class="arow" style="padding:10px 0"><span class="dot" style="margin-top:8px"></span>'
-            + '<span><b style="color:var(--ink);font-size:14px;font-weight:600">' + r[0] + '</b>'
+            + '<span><b style="color:var(--ink);font-size:14px;font-weight:500">' + r[0] + '</b>'
             + '<span style="display:block;font-size:13px;color:var(--ink3);margin-top:3px">' + r[1]
             + '</span></span></div>'; }).join('');
         [].slice.call(body.querySelectorAll('.arow')).forEach(function(r, n){

@@ -10,6 +10,7 @@ import { HomeAlwaysOnIntelligence } from "@/components/HomeAlwaysOnIntelligence"
 import { HomeArgusMissions } from "@/components/HomeArgusMissions";
 import { HomeCapabilityShowcase } from "@/components/HomeCapabilityShowcase";
 import { HomeHowItWorks } from "@/components/HomeHowItWorks";
+import { HomeInsightsSlider } from "@/components/HomeInsightsSlider";
 import { HomeOverviewHero } from "@/components/HomeOverviewHero";
 import { HomeWaysToWork } from "@/components/HomeWaysToWork";
 import { IntelligenceGapSection } from "@/components/IntelligenceGapSection";
@@ -18,12 +19,27 @@ import { MobileComparison } from "@/components/MobileComparison";
 import { MobileLegacyEnhancer } from "@/components/MobileLegacyEnhancer";
 import { TeamSection } from "@/components/TeamSection";
 import { TeamInsightsSection } from "@/components/TeamInsightsSection";
+import { insightArticles } from "@/lib/insights";
 import type { PageSlug } from "@/lib/pages";
 import { executiveTeamGroups } from "@/lib/team";
 
 type SitePageProps = {
   slug: PageSlug;
 };
+
+const homeInsightArticles = insightArticles
+  .toSorted((left, right) => right.publishedAt.localeCompare(left.publishedAt))
+  .slice(0, 6)
+  .map(({ authorSlug, category, publishedAt, publishedLabel, readTime, slug, summary, title }) => ({
+    authorSlug,
+    category,
+    publishedAt,
+    publishedLabel,
+    readTime,
+    slug,
+    summary,
+    title,
+  }));
 
 export function SitePage({ slug }: SitePageProps) {
   const contentPath = path.join(process.cwd(), "public", "content", `${slug}.html`);
@@ -43,11 +59,11 @@ export function SitePage({ slug }: SitePageProps) {
           <HomeHowItWorks />
           <HomeCapabilityShowcase />
           <HomeOverviewHero variant="light-journey" />
-          <HomeAlwaysOnIntelligence />
           <div className="page-content-html" dangerouslySetInnerHTML={{ __html: industries }} />
+          <HomeAlwaysOnIntelligence />
           <HomeWaysToWork />
           <HomeArgusMissions />
-          <ArgusEverywhereSection />
+          <HomeInsightsSlider articles={homeInsightArticles} />
           <div
             className="page-content-html"
             dangerouslySetInnerHTML={{ __html: `${proof}${finalCta}` }}
@@ -61,13 +77,16 @@ export function SitePage({ slug }: SitePageProps) {
 
   if (slug === "argus") {
     const [beforeGap, afterGap] = html.split("<!-- intelligence-gap-slot -->");
+    const [beforeEverywhere, afterEverywhere] = afterGap.split("<!-- argus-everywhere-slot -->");
 
     return (
       <>
         <main id={contentId} className="page-content">
           <div className="page-content-html" dangerouslySetInnerHTML={{ __html: beforeGap }} />
           <IntelligenceGapSection />
-          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterGap }} />
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: beforeEverywhere }} />
+          <ArgusEverywhereSection />
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterEverywhere }} />
         </main>
         <HeroPixelBlast targetId={contentId} />
         <FooterCtaAurora routeKey={slug} />

@@ -2,8 +2,20 @@ import Image from "next/image";
 
 import { getInsightAuthor, type InsightArticle } from "@/lib/insights";
 
+export type InsightCardArticle = Pick<
+  InsightArticle,
+  | "slug"
+  | "title"
+  | "summary"
+  | "category"
+  | "publishedAt"
+  | "publishedLabel"
+  | "readTime"
+  | "authorSlug"
+>;
+
 type InsightCardProps = {
-  article: InsightArticle;
+  article: InsightCardArticle;
   featured?: boolean;
 };
 

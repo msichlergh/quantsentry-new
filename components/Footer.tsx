@@ -88,7 +88,7 @@ export function Footer() {
           ))}
         </div>
         <div className="legal">
-          <span>© 2026 QuantSentry, Quant Technology Group. All rights reserved.</span>
+          <span>© 2026 QuantSentry. All rights reserved.</span>
           <nav className="legal-links" aria-label="Legal">
             <a href="https://quanttechnology.com/privacy">Privacy</a>
             <a href="https://quanttechnology.com/terms">Terms</a>

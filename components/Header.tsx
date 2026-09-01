@@ -43,8 +43,15 @@ function MenuIcon({ href }: { href: string }) {
   return <FileText {...props} />;
 }
 
+const mobileGroups = [
+  { key: "industries", label: "Industries", href: "/industries", overview: "All Industries", links: industryLinks },
+  { key: "solutions", label: "Solutions", href: "/platform", overview: null, links: solutionLinks },
+  { key: "resources", label: "Resources", href: "/insights", overview: null, links: resourceLinks },
+] as const;
+
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -61,12 +68,24 @@ export function Header() {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    const closeOnOutsideTap = (event: PointerEvent) => {
+      const target = event.target as Element | null;
+      if (target?.closest("#mobile-navigation, .mobile-toggle")) return;
+      setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsideTap);
+
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.removeEventListener("pointerdown", closeOnOutsideTap);
     };
   }, [open]);
 
-  const closeMobileMenu = () => setOpen(false);
+  const closeMobileMenu = () => {
+    setOpen(false);
+    setOpenGroup(null);
+  };
   const handleMobileMenuClick = (event: MouseEvent<HTMLDivElement>) => {
     if ((event.target as Element).closest("a")) closeMobileMenu();
   };
@@ -185,24 +204,35 @@ export function Header() {
         </button>
 
         <div className="mobile-menu" id="mobile-navigation" hidden={!open} onClick={handleMobileMenuClick}>
-          <a href="/industries">Industries</a>
-          {industryLinks.map((item) => (
-            <a className="mobile-sub-link" href={item.href} key={item.href}>
-              {item.label}
-            </a>
-          ))}
-          <span className="mobile-menu-label">Solutions</span>
-          {solutionLinks.map((item) => (
-            <a className="mobile-sub-link" href={item.href} key={item.href}>
-              {item.label}
-            </a>
-          ))}
-          <span className="mobile-menu-label">Resources</span>
-          {resourceLinks.map((item) => (
-            <a className="mobile-sub-link" href={item.href} key={item.href}>
-              {item.label}
-            </a>
-          ))}
+          {mobileGroups.map((group) => {
+            const expanded = openGroup === group.key;
+            return (
+              <div className="mobile-menu-group" key={group.key}>
+                <button
+                  aria-controls={`mobile-group-${group.key}`}
+                  aria-expanded={expanded}
+                  className="mobile-menu-group-toggle"
+                  onClick={() => setOpenGroup((current) => (current === group.key ? null : group.key))}
+                  type="button"
+                >
+                  <span>{group.label}</span>
+                  <CaretDown aria-hidden="true" size={13} weight="bold" />
+                </button>
+                <div className="mobile-menu-group-panel" hidden={!expanded} id={`mobile-group-${group.key}`}>
+                  {group.overview ? (
+                    <a className="mobile-sub-link" href={group.href}>
+                      {group.overview}
+                    </a>
+                  ) : null}
+                  {group.links.map((item) => (
+                    <a className="mobile-sub-link" href={item.href} key={item.href}>
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
           {primaryLinks.map((item) => (
             <a href={item.href} key={item.href}>
               {item.label}

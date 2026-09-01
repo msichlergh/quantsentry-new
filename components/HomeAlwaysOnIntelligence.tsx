@@ -129,8 +129,8 @@ const industries = [
         title: "Trading & Operations",
         tags: [
           { label: "MT4", logo: "/images/metatrader4-icon.png" },
-          { label: "ThinkTrader", logo: "/images/thinktrader.png" },
-          { label: "Sirix", logo: "/images/sirix.png" },
+          { label: "ThinkTrader", logo: "/images/thinktrader-icon.png" },
+          { label: "Sirix", logo: "/images/sirix-official.png" },
         ],
       },
       {

@@ -49,7 +49,6 @@ export function LegalDocuments() {
             key={document}
             onClick={() => selectDocument(document)}
             role="tab"
-            tabIndex={activeDocument === document ? 0 : -1}
             type="button"
           >
             {documents[document].label}

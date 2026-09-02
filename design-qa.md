@@ -153,12 +153,12 @@ final result: blocked
 - Fonts and typography: the legal selector uses the existing site font at 15 px and weight 500. The menu item type is unchanged.
 - Spacing and layout rhythm: the selector uses two equal 44 px controls in a compact shell. The legal document remains inside one bordered viewer and the selector expands to the available width below 760 px.
 - Colors and visual tokens: the selected legal tab uses the established teal border on a clean near-black surface. Menu hover changes from a full teal band to a restrained neutral highlight and inset edge.
-- Image quality and asset fidelity: no source imagery is replaced or approximated. The current QTG legal pages remain the authoritative embedded documents.
-- Copy and content: the page identifies both documents in one place and links to each official source as a fallback.
+- Image quality and asset fidelity: no source imagery is replaced or approximated. The legal page is rendered natively with no cross-site iframe.
+- Copy and content: the current QTG Privacy Policy and Terms are structured directly in the page, with links to each official source as a fallback.
 - Primary interaction: tab buttons update the active document and URL hash; footer links open the corresponding tab on the same `/legal` route.
 - Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
 - Automated checks: scoped ESLint, full ESLint, TypeScript, production build, whitespace validation, local HTTP 200, metadata output, footer routes, and both official document HTTP responses pass.
-- Blocker: matching-state desktop/mobile captures, iframe rendering, hover appearance, interaction, and console verification require an available in-app browser.
+- Blocker: matching-state desktop/mobile captures, native legal-layout rendering, hover appearance, interaction, and console verification require an available in-app browser.
 
 final result: blocked
 

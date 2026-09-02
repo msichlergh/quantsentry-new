@@ -46,7 +46,7 @@ const teamInsights: readonly TeamInsight[] = [
       { label: "Payment completion", value: "+4.8%", detail: "across 3 routes", tone: "positive" },
       { label: "Acquisition cost", value: "+8.6%", detail: "paid channels", tone: "negative" },
     ],
-    evidence: "Revenue, payment, refund and campaign data reconciled across six sources.",
+    evidence: "Revenue, payment, refund and campaign data checked across six sources.",
     action: "Review the two payment routes driving 71% of the improvement.",
   },
   {
@@ -62,7 +62,7 @@ const teamInsights: readonly TeamInsight[] = [
       { label: "Referral LTV", value: "+12.7%", detail: "vs portfolio average", tone: "positive" },
       { label: "Paid CAC", value: "+8.6%", detail: "needs attention", tone: "negative" },
     ],
-    evidence: "Campaign, CRM, payment and customer activity joined at cohort level.",
+    evidence: "Campaign, CRM, payment and customer activity compared by customer group.",
     action: "Move 12% of underperforming paid spend into the referral programme.",
   },
   {
@@ -78,7 +78,7 @@ const teamInsights: readonly TeamInsight[] = [
       { label: "Cost per lead", value: "−11.3%", detail: "partner campaigns", tone: "positive" },
       { label: "Paid conversion", value: "−6.4%", detail: "needs attention", tone: "negative" },
     ],
-    evidence: "Campaign, CRM, payment and account-activation data joined at cohort level.",
+    evidence: "Campaign, CRM, payment and account activation data compared by customer group.",
     action: "Shift budget toward the two partner campaigns producing 61% of qualified pipeline.",
   },
   {

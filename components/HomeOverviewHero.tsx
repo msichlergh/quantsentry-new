@@ -55,7 +55,7 @@ const writeTypedText = (el: HTMLSpanElement | null, copy: string, t: number) => 
   if (caret) caret.classList.toggle("is-complete", text.length >= copy.length);
 };
 const industries = ["Prop Trading", "Brokerages", "Funds", "Payments"];
-const ingestionCopy = "Connect your systems. I’ll ingest, reconcile, and continuously analyse the data for you.";
+const ingestionCopy = "Connect your systems. I’ll bring the data together and keep it up to date.";
 const ingestionStatuses = [
   "Trading and payments connected",
   "Customer and operations syncing",
@@ -696,7 +696,7 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
             <div className="team-insights-heading">
               <div className="kicker team-insights-kicker"><span className="dot" /><span>Intelligence for Every Team</span></div>
               <h2 id={headingId}>{isJourney ? <>Turn Data Into <span className="c">Team-Wide Action.</span></> : <>One Data Layer. <span className="c">Answers for Every Team.</span></>}</h2>
-              <p className="lede">{isJourney ? <>Connect every source, give each team clear answers, and act on what matters.</> : <>Finance, growth, marketing and risk ask different questions.<br /> Argus answers all of them from the same verified numbers.</>}</p>
+              <p className="lede">{isJourney ? <>Connect your data, give each team clear answers, and decide what to do next.</> : <>Finance, growth, marketing and risk ask different questions.<br /> Argus answers all of them from the same trusted numbers.</>}</p>
               {isJourney ? (
                 <div className="home-dashboard-journey-selector" aria-label="Choose a platform stage">
                   <button aria-pressed={journeyStage === "connect"} data-journey-step="connect" onClick={replayJourneyFromStart} type="button"><Database weight="regular" />Unified Data</button>
@@ -729,8 +729,8 @@ export function HomeOverviewHero({ variant = "hero" }: HomeOverviewHeroProps) {
               <em className="c home-hero-answer">To Profitable Action.</em>
             </h1>
             <p className="lede">
-              Unify your data, turn it into intelligence tailored to your business, and let Argus AI uncover risks,
-              identify opportunities, and take action.
+              Bring your data together. Argus AI finds risks and opportunities, answers questions,
+              and recommends what to do next.
             </p>
             <div className="row home-hero-actions">
               <a className="btn solid" href="/demo">

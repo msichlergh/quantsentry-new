@@ -19,15 +19,15 @@ const capabilities: readonly Capability[] = [
   {
     id: "connectivity",
     label: "Data Connectivity",
-    description: "Connect any trading, payments, identity, CRM or operating source into one governed data layer.",
+    description: "Connect supported trading, payment, identity, CRM and operations data in one place.",
     href: "/platform#sources",
-    imageAlt: "Connected source cards flowing into one governed data layer",
+    imageAlt: "Connected business data flowing into one shared view",
     imageSrc: "/images/capabilities/data-connectivity.jpg",
   },
   {
     id: "argus",
     label: "Argus AI",
-    description: "Investigate changes, ask questions and assign ongoing analysis against verified company data.",
+    description: "Ask questions, investigate changes and schedule ongoing work using trusted company data.",
     href: "/argus",
     imageAlt: "Layered Argus AI analysis and verified insight cards",
     imageSrc: "/images/capabilities/argus-ai.jpg",
@@ -61,7 +61,7 @@ const capabilities: readonly Capability[] = [
     label: "Sentry Risk Network",
     description: "Share opt-in risk signals across firms without exchanging customer data.",
     href: "/network",
-    imageAlt: "Pseudonymous firms sharing coordinated risk signals across a network",
+    imageAlt: "Firms checking shared risk signals without sharing customer data",
     imageSrc: "/images/capabilities/sentry-risk-network.jpg",
   },
 ];
@@ -74,11 +74,10 @@ export function HomeCapabilityShowcase({ sectionId = "capabilities" }: { section
         <div className="home-capabilities-heading">
           <div>
             <div className="kicker"><span className="dot" /><span>Platform Capabilities</span></div>
-            <h2>One Platform.<br /><span className="c">Every Operating Question.</span></h2>
+            <h2>One Platform.<br /><span className="c">Clear Answers Across Your Business.</span></h2>
           </div>
           <p className="lede">
-            See how QuantSentry turns connected data into clearer decisions,
-            stronger controls and profitable action.
+            Connect your data, understand what changed and decide what to do next.
           </p>
         </div>
 

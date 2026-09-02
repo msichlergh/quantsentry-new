@@ -30,9 +30,9 @@ const proactiveFeatures = [
 ] as const;
 
 const explorationFeatures = [
-  { icon: MagnifyingGlass, label: "Natural language questions" },
-  { icon: ChartBar, label: "Instant visualisations" },
-  { icon: ArrowRight, label: "Follow-up drill-downs" },
+  { icon: MagnifyingGlass, label: "Ask questions in plain language" },
+  { icon: ChartBar, label: "Instant charts" },
+  { icon: ArrowRight, label: "Ask follow-up questions" },
   { icon: Export, label: "Share and export findings" },
 ] as const;
 
@@ -121,8 +121,8 @@ export function HomeWaysToWork() {
               </div>
               <p>
                 {proactive
-                  ? "Define the task once. Argus monitors connected data, investigates changes and delivers finished work on your schedule."
-                  : "Ask a question in natural language and get an immediate answer with evidence, visualisations and the ability to drill deeper."}
+                  ? "Set the task once. Argus checks connected data, explains changes and delivers the result on your schedule."
+                  : "Ask a question in plain language and get a clear answer with evidence, charts and useful follow-up questions."}
               </p>
               <div className="home-work-feature-grid">
                 {features.map(({ icon: Icon, label }) => (

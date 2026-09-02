@@ -9,24 +9,24 @@ import { HomeDataPattern } from "./HomeDataPattern";
 const gaps = [
   {
     icon: Database,
-    eyebrow: "Disconnected Sources",
-    title: "The numbers and the reasons live apart",
+    eyebrow: "Disconnected Data",
+    title: "The facts are split across systems",
     description:
-      "Trading, payments and CRM systems show what happened. Policies, conversations and operating context explain why. Without one layer, every investigation starts with manual joins.",
+      "Trading, payment and CRM systems each show part of the story. Your team has to bring the pieces together before it can answer a question.",
   },
   {
     icon: Repeat,
-    eyebrow: "Repeated Context",
-    title: "Your team has to explain the business again",
+    eyebrow: "Repeated Setup",
+    title: "Your team explains the same context again",
     description:
-      "Generic AI does not know how you define exposure, kept revenue or a clean payout. Rebuilding that meaning in every prompt slows the work and changes the answer.",
+      "Most AI tools do not know your metrics, policies or definitions. Repeating them for every question slows the work and can change the answer.",
   },
   {
     icon: Brain,
-    eyebrow: "Lost Memory",
-    title: "Each answer forgets the work before it",
+    eyebrow: "Lost Knowledge",
+    title: "Useful work gets lost",
     description:
-      "Evidence and investigation methods stay scattered across systems and people. The next decision arrives without the benefit of the decisions that came before it.",
+      "Evidence and past decisions stay scattered across tools and people. The next review often starts without what the team learned before.",
   },
 ] as const;
 
@@ -38,9 +38,9 @@ export function IntelligenceGapSection() {
         <div className="intelligence-gap-heading">
           <div className="kicker intelligence-gap-kicker"><span className="dot" /><span>The Gap</span></div>
           <h2 id="intelligence-gap-title">
-            Fragmented Data <span className="c">Limits Intelligence.</span>
+            Disconnected Data <span className="c">Slows Every Decision.</span>
           </h2>
-          <p className="lede">Your systems hold the facts. Your team holds the meaning. Argus brings both into one verified operating memory.</p>
+          <p className="lede">Argus brings your data, definitions and past work together so each answer starts with the right context.</p>
         </div>
 
         <div className="intelligence-gap-grid">

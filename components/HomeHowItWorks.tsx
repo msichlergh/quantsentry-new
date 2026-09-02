@@ -16,9 +16,9 @@ const steps = [
   {
     icon: Database,
     tab: "Connect Data",
-    title: "Connect Every Source",
+    title: "Connect Your Data",
     description:
-      "Bring trading, payment, identity, customer, marketing and operational data into one governed platform.",
+      "Bring trading, payment, identity, customer, marketing and operations data into one trusted view.",
     visual: 0,
     cta: "Explore Data Connectivity",
     href: "/platform",
@@ -26,9 +26,9 @@ const steps = [
   {
     icon: SquaresFour,
     tab: "Find Insights",
-    title: "Build Intelligence Around Your Business",
+    title: "See What Matters",
     description:
-      "Turn verified data into custom views, benchmarks, monitoring and analysis shaped around how your business operates.",
+      "Turn trusted data into dashboards, alerts and answers built around how your business works.",
     visual: 1,
     cta: "Explore Business Intelligence",
     href: "/custom-bi",
@@ -36,9 +36,9 @@ const steps = [
   {
     icon: Lightning,
     tab: "Take Action",
-    title: "Act on What Matters",
+    title: "Decide What to Do Next",
     description:
-      "Use Argus AI and clear recommendations to reduce risk, improve performance and grow more profitably.",
+      "Argus explains what changed and recommends next steps. Your team reviews and approves material actions.",
     visual: 2,
     cta: "Meet Argus AI",
     href: "/argus",
@@ -111,8 +111,7 @@ export function HomeHowItWorks() {
           <div className="kicker home-how-kicker"><span className="dot" /><span>From Data to Action</span></div>
           <h2 id="home-how-title">How QuantSentry <span className="c">Works.</span></h2>
           <p className="lede">
-            QuantSentry unifies your systems, builds intelligence around your business,
-            and continuously surfaces the risks and opportunities that matter.
+            QuantSentry connects your data, shows what matters and helps your team decide what to do next.
           </p>
         </div>
 

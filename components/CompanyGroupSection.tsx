@@ -4,9 +4,9 @@ import Image from "next/image";
 import { BrandLockup } from "./BrandLockup";
 
 const groupBenefits = [
-  "Shared engineering and technology infrastructure",
-  "Group-level governance and long-term product investment",
-  "Aligned products across the modern trading ecosystem",
+  "Shared engineering and core technology",
+  "Long-term product investment",
+  "Products built for trading businesses",
 ] as const;
 
 export function CompanyGroupSection() {
@@ -17,10 +17,10 @@ export function CompanyGroupSection() {
           <div className="kicker"><span className="dot" /><span>Part of Quant Technology Group</span></div>
           <h2 id="company-group-title">Built for the <span className="c">long term.</span></h2>
           <p>
-            QuantSentry is part of Quant Technology Group, a technology group building infrastructure for modern trading businesses.
+            QuantSentry is part of Quant Technology Group, which builds technology for modern trading businesses.
           </p>
           <p>
-            The group provides shared governance, technical infrastructure and a long-term operating horizon, while QuantSentry remains focused on connected intelligence and risk.
+            The group provides shared engineering, governance and long-term investment. The QuantSentry team stays focused on connected data and risk.
           </p>
           <ul className="company-group-benefits">
             {groupBenefits.map((benefit) => (

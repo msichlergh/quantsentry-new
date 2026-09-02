@@ -38,17 +38,17 @@ export const solutionLinks = [
   {
     href: "/platform",
     label: "Platform Overview",
-    description: "Connect every source and operate from one governed data layer.",
+    description: "Connect your business data and work from one trusted view.",
   },
   {
     href: "/argus",
     label: "Argus AI",
-    description: "Investigate changes, ask questions and assign ongoing analysis.",
+    description: "Ask questions, investigate changes and schedule ongoing work.",
   },
   {
     href: "/custom-bi",
     label: "Business Intelligence",
-    description: "Build operating views around the metrics that run your business.",
+    description: "See the numbers that matter in dashboards built for your business.",
   },
   {
     href: "/industry-intelligence",
@@ -58,7 +58,7 @@ export const solutionLinks = [
   {
     href: "/network",
     label: "Sentry Risk Network",
-    description: "Share opt-in risk signals without exchanging customer data.",
+    description: "Check shared risk signals without sharing customer data.",
   },
   {
     href: "/managed-desk",
@@ -81,7 +81,7 @@ export const resourceLinks = [
   {
     href: "/proof",
     label: "Success Stories",
-    description: "See verified outcomes from real customer books.",
+    description: "See verified results from real customer accounts.",
   },
   {
     href: "/insights",
@@ -91,6 +91,6 @@ export const resourceLinks = [
   {
     href: "/roadmap",
     label: "Roadmap",
-    description: "See what is live, in design and being explored.",
+    description: "See what is live, coming next and being explored.",
   },
 ] as const;

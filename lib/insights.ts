@@ -40,7 +40,7 @@ export const insightAuthors = [
     slug: "akash-thakrar",
     name: "Akash Thakrar",
     role: "Head of Corporate Development",
-    bio: "Akash works at the intersection of risk infrastructure and business intelligence, helping trading firms turn operational data into better decisions.",
+    bio: "Akash helps trading firms use risk and business data to make better decisions.",
     image: "/images/team/Akash-Thakrar.webp",
     linkedIn: "https://www.linkedin.com/in/akashthakrar/",
   },
@@ -48,7 +48,7 @@ export const insightAuthors = [
     slug: "leonard-breitkopf",
     name: "Leonard Breitkopf",
     role: "Chief Technology Officer",
-    bio: "Leonard leads platform architecture and engineering across Quant Technology Group, with a focus on trading infrastructure that remains reliable at scale.",
+    bio: "Leonard leads platform engineering across Quant Technology Group, with a focus on reliable systems for growing trading businesses.",
     image: "/images/team/Leonard-Breitkopf.webp",
     linkedIn: "https://www.linkedin.com/in/leonardbreitkopf/?skipRedirect=true",
   },
@@ -56,7 +56,7 @@ export const insightAuthors = [
     slug: "milos-mosovsky",
     name: "Milos Mosovsky",
     role: "Head of R&D",
-    bio: "Milos leads research and development across the AI models behind QuantSentry, from behavioural detection to operator-facing evidence.",
+    bio: "Milos leads the AI research behind QuantSentry, from finding trading patterns to presenting clear evidence.",
     image: "/images/team/Milos-Mosovsky.webp",
     linkedIn: "https://www.linkedin.com/in/mosovsky/",
   },
@@ -73,9 +73,9 @@ export const insightAuthors = [
 export const insightArticles = [
   {
     slug: "why-prop-firms-need-dedicated-risk-management",
-    title: "Why Retail Prop Firms Can’t Scale Without Dedicated Risk Management",
+    title: "Why Prop Firms Need Dedicated Risk Management",
     summary:
-      "Why risk management has become a source of business intelligence, not simply a way to catch abuse.",
+      "How dedicated risk management helps prop firms protect payouts and make faster, more consistent decisions.",
     category: "Industry Insights",
     publishedAt: "2026-06-05",
     publishedLabel: "5 Jun 2026",
@@ -85,28 +85,28 @@ export const insightArticles = [
       "https://quanttechnology.com/insights/why-prop-firms-need-dedicated-risk-management",
     sections: [
       {
-        heading: "Risk moved into the operating core",
+        heading: "Risk Is Part of Daily Operations",
         paragraphs: [
-          "At scale, risk is no longer a separate review queue. It connects trading behaviour, identity, payouts, and commercial performance in one operational view.",
-          "The firms that learn from those signals can protect capital while making faster, more consistent decisions for legitimate traders.",
+          "As a firm grows, risk can no longer sit in a separate review queue. Trading activity, identity, payouts and business performance need one clear view.",
+          "When teams can see those signals together, they can protect capital and make faster, more consistent decisions for legitimate traders.",
         ],
       },
       {
-        heading: "Evidence changes the decision",
+        heading: "Evidence Makes Decisions Easier",
         paragraphs: [
-          "A useful alert explains the accounts, sessions, payments, and execution patterns behind it. That evidence lets an operator distinguish a real network from a coincidental similarity.",
-          "The objective is not to automate judgment. It is to give the risk team enough connected context to make a defensible judgment quickly.",
+          "A useful alert shows the accounts, sessions, payments and trading patterns behind it. That evidence helps a reviewer separate real coordination from coincidence.",
+          "The goal is not to automate judgment. It is to give the risk team enough evidence to make a clear decision quickly.",
         ],
       },
     ],
     takeaway:
-      "Dedicated risk infrastructure turns fragmented activity into evidence that protects payouts and improves the operating model.",
+      "Dedicated risk management turns disconnected activity into clear evidence that protects payouts and supports better decisions.",
   },
   {
     slug: "quantsentry-generally-available",
-    title: "QuantSentry Is Generally Available",
+    title: "QuantSentry Is Now Available",
     summary:
-      "AI-native risk infrastructure for prop firms that need live detection, connected evidence, and operator-controlled decisions.",
+      "Live risk detection and connected evidence for prop firms, with every final decision kept under human control.",
     category: "Product Updates",
     publishedAt: "2026-02-10",
     publishedLabel: "10 Feb 2026",
@@ -116,28 +116,28 @@ export const insightArticles = [
       "https://quanttechnology.com/insights/quant-technology-group-launches-quantsentry",
     sections: [
       {
-        heading: "From isolated rules to connected intelligence",
+        heading: "From Separate Alerts to One Clear View",
         paragraphs: [
-          "QuantSentry brings execution, session, identity, and payment signals into one investigation layer. Operators can see the network behind a flag instead of reviewing disconnected events.",
-          "The platform is designed to sit above the systems a trading business already uses, so teams can improve visibility without replacing their operating stack.",
+          "QuantSentry brings trading, session, identity and payment signals into one investigation view. Reviewers can see the group behind a flag instead of checking separate events.",
+          "The platform connects to the systems a trading business already uses, so teams gain a clearer view without replacing their existing tools.",
         ],
       },
       {
-        heading: "Human control remains explicit",
+        heading: "People Keep Control",
         paragraphs: [
-          "Models rank and explain risk. People decide what happens next. QuantSentry does not move money, close accounts, or clear payouts on its own.",
-          "Every investigation retains the underlying evidence and the actions taken, creating an audit trail that the business can defend.",
+          "QuantSentry ranks and explains risk. People decide what happens next. It does not move money, close accounts or clear payouts on its own.",
+          "Each investigation keeps the supporting evidence and a record of what happened, so the business can explain its decision.",
         ],
       },
     ],
     takeaway:
-      "QuantSentry makes connected risk evidence available in real time while keeping every consequential decision with the operator.",
+      "QuantSentry shows connected risk evidence in real time while keeping every important decision with the team.",
   },
   {
     slug: "modern-risk-infrastructure-prop-firms",
-    title: "What Modern Risk Infrastructure Should Look Like for Prop Firms",
+    title: "What Modern Risk Management Looks Like for Prop Firms",
     summary:
-      "A practical model for live rules, exposure monitoring, behavioural detection, and investigation-ready evidence.",
+      "A practical approach to live rule checks, risk monitoring, pattern detection and clear evidence.",
     category: "Industry Insights",
     publishedAt: "2026-03-31",
     publishedLabel: "31 Mar 2026",
@@ -147,28 +147,28 @@ export const insightArticles = [
       "https://quanttechnology.com/insights/modern-risk-infrastructure-prop-firms",
     sections: [
       {
-        heading: "Manual review has a ceiling",
+        heading: "Manual Review Does Not Scale",
         paragraphs: [
-          "Spreadsheets and sampling can support a small book, but they become unreliable as account volume and platform coverage grow. The missed signal is often the one that matters most.",
-          "Modern infrastructure applies deterministic rules continuously, then uses behavioural models to prioritise the cases that need expert review.",
+          "Spreadsheets and samples can support a small business, but they become unreliable as account numbers and platform coverage grow.",
+          "Modern systems check clear rules continuously, then highlight the cases that need expert review.",
         ],
       },
       {
-        heading: "Detection must arrive with context",
+        heading: "Every Alert Needs Evidence",
         paragraphs: [
-          "A score alone is not an investigation. Reviewers need the trades, linked identities, shared infrastructure, and timeline that produced it.",
+          "A score alone is not enough. Reviewers need the trades, linked identities, shared devices and timeline behind it.",
           "That context makes decisions faster and fairer: good traders can be cleared quickly, while coordinated abuse can be handled with evidence.",
         ],
       },
     ],
     takeaway:
-      "The right risk stack handles volume automatically, surfaces evidence clearly, and preserves human judgment at the decision point.",
+      "The right risk system handles volume, shows evidence clearly and keeps people in control of each decision.",
   },
   {
     slug: "ai-agents-reduce-support-workload",
     title: "How AI Agents Can Reduce Support Workload for Trading Businesses",
     summary:
-      "Where context-aware agents help with repetitive operational work—and where an operator must stay in the loop.",
+      "Where AI can reduce repetitive support work, and where a person must stay involved.",
     category: "Industry Insights",
     publishedAt: "2026-04-14",
     publishedLabel: "14 Apr 2026",
@@ -178,28 +178,28 @@ export const insightArticles = [
       "https://quanttechnology.com/insights/ai-agents-reduce-support-workload",
     sections: [
       {
-        heading: "Context is the difference",
+        heading: "Useful AI Needs the Right Data",
         paragraphs: [
-          "A generic chatbot can repeat policy. A useful agent can read the relevant account state, assemble the evidence, and either resolve a narrow task or hand it to the right person.",
-          "That grounding matters most in trading operations, where payout, KYC, and rule questions depend on the facts of a specific account.",
+          "A generic chatbot can repeat policy. A useful assistant can read the relevant account data, collect the evidence and send the task to the right person when needed.",
+          "That matters in trading operations, where payout, KYC and rule questions depend on the facts of a specific account.",
         ],
       },
       {
-        heading: "Start with bounded work",
+        heading: "Start With Clear, Limited Tasks",
         paragraphs: [
-          "The strongest first use cases are high-volume, low-judgment tasks: ticket classification, document chasing, and status explanations based on live data.",
-          "Money, disputes, and risk decisions should escalate with the context already assembled. The agent reduces repetitive work without pretending judgment is automatic.",
+          "Good first tasks include sorting tickets, requesting missing documents and explaining a status from live data.",
+          "Money, disputes and risk decisions should go to a person with the evidence already collected. AI reduces repetitive work without replacing judgment.",
         ],
       },
     ],
     takeaway:
-      "Agents create value when they have real context, a narrow job, and a clear handoff to a human for consequential decisions.",
+      "AI creates value when it has the right data, a clear task and a simple handoff to a person for important decisions.",
   },
   {
     slug: "outgrowing-fragmented-infrastructure",
-    title: "Why Trading Businesses Are Outgrowing Fragmented Infrastructure",
+    title: "Why Disconnected Tools Slow Trading Businesses",
     summary:
-      "Disconnected CRMs, payout tools, and risk systems create an operational tax that compounds with every stage of growth.",
+      "Disconnected CRM, payout and risk tools create more manual work as a trading business grows.",
     category: "Industry Insights",
     publishedAt: "2026-04-28",
     publishedLabel: "28 Apr 2026",
@@ -209,28 +209,28 @@ export const insightArticles = [
       "https://quanttechnology.com/insights/outgrowing-fragmented-infrastructure",
     sections: [
       {
-        heading: "Fragmentation compounds quietly",
+        heading: "Disconnected Tools Create Hidden Work",
         paragraphs: [
-          "Most trading businesses do not choose a fragmented stack deliberately. They add sensible tools one at a time until people become the integration layer between them.",
-          "The cost appears as reconciliation work, inconsistent decisions, slow reporting, and risk signals that no single system can see.",
+          "Most trading businesses add useful tools one at a time. Eventually, people have to move information between them by hand.",
+          "The result is repeated data checks, inconsistent decisions, slow reports and risk signals that no single tool can see.",
         ],
       },
       {
-        heading: "Consolidate the data before the interface",
+        heading: "Connect the Data Before Replacing Tools",
         paragraphs: [
-          "A connected operation does not require replacing every tool at once. It requires one reliable activity layer that identity, risk, payouts, and reporting can read from together.",
-          "Once those functions share context, a signal found in one part of the business becomes useful everywhere else.",
+          "You do not need to replace every tool at once. Start by connecting identity, risk, payout and reporting data in one reliable view.",
+          "Once teams share that view, a signal found in one part of the business becomes useful everywhere else.",
         ],
       },
     ],
     takeaway:
-      "The scalable alternative to more point tools is a shared data layer that connects operations, risk, and decisions.",
+      "A shared view of business data connects operations, risk and decisions without adding more separate tools.",
   },
   {
     slug: "monevis-technology-assets",
     title: "QTG Acquires Monevis Technology Assets",
     summary:
-      "The acquisition brings AI-based alpha identification, risk technology, and specialist engineering capability into the group.",
+      "The acquisition brings proven trading analysis, risk technology and an experienced engineering team into the group.",
     category: "Company News",
     publishedAt: "2025-10-01",
     publishedLabel: "1 Oct 2025",
@@ -240,28 +240,28 @@ export const insightArticles = [
       "https://quanttechnology.com/insights/quant-technology-group-acquires-monevis-technology-assets",
     sections: [
       {
-        heading: "Capability moves in-house",
+        heading: "Technology and Expertise Join the Group",
         paragraphs: [
-          "The transaction brings tested models for identifying trading behaviour and managing risk into the Quant Technology Group ecosystem.",
-          "It also brings the team that developed that technology into the group, shortening the path from research to production use inside QuantSentry.",
+          "The transaction brings tested technology for finding trading patterns and managing risk into Quant Technology Group.",
+          "The team that built the technology also joins the group, helping QuantSentry turn research into working product features faster.",
         ],
       },
       {
-        heading: "A broader intelligence roadmap",
+        heading: "A Stronger Product Roadmap",
         paragraphs: [
-          "The acquired capability supports risk products today and creates a foundation for additional markets where live behavioural evidence matters.",
-          "For QuantSentry, the result is deeper research capacity and a faster product roadmap across identity resolution, pattern detection, and evidence generation.",
+          "The acquired technology supports today’s risk products and can help QuantSentry serve more markets over time.",
+          "It also strengthens research across identity matching, pattern detection and evidence generation.",
         ],
       },
     ],
     takeaway:
-      "QTG added both proven risk technology and the people who built it, strengthening QuantSentry’s long-term intelligence roadmap.",
+      "QTG added proven risk technology and the people who built it, strengthening QuantSentry’s long-term product roadmap.",
   },
   {
     slug: "ifx-expo-dubai-2026",
     title: "iFX EXPO Dubai 2026",
     summary:
-      "Three days of operator conversations about proprietary trading technology, risk infrastructure, and platform migration.",
+      "Three days of conversations about prop trading technology, risk management and moving between platforms.",
     category: "Event Recaps",
     publishedAt: "2026-02-12",
     publishedLabel: "10–12 Feb 2026",
@@ -270,22 +270,22 @@ export const insightArticles = [
     sourceUrl: "https://quanttechnology.com/events",
     sections: [
       {
-        heading: "Risk moved to the centre of the conversation",
+        heading: "Risk Became a Main Topic",
         paragraphs: [
-          "Operators arrived with practical questions about payout review, coordinated behaviour, and how to connect data across platforms without creating another silo.",
-          "The strongest discussions focused less on standalone detection and more on how evidence should move through the operating workflow.",
+          "Teams asked practical questions about payout reviews, coordinated trading and connecting data across platforms without creating another separate system.",
+          "The strongest discussions focused on how evidence should move from detection to the person making the decision.",
         ],
       },
       {
         heading: "What we brought back",
         paragraphs: [
-          "The event reinforced the need for integrations that are fast to deploy and investigation views that work for both specialist risk teams and senior operators.",
+          "The event reinforced the need for quick integrations and clear investigation views that work for both risk specialists and business leaders.",
           "Those conversations continue to shape QuantSentry’s connector roadmap and the way evidence is presented across the platform.",
         ],
       },
     ],
     takeaway:
-      "Trading firms want connected risk workflows: live signals, clear evidence, and a practical path from detection to operator action.",
+      "Trading firms want live risk signals, clear evidence and a simple path from detection to a human decision.",
   },
 ] as const satisfies readonly InsightArticle[];
 

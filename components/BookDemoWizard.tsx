@@ -1266,7 +1266,7 @@ function BookDemoAssurance() {
       </li>
       <li>
         <Icon name="shield" size={14} />
-        Read only access
+        Read-only access
       </li>
       <li>
         <Icon name="play" size={13} />

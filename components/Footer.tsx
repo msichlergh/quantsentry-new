@@ -90,8 +90,8 @@ export function Footer() {
         <div className="legal">
           <span>© 2026 QuantSentry. All rights reserved.</span>
           <nav className="legal-links" aria-label="Legal">
-            <a href="https://quanttechnology.com/privacy">Privacy</a>
-            <a href="https://quanttechnology.com/terms">Terms</a>
+            <a href="/legal#privacy">Privacy</a>
+            <a href="/legal#terms">Terms</a>
           </nav>
         </div>
       </div>

@@ -15,10 +15,10 @@ import { ThinkingOrb, type OrbState } from "thinking-orbs";
 import { HomeDataPattern } from "./HomeDataPattern";
 
 const modes = [
-  { id: "insight", label: "Insight", icon: Lightbulb, output: "Insights & Analysis", description: "Automated investigation" },
-  { id: "task", label: "Task", icon: Crosshair, output: "Argus Tasks", description: "Runs analysis continuously" },
-  { id: "report", label: "Report", icon: FileText, output: "Finished Reports", description: "Ready to share and act on" },
-  { id: "view", label: "View", icon: SquaresFour, output: "Custom Views", description: "Built around your business" },
+  { id: "insight", label: "Insight", icon: Lightbulb, output: "Clear Answers", description: "Explains what changed and why" },
+  { id: "task", label: "Task", icon: Crosshair, output: "Argus Tasks", description: "Checks your data on schedule" },
+  { id: "report", label: "Report", icon: FileText, output: "Finished Reports", description: "Ready to review and share" },
+  { id: "view", label: "View", icon: SquaresFour, output: "Custom Dashboards", description: "Built around your business" },
 ] as const;
 
 const modeActivity: { state: OrbState; status: string }[] = [
@@ -219,8 +219,7 @@ export function HomeAlwaysOnIntelligence() {
           <div className="kicker home-always-on-kicker"><span className="dot" /><span>Always-on Intelligence</span></div>
           <h2 id="home-always-on-title">Your Data Never Stops. <span className="c">Neither Does Argus.</span></h2>
           <p className="lede">
-            QuantSentry connects to your data, investigates what changed and why,
-            and delivers finished intelligence before you ask.
+            Argus checks your connected data, explains important changes and delivers scheduled work automatically.
           </p>
           <div className="home-always-on-actions">
             <a className="btn solid" href="/demo"><span>See It in Action</span><ArrowRight size={15} /></a>

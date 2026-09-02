@@ -52,7 +52,7 @@ export function ArgusEverywhereSection() {
               </div>
             </div>
             <h3>Email</h3>
-            <p>Receive scheduled reports and decision-ready summaries.</p>
+            <p>Receive scheduled reports and clear summaries.</p>
           </article>
 
           <article className="argus-everywhere-item">
@@ -71,7 +71,7 @@ export function ArgusEverywhereSection() {
               </div>
             </div>
             <h3>Your Browser</h3>
-            <p>Open Argus on any connected page and investigate in context.</p>
+            <p>Ask what changed without leaving the page.</p>
           </article>
 
           <article className="argus-everywhere-item">
@@ -86,7 +86,7 @@ export function ArgusEverywhereSection() {
               </div>
             </div>
             <h3>Embedded in Your Tools</h3>
-            <p>Bring Argus into your dashboards, portals and operating systems.</p>
+            <p>Bring Argus into the dashboards, portals and tools your team uses.</p>
           </article>
         </div>
       </div>

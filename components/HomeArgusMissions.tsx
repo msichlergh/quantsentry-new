@@ -52,13 +52,12 @@ export function HomeArgusMissions() {
       <div className="wrap">
         <div className="home-argus-missions-layout">
           <div className="home-argus-missions-copy">
-            <div className="kicker"><span className="dot" /><span>Purpose-Built AI Missions</span></div>
+            <div className="kicker"><span className="dot" /><span>Goal-Based AI Tasks</span></div>
             <h2 id="home-argus-missions-title">
-              One Mission for <span className="c">Each Outcome You Need.</span>
+              Give Argus a Goal. <span className="c">Track the Result.</span>
             </h2>
             <p>
-              Each Mission is configured around one business outcome across revenue, risk, fraud, compliance,
-              operations or market intelligence.
+              Set a clear business goal for revenue, risk, compliance or operations. Argus monitors progress and reports what changes.
             </p>
             <div className="home-argus-missions-actions">
               <a className="btn solid" href="/argus"><span>Explore Argus AI</span><ArrowRight size={15} /></a>

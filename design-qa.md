@@ -143,6 +143,25 @@ At 320 x 800, the document and client widths both measured 305 px, confirming no
 
 final result: blocked
 
+## Legal document tabs and menu hover — 2026-09-02
+
+- Source visual truth: `.context/attachments/mwffS4/image.png` at 500 x 92 px for the compact Privacy and Terms selector, and `.context/attachments/MVVIIb/image.png` at 1072 x 1013 px for the desktop mega-menu hover state.
+- Implementation targets: `http://localhost:55000/legal#privacy`, `http://localhost:55000/legal#terms`, and the desktop navigation at `http://localhost:55000/`.
+- Implementation screenshot: unavailable because the in-app browser reports no available browser surfaces.
+- Intended viewport and density: supplied desktop crops; exact CSS viewport and device-density normalization are unavailable without a browser-rendered implementation capture.
+- State: Privacy selected, Terms selected, and an individual desktop mega-menu item hovered or keyboard-focused.
+- Fonts and typography: the legal selector uses the existing site font at 15 px and weight 500. The menu item type is unchanged.
+- Spacing and layout rhythm: the selector uses two equal 44 px controls in a compact shell. The legal document remains inside one bordered viewer and the selector expands to the available width below 760 px.
+- Colors and visual tokens: the selected legal tab uses the established teal border on a clean near-black surface. Menu hover changes from a full teal band to a restrained neutral highlight and inset edge.
+- Image quality and asset fidelity: no source imagery is replaced or approximated. The current QTG legal pages remain the authoritative embedded documents.
+- Copy and content: the page identifies both documents in one place and links to each official source as a fallback.
+- Primary interaction: tab buttons update the active document and URL hash; footer links open the corresponding tab on the same `/legal` route.
+- Full-view and focused comparison evidence: blocked because no browser-rendered implementation capture is available.
+- Automated checks: scoped ESLint, full ESLint, TypeScript, production build, whitespace validation, local HTTP 200, metadata output, footer routes, and both official document HTTP responses pass.
+- Blocker: matching-state desktop/mobile captures, iframe rendering, hover appearance, interaction, and console verification require an available in-app browser.
+
+final result: blocked
+
 ## Homepage ingestion type and Industries rhythm — 2026-08-30
 
 - Source visual truth: `.context/attachments/U1xpaj/image.png` for the light ingestion checklist and the approved homepage discussion placing Industries between the dark intelligence sections.

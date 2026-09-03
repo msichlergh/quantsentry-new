@@ -315,7 +315,7 @@ body{padding-top:96px}
 .mapfeed .mf{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--soft);
   font-size:12.5px;color:var(--ink3);opacity:0;transform:translateY(-5px)}
 .mapfeed .mf.in{opacity:1;transform:none;transition:.4s}
-.mapfeed .mf b{color:var(--ink);font-weight:600}
+.mapfeed .mf b{color:var(--ink);font-weight:500}
 .mapdetail{border-left:1px solid var(--soft);padding-left:22px}
 .acctdots{display:flex;flex-wrap:wrap;gap:4px;margin-top:12px}
 .acctdots i{width:9px;height:9px;border-radius:3px;background:rgba(72,199,195,.28);display:block;
@@ -373,7 +373,7 @@ body{padding-top:96px}
 .kpi{border:1px solid var(--soft);border-radius:11px;padding:14px 15px;background:rgba(255,255,255,.012)}
 .kpi .k{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--ink4)}
-.kpi .v{font-size:26px;font-weight:600;color:var(--ink);letter-spacing:-.03em;margin-top:9px;line-height:1}
+.kpi .v{font-size:26px;font-weight:500;color:var(--ink);letter-spacing:-.03em;margin-top:9px;line-height:1}
 .kpi .s{font-size:11.5px;color:var(--ink4);margin-top:7px}
 .chartbox{margin-top:14px;border:1px solid var(--soft);border-radius:11px;padding:16px 18px}
 .spark path.line{fill:none;stroke:var(--cy);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
@@ -3802,6 +3802,20 @@ footer .brand { font-size: 26.93px; }
     padding-bottom: 59px;
     overflow: hidden;
   }
+  /* The 59px toggle strip sits inside .app, whose only background is the 1px
+     translucent edge gradient, so it read as a see-through teal band. Lay the
+     panel surface under it so it matches .app-in above. */
+  .app.mobile-dashboard-collapsed::before {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    height: 58px;
+    border-radius: 0 0 13px 13px;
+    background: var(--panel2);
+  }
   .app.mobile-dashboard-collapsed .app-in { max-height: 430px; }
   .app.mobile-dashboard-collapsed:not(.is-expanded)::after {
     content: "";
@@ -3889,6 +3903,25 @@ footer .brand { font-size: 26.93px; }
   [data-resolve] .taccts { gap: 6px; }
   [data-resolve] .tacct { padding: 5px 8px; }
 
+  .integrations-filter-label { font-size: 10.5px; letter-spacing: .11em; }
+  .integrations-search input { font-size: 15px; }
+
+  /* Connector cards are a logo and two short lines - two fit comfortably. */
+  .connector-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .connector-card { padding: 13px 12px; }
+  .connector-card-heading { gap: 9px; }
+  .connector-card-heading h3 { font-size: 13.5px; }
+  .connector-logo-shell { width: 32px; height: 32px; }
+  .connector-logo-shell img { width: 30px; height: 30px; }
+  .connector-logo-shell-wide { width: 60px; }
+  .connector-logo-shell-wide img { width: 54px; height: 24px; }
+  .connector-card > p { margin-top: 7px; font-size: 12px; }
+
+  /* Below ~370px the name has no room beside the logo, so stack them. */
+  @media (max-width: 370px) {
+    .connector-card-heading { align-items: flex-start; flex-direction: column; gap: 7px; }
+  }
+
   /* Category chips: the count only earns its space in the desktop sidebar list,
      where it right-aligns against the label. In the horizontal scroller it just
      widens every chip. */
@@ -3960,7 +3993,6 @@ html { scroll-padding-top: 92px; }
   .sev,
   .scnv,
   .mobile-comparison-cards small,
-  .integrations-filter-label,
   .mobile-menu-label,
   .insight-category,
   .integration-card-category,

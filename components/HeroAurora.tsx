@@ -231,7 +231,11 @@ function createProgram(gl: WebGL2RenderingContext) {
   return program;
 }
 
-export function DispersionBandsCanvas() {
+// `zoom` multiplies the lens scale. A larger lens packs more bands into the same
+// width, so the field reads smaller — zoom 1.45 is "45% zoomed out" from the
+// original tuning. Each surface picks its own: the hero and the footer CTA are
+// very different shapes and want different densities.
+export function DispersionBandsCanvas({ zoom = 1 }: { zoom?: number } = {}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -310,8 +314,8 @@ export function DispersionBandsCanvas() {
     // tuned against at desktop, so wide screens land back on exactly 15; the max
     // keeps phones from turning into a busy moire.
     const REFERENCE_ASPECT = 1.22;
-    const BASE_LENS_SCALE = 15;
-    const MAX_LENS_SCALE = 30;
+    const BASE_LENS_SCALE = 15 * zoom;
+    const MAX_LENS_SCALE = 30 * zoom;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -360,7 +364,7 @@ export function DispersionBandsCanvas() {
       gl.deleteBuffer(buffer);
       gl.deleteProgram(program);
     };
-  }, []);
+  }, [zoom]);
 
   return <canvas ref={ref} aria-hidden="true" className="hero-aurora-canvas" />;
 }
@@ -386,7 +390,7 @@ export function HeroAurora({ targetId }: { targetId: string }) {
 
   return createPortal(
     <div className="hero-aurora" aria-hidden="true">
-      <DispersionBandsCanvas />
+      <DispersionBandsCanvas zoom={1.45} />
     </div>,
     target,
   );

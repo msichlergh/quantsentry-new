@@ -19,7 +19,7 @@ export function FooterCtaAurora({ routeKey }: { routeKey: string }) {
   return targets.map((target, index) =>
     createPortal(
       <div className="footer-cta-aurora" aria-hidden="true">
-        <DispersionBandsCanvas />
+        <DispersionBandsCanvas zoom={0.52} />
       </div>,
       target,
       `footer-cta-aurora-${index}`,

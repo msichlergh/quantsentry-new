@@ -815,6 +815,26 @@ section.bd-focus {
   margin-bottom: 16px;
 }
 
+/* ---------- Turnstile ----------
+   Cloudflare's widget, rendered only when NEXT_PUBLIC_TURNSTILE_SITE_KEY is
+   set — with no key the component returns null and none of this applies. It
+   runs in "interaction-only" appearance, so the container is a zero-height
+   nothing until Cloudflare decides the visitor has to interact, at which point
+   Cloudflare gives it a height of its own. The widget's internals are in a
+   shadow root and cannot be styled from here; this only positions it on the
+   same left edge as the fields above it.
+
+   Deliberately NOT hidden while empty. Both parents are grids with a gap, so
+   an invisible container does cost ~15px of dead space — but display:none on
+   it stops Cloudflare building the challenge at all, and a challenge a visitor
+   cannot see is a lead lost. Measured, not assumed: with the forced-interactive
+   test key (3x00000000000000000000FF) a hidden container never renders. */
+.bd-turnstile {
+  display: grid;
+  justify-items: start;
+  min-height: 0;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 760px) {
   /* One column: at narrow widths the time list and the month grid stop

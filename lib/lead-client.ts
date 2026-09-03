@@ -53,6 +53,18 @@ export const localTimezone = (): string => {
   }
 };
 
+// The Turnstile token, under the field name Cloudflare's own widget uses.
+// Spread into the payload rather than set unconditionally: with the widget off
+// — no NEXT_PUBLIC_TURNSTILE_SITE_KEY, which is the state today — the key is
+// absent from the body entirely and the request is byte-for-byte what it was
+// before Turnstile existed. An empty token is never sent as an empty string:
+// the route treats a blank token and a missing one identically, and a key that
+// is only ever "" is noise in the payload.
+function turnstileField(token?: string): Record<string, string> {
+  const value = (token || "").trim();
+  return value ? { "cf-turnstile-response": value } : {};
+}
+
 // `ts` is when the form was rendered; the route rejects sub-2s submissions.
 // `company_confirm` is the honeypot and is always sent empty from a real form.
 export async function submitLead({
@@ -61,15 +73,18 @@ export async function submitLead({
   timezone,
   renderedAt,
   page,
+  turnstileToken,
 }: {
   form: LeadForm;
   startIso: string | null;
   timezone: string;
   renderedAt: number;
   page?: string;
+  turnstileToken?: string;
 }): Promise<LeadResponse> {
   const payload = {
     ...form,
+    ...turnstileField(turnstileToken),
     // The picker holds the dial code separately so the input can stay a plain
     // national number; the CRM wants one E.164-ish string.
     phone: [form.dial, form.phone].filter(Boolean).join(" ").trim() || "",
@@ -111,6 +126,7 @@ export async function submitContact({
   message,
   renderedAt,
   honeypot,
+  turnstileToken,
 }: {
   name: string;
   email: string;
@@ -118,9 +134,11 @@ export async function submitContact({
   message: string;
   renderedAt: number;
   honeypot: string;
+  turnstileToken?: string;
 }): Promise<LeadResponse> {
   const payload = {
     form: "contact",
+    ...turnstileField(turnstileToken),
     name,
     email,
     website,

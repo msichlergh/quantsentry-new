@@ -3,6 +3,7 @@
 import type { CSSProperties, ChangeEvent, FormEvent, KeyboardEvent, ReactNode } from "react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
+import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
 import { trackBookDemo, trackLeadSubmit } from "@/lib/analytics";
 import { DIAL_CODES, dialOptions, flagFor } from "@/lib/dial-codes";
 import {
@@ -684,6 +685,8 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
   }, []);
   const started = useRef(false);
   const completedSteps = useRef(new Set<StepId>());
+  // Null whenever the widget is off or the visitor is not on the last step.
+  const turnstile = useRef<TurnstileHandle>(null);
 
   const steps = BD_STEPS;
   const step = steps[i];
@@ -814,12 +817,17 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
     trackCompletedStep();
     setBusy(true);
     setError(null);
+    // Resolves "" — quickly — when Turnstile is off, blocked or still working.
+    // The request goes either way; the server decides what an absent token is
+    // worth. See components/Turnstile.tsx.
+    const turnstileToken = await turnstile.current?.getToken();
     try {
       const res = await submitLead({
         form,
         startIso,
         timezone,
         renderedAt: renderedAt.current,
+        turnstileToken,
       });
       const conversion = {
         intent: form.intent,
@@ -865,6 +873,9 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
       } else {
         setError("Something went wrong. Please try again.");
       }
+      // The token this attempt carried is spent. Without a fresh one the retry
+      // would fail verification and be dropped in silence.
+      turnstile.current?.reset();
       setBusy(false);
     }
   };
@@ -1133,6 +1144,10 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
             {errors.schedule && <small className="bd-field-err">{errors.schedule}</small>}
           </>
         )}
+
+        {/* Only on the step that submits, and only when a site key is set —
+            with none it renders nothing at all. */}
+        {last && <Turnstile ref={turnstile} action="book-demo" />}
 
         {last && <p className="bd-fine">Your details are used to prepare the call.</p>}
       </div>

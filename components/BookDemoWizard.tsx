@@ -655,7 +655,6 @@ export type BookDemoResult = LeadResponse & { startIso: string | null; timezone:
 
 const EMPTY_FORM: LeadForm = {
   intent: "",
-  currentPlatform: "",
   stage: "",
   role: "",
   timeline: "",
@@ -951,14 +950,6 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
                 placeholder="yourfirm.com"
                 autoFocus
                 aria-invalid={Boolean(errors.website)}
-              />
-            </BdField>
-            <BdField label="What you run today" hint="(optional)">
-              <input
-                type="text"
-                value={form.currentPlatform}
-                onChange={upd("currentPlatform")}
-                placeholder="e.g. MetaTrader 5 and cTrader, or DXtrade and an in house CRM"
               />
             </BdField>
             <BdChoice

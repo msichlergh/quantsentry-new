@@ -1,11 +1,9 @@
 "use client";
 
-import {
-  ArrowUpRight,
-  Database,
-  Lightning,
-  SquaresFour,
-} from "@phosphor-icons/react";
+import { ArrowUpRightIcon as ArrowUpRight } from "@phosphor-icons/react/dist/csr/ArrowUpRight";
+import { DatabaseIcon as Database } from "@phosphor-icons/react/dist/csr/Database";
+import { LightningIcon as Lightning } from "@phosphor-icons/react/dist/csr/Lightning";
+import { SquaresFourIcon as SquaresFour } from "@phosphor-icons/react/dist/csr/SquaresFour";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 

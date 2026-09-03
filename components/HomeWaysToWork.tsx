@@ -1,21 +1,19 @@
 "use client";
 
-import {
-  ArrowCounterClockwise,
-  ArrowRight,
-  ChartBar,
-  Clock,
-  CurrencyDollar,
-  Export,
-  FileText,
-  Lightning,
-  MagnifyingGlass,
-  Monitor,
-  PaperPlaneTilt,
-  PresentationChart,
-  TrendUp,
-  Warning,
-} from "@phosphor-icons/react";
+import { ArrowCounterClockwiseIcon as ArrowCounterClockwise } from "@phosphor-icons/react/dist/csr/ArrowCounterClockwise";
+import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/csr/ArrowRight";
+import { ChartBarIcon as ChartBar } from "@phosphor-icons/react/dist/csr/ChartBar";
+import { ClockIcon as Clock } from "@phosphor-icons/react/dist/csr/Clock";
+import { CurrencyDollarIcon as CurrencyDollar } from "@phosphor-icons/react/dist/csr/CurrencyDollar";
+import { ExportIcon as Export } from "@phosphor-icons/react/dist/csr/Export";
+import { FileTextIcon as FileText } from "@phosphor-icons/react/dist/csr/FileText";
+import { LightningIcon as Lightning } from "@phosphor-icons/react/dist/csr/Lightning";
+import { MagnifyingGlassIcon as MagnifyingGlass } from "@phosphor-icons/react/dist/csr/MagnifyingGlass";
+import { MonitorIcon as Monitor } from "@phosphor-icons/react/dist/csr/Monitor";
+import { PaperPlaneTiltIcon as PaperPlaneTilt } from "@phosphor-icons/react/dist/csr/PaperPlaneTilt";
+import { PresentationChartIcon as PresentationChart } from "@phosphor-icons/react/dist/csr/PresentationChart";
+import { TrendUpIcon as TrendUp } from "@phosphor-icons/react/dist/csr/TrendUp";
+import { WarningIcon as Warning } from "@phosphor-icons/react/dist/csr/Warning";
 import Image from "next/image";
 import { useState } from "react";
 import { ThinkingOrb } from "thinking-orbs";

@@ -30,7 +30,6 @@ export type Lead = {
   phone?: string;
   role?: string;
   stage?: string;
-  currentPlatform?: string;
   notes?: string;
   page?: string;
   source: string;
@@ -81,7 +80,6 @@ export function parseLead(
     phone: phone || undefined,
     role: str(body?.role, MAX.other) || undefined,
     stage: str(body?.stage, MAX.other) || undefined,
-    currentPlatform: str(body?.currentPlatform, MAX.other) || undefined,
     notes: str(body?.notes, MAX.notes) || undefined,
     page: str(page, MAX.other) || undefined,
     source: "quantsentry.com",
@@ -114,13 +112,131 @@ function normaliseUrl(v: string): string | undefined {
   }
 }
 
+// Nobody fills a form in under two seconds.
+const MIN_FILL_MS = 2000;
+// Client clocks drift, and a visitor whose machine is a few minutes fast is not
+// a bot. Anything beyond this is a fabricated timestamp.
+const MAX_CLOCK_SKEW_MS = 5 * 60_000;
+// No real browser stamps a render time before this. Catches 0, "", null coerced
+// to 0, and seconds-instead-of-millis timestamps in one comparison.
+const EARLIEST_PLAUSIBLE_TS = Date.UTC(2020, 0, 1);
+
 // Two cheap filters that cost a real visitor nothing:
 //   trap  — a hidden input no human sees; bots fill every field they find
 //   ts    — when the form was rendered; a sub-2s submission was not typed
 // Both fail silently at the route: a bot told it was blocked just adapts.
+//
+// --- Fails CLOSED, and that is the whole point ----------------------------
+//
+// The previous version read `Number(body?.ts)` and only applied the timing rule
+// when the result was finite. `Number(undefined)` is NaN, so OMITTING `ts`
+// skipped the check entirely — the defence was opt-in, and the attacker held
+// the switch. Deleting one field from the payload disabled it.
+//
+// Now an absent, non-numeric or implausible `ts` is itself the signal. Both
+// real clients (lib/lead-client.ts) always send a mount-time `Date.now()`, so
+// this costs a genuine submission nothing.
+//
+// An OLD timestamp is deliberately NOT a failure: a visitor who leaves the tab
+// open over lunch and submits an hour later is a lead, not a bot.
 export function looksAutomated(body: LeadBody | null | undefined): string | null {
   if (str(body?.company_confirm, 200)) return "honeypot";
-  const rendered = Number(body?.ts);
-  if (Number.isFinite(rendered) && Date.now() - rendered < 2000) return "too-fast";
+
+  const raw = body?.ts;
+  if (typeof raw !== "number" && typeof raw !== "string") return "no-timestamp";
+  const rendered = typeof raw === "number" ? raw : Number(raw.trim());
+  if (!Number.isFinite(rendered) || rendered < EARLIEST_PLAUSIBLE_TS) return "bad-timestamp";
+
+  const now = Date.now();
+  if (rendered > now + MAX_CLOCK_SKEW_MS) return "future-timestamp";
+  if (now - rendered < MIN_FILL_MS) return "too-fast";
   return null;
+}
+
+// --- Log redaction --------------------------------------------------------
+//
+// A lead is name, work email, phone and free-text notes: PII, and in the EU
+// personal data under GDPR. Platform logs are retained, searchable, and visible
+// to anyone with project access — so nothing below ever emits a raw value.
+//
+// What a log line still needs to be useful is the ability to say "this is the
+// same person as that other line" and "which record do I go and look at in the
+// CRM". `fingerprint` gives the first, the masked forms give the second.
+
+// FNV-1a and DJB2 over the same input, concatenated to 64 bits.
+//
+// NOT a security primitive and not intended as one — a hash of an email is
+// brute-forceable from a wordlist regardless of the algorithm. Its job is to
+// correlate log lines without printing the address. Hand-rolled to keep this
+// module free of a node:crypto import, which would make it server-only and it
+// is shared with the provider types.
+export function fingerprint(value: string): string {
+  const input = value.trim().toLowerCase();
+  if (!input) return "none";
+  let fnv = 0x811c9dc5;
+  let djb = 5381;
+  for (let i = 0; i < input.length; i++) {
+    const c = input.charCodeAt(i);
+    fnv = Math.imul(fnv ^ c, 0x01000193);
+    djb = Math.imul(djb, 33) ^ c;
+  }
+  const hex = (n: number) => (n >>> 0).toString(16).padStart(8, "0");
+  return `${hex(fnv)}${hex(djb)}`;
+}
+
+// "m***@example.com" — the domain is the operationally useful half (it tells
+// you whether this is a fund, a free mailbox or a throwaway) and the local part
+// is the identifying half, so only the domain survives.
+export function maskEmail(email: string | undefined): string {
+  if (!email) return "";
+  const at = email.lastIndexOf("@");
+  if (at < 1) return "***";
+  return `${email[0]}***@${email.slice(at + 1)}`;
+}
+
+// Last four digits only: enough to match against a CRM record you already have
+// open, useless as a contact detail on its own.
+export function maskPhone(phone: string | undefined): string {
+  if (!phone) return "";
+  const digits = phone.replace(/\D/g, "");
+  return digits.length < 4 ? "***" : `***${digits.slice(-4)}`;
+}
+
+/**
+ * The only representation of a lead that may be written to a log.
+ *
+ * Never returns `name`, `email`, `phone`, `notes`, `telegram` or `website` in
+ * full. Notes are reduced to a length because their CONTENT is free text a
+ * visitor typed — the highest-risk field on the form and the one with no
+ * diagnostic value at all.
+ */
+export function redactLead(lead: Lead): Record<string, unknown> {
+  return {
+    id: fingerprint(lead.email),
+    email: maskEmail(lead.email),
+    phone: maskPhone(lead.phone),
+    // First initial only. Enough to disambiguate two leads from one firm.
+    name: lead.name ? `${lead.name[0]}***` : "",
+    // Host, not the full URL: a path can carry a query string with anything in it.
+    websiteHost: hostOf(lead.website),
+    hasTelegram: Boolean(lead.telegram),
+    notesLength: lead.notes?.length ?? 0,
+    intent: lead.intent,
+    timeline: lead.timeline,
+    role: lead.role,
+    stage: lead.stage,
+    page: lead.page,
+    source: lead.source,
+    tags: lead.tags,
+    freeEmail: lead.freeEmail,
+  };
+}
+
+function hostOf(url: string | undefined): string {
+  if (!url) return "";
+  try {
+    return new URL(url).host;
+  } catch {
+    return "invalid";
+  }
 }

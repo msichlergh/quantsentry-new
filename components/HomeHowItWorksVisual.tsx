@@ -1,14 +1,12 @@
 "use client";
 
-import {
-  Brain,
-  ChartLineUp,
-  Check,
-  Database,
-  Gauge,
-  Lightning,
-  Warning,
-} from "@phosphor-icons/react";
+import { BrainIcon as Brain } from "@phosphor-icons/react/dist/csr/Brain";
+import { ChartLineUpIcon as ChartLineUp } from "@phosphor-icons/react/dist/csr/ChartLineUp";
+import { CheckIcon as Check } from "@phosphor-icons/react/dist/csr/Check";
+import { DatabaseIcon as Database } from "@phosphor-icons/react/dist/csr/Database";
+import { GaugeIcon as Gauge } from "@phosphor-icons/react/dist/csr/Gauge";
+import { LightningIcon as Lightning } from "@phosphor-icons/react/dist/csr/Lightning";
+import { WarningIcon as Warning } from "@phosphor-icons/react/dist/csr/Warning";
 import Image from "next/image";
 import { ThinkingOrb } from "thinking-orbs";
 

@@ -1,11 +1,9 @@
-import {
-  ArrowRight,
-  ChartLineDown,
-  IdentificationCard,
-  ShieldCheck,
-  Target,
-  TrendUp,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/ssr/ArrowRight";
+import { ChartLineDownIcon as ChartLineDown } from "@phosphor-icons/react/dist/ssr/ChartLineDown";
+import { IdentificationCardIcon as IdentificationCard } from "@phosphor-icons/react/dist/ssr/IdentificationCard";
+import { ShieldCheckIcon as ShieldCheck } from "@phosphor-icons/react/dist/ssr/ShieldCheck";
+import { TargetIcon as Target } from "@phosphor-icons/react/dist/ssr/Target";
+import { TrendUpIcon as TrendUp } from "@phosphor-icons/react/dist/ssr/TrendUp";
 import type { CSSProperties } from "react";
 
 import { HomeDataPattern } from "./HomeDataPattern";

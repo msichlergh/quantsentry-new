@@ -599,7 +599,10 @@ section .wrap>*{}
 .home-platform-brand:nth-child(2) { z-index: 1; }
 .home-platform-brand:nth-child(3) { z-index: 2; }
 .home-platform-brand:first-child { margin-left: 0; }
-.home-platform-brand-mt5 { background-image: url('/images/metatrader5-icon.png'); background-size: 27px auto; background-position: center; }
+/* 128px webp: the tile renders the mark at 27px, so the 512px source was ~60x
+   the pixels it could ever show. The .png originals stay in place for the
+   components and static HTML that still reference them. */
+.home-platform-brand-mt5 { background-image: url('/images/brokers/metatrader5-icon.webp'); background-size: 27px auto; background-position: center; }
 .home-platform-brand-ctrader { background-image: url('/images/ctrader-official.png'); background-size: 27px auto; background-position: center; }
 .home-platform-brand-tradelocker { background-image: url('/images/tradelocker-icon.png'); background-size: 25px auto; background-position: center; }
 .home-source-signal strong { display: block; overflow: hidden; color: var(--ink2); font-size: 14.369px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
@@ -648,7 +651,15 @@ section .wrap>*{}
 .home-argus-meta > b::before { content: ""; width: 5px; height: 5px; flex: none; border-radius: 50%; background: var(--cy); }
 .home-argus-input input { display: block; width: 100%; min-width: 0; height: 24px; padding: 0; border: 0; border-radius: 0; color: color-mix(in srgb, var(--ink2) 85%, white 15%); background: transparent; transform: translateY(-2px); font: inherit; font-size: 12.6px; }
 .home-argus-input input:focus { outline: 0; box-shadow: none; }
+/* The input suppresses its own outline, so the pill carries the indicator. At
+   .08 alpha the ring was invisible against the dark bar; keyboard users had no
+   way to tell the field was focused. Only strengthen it for :focus-visible, so
+   pointer users keep the quiet hover-weight treatment. */
 .home-argus-preview:focus-within { border-color: rgba(72, 199, 195, .34); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 0 0 2px rgba(72, 199, 195, .08), 0 20px 44px rgba(0, 0, 0, .28); }
+.home-argus-preview:has(input:focus-visible) {
+  border-color: var(--cy);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 0 0 3px rgba(72, 199, 195, .38), 0 20px 44px rgba(0, 0, 0, .28);
+}
 .home-argus-input input::placeholder { color: color-mix(in srgb, var(--ink4) 65%, white 35%); opacity: 1; }
 .home-argus-icon,
 .home-argus-arrow,
@@ -1702,6 +1713,9 @@ footer .brand { font-size: 26.93px; }
   transition: border-color .16s ease, box-shadow .16s ease;
 }
 .integrations-search:focus-within { border-color: rgba(8, 124, 122, .38); box-shadow: 0 0 0 3px rgba(8, 124, 122, .08); }
+/* Same trade as the hero Argus bar: the input kills its outline, so the shell
+   must carry a ring a keyboard user can actually see. */
+.integrations-search:has(input:focus-visible) { border-color: var(--cy); box-shadow: 0 0 0 3px rgba(8, 124, 122, .34); }
 .integrations-search input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font: inherit; font-size: 13.5px; }
 .integrations-search input::placeholder { color: var(--ink4); }
 .integrations-search input::-webkit-search-cancel-button { opacity: .55; cursor: pointer; }
@@ -3581,8 +3595,11 @@ footer .brand { font-size: 26.93px; }
 .nav-menu-link:hover,
 .industry-menu-link:focus-visible,
 .nav-menu-link:focus-visible { background: rgba(255, 255, 255, .028); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .065); }
+/* These traded the outline for a 6.5% inset hairline, which is not a visible
+   focus indicator on the near-black menu surface. Keep the hairline as the
+   hover-weight fill and restore a real ring for keyboard focus. */
 .industry-menu-link:focus-visible,
-.nav-menu-link:focus-visible { outline: none; }
+.nav-menu-link:focus-visible { outline: 2px solid var(--cy); outline-offset: -2px; }
 .industry-menu-link:hover .industry-menu-description,
 .nav-menu-link:hover .nav-menu-description,
 .industry-menu-link:focus-visible .industry-menu-description,
@@ -3779,6 +3796,19 @@ footer .brand { font-size: 26.93px; }
     font: inherit;
     font-size: 14px;
     font-weight: 500;
+  }
+  /* `outline: 0` above out-specifies the global :focus-visible rule, so the
+     only keyboard control on the mobile comparison had no focus indicator at
+     all. Put the ring back on the select, and light the 48px shell with it so
+     the whole control reads as focused rather than a hairline inside it. */
+  .mobile-comparison-select-control select:focus-visible {
+    outline: 2px solid var(--cy);
+    outline-offset: -2px;
+    border-radius: 12px;
+  }
+  .mobile-comparison-select-control:has(select:focus-visible) {
+    border-color: var(--cy);
+    box-shadow: 0 0 0 3px rgba(72, 199, 195, .22);
   }
   .mobile-comparison-select-control svg { position: absolute; right: 15px; pointer-events: none; }
   .mobile-comparison-cards { display: grid; gap: 10px; }
@@ -4631,4 +4661,160 @@ html { scroll-padding-top: 92px; }
 @media (max-width: 1099px) and (prefers-reduced-motion: reduce) {
   .page-content .signal-field-hero .hero-pixel-field,
   .page-content-html.signal-field-hero .hero-pixel-field { display: none; }
+}
+
+/* ==========================================================================
+   Mobile audit pass 3 — touch targets.
+   Measured in Chrome at 320 / 360 / 390 / 768 / 1024 across all 20 static
+   pages, the insights index and an article, /demo and /legal. No horizontal
+   overflow and no clipped nowrap text at any width; what remained were
+   controls still under the 44px bar, most of them because a later, narrower
+   rule undercut an earlier mobile fix. Same trade used throughout the sheet:
+   keep the compact visual box, carry the target on an expander.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* Footer navigation. The 560px density pass reset these rows to 35.2px,
+     which silently undid the 44px rule set for them at 760px. Keep the tight
+     row - it is what makes the two-column footer fit - and put the target
+     back on an expander. */
+  .fcols ul a { position: relative; }
+  .fcols ul a::after { content: ""; position: absolute; inset: -5px -8px; min-height: 44px; }
+
+  /* Homepage journey selector ("Unified Data / Team Intelligence / Argus AI").
+     41.4px was tuned for the desktop pill and carried straight into the
+     mobile scroll rail. */
+  .home-dashboard-journey-selector button { position: relative; }
+  .home-dashboard-journey-selector button::after { content: ""; position: absolute; inset: -2px 0; min-height: 44px; }
+
+  /* The hamburger's expander only stretched it vertically (inset: -4px 0), so
+     it stayed a 36px-wide target - the narrowest control in the header. */
+  .mobile-toggle::after { inset: -4px; }
+
+  /* Category chips: "All" is the shortest label and came out 41px wide once
+     the count was hidden. */
+  .integrations-filter-list button { min-width: 44px; justify-content: center; }
+
+  /* The search field is a 26px input inside a 48px shell, so two thirds of
+     the control did nothing when tapped. */
+  .integrations-search input { align-self: stretch; min-height: 44px; }
+
+  /* Hero Argus field: the bar was deliberately trimmed to 64px, which left the
+     input itself 30px. Negative margin keeps the layout height while the hit
+     box reaches 44px. */
+  .home-argus-input input { min-height: 44px; margin-block: -7px; }
+
+  /* .pricing-run-options pins .btn.ghost to 40px outside any media query, so
+     it out-specifies the site-wide 44px mobile rule for buttons. */
+  .pricing-run-options .btn.ghost { min-height: 44px; }
+
+  /* Company page: the QuantSentry lockup inside the group diagram is a link. */
+  .company-group-brand { position: relative; }
+  .company-group-brand::after { content: ""; position: absolute; inset: -6px -10px; min-height: 44px; }
+
+  /* Insights: back link, source citation and the author-card link. */
+  .insight-back { min-height: 44px; }
+  .article-source a,
+  .article-author-card-copy > a { position: relative; display: inline-block; }
+  .article-source a::after,
+  .article-author-card-copy > a::after { content: ""; position: absolute; inset: -14px -10px; }
+
+  /* Legal documents: the table of contents is the primary way to move around a
+     long policy on a phone, and its rows were 28px. */
+  .legal-document-toc a { min-height: 44px; align-content: center; }
+  .legal-document-end a { position: relative; display: inline-block; }
+  .legal-document-end a::after { content: ""; position: absolute; inset: -14px -10px; }
+
+  /* The panel-link expander was scoped to .page-content-html, so it reached the
+     static HTML pages and missed every React-rendered one (/industries,
+     /platform, the homepage panels). Cover both, plus standalone links that
+     close a lede rather than sitting in a panel. */
+  .page-content .panel a:not(.btn):not(.brand),
+  .page-content .lede > a,
+  .page-content-html .lede > a { position: relative; display: inline-block; max-width: 100%; }
+  .page-content .panel a:not(.btn):not(.brand)::after,
+  .page-content .lede > a::after,
+  .page-content-html .lede > a::after { content: ""; position: absolute; inset: -14px -10px; }
+}
+
+/* ==========================================================================
+   Reduced motion — full coverage.
+   The sheet had eleven scattered prefers-reduced-motion blocks and still left
+   several animations running: the .typing / .tabpane / .qstep keyframes, the
+   Argus typing carets, the integrations card entrance, and every decorative
+   WebGL canvas (the hero aurora, the PixelBlast hero field, the footer CTA
+   wash and the HomeDataPattern section texture) which had no motion rule at
+   any width. The reset below covers anything added later by default; the
+   explicit rules after it handle the cases a duration reset cannot.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Land every animation on its end state and every transition instantly,
+     rather than enumerating keyframes one at a time and missing new ones.
+     Kept non-zero so animationend / transitionend listeners still fire. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Decorative canvases. These render continuous WebGL motion behind the
+     content, are aria-hidden, and carry no information - a duration reset
+     cannot stop them because the motion is inside the canvas. The hero pixel
+     field was already hidden below 1100px; it and the other three now go at
+     every width. */
+  .hero-aurora,
+  .hero-pixel-field,
+  .footer-cta-aurora,
+  .home-data-pattern { display: none !important; }
+
+  /* Marquees translate a max-content track, so freezing them mid-run would
+     leave the row scrolled off-centre. Reset the transform as well. */
+  .mtrack { animation: none !important; transform: none !important; }
+
+  /* Entrance states that JS clears by adding a class: hold them visible in
+     case the observer never fires. */
+  .tabpane.on,
+  .qstep.on,
+  .integration-directory-card,
+  .home-work-content,
+  .team-insights-windowbody,
+  .home-how-panel { opacity: 1 !important; transform: none !important; }
+
+  /* Blinking indicators - typing dots and the two Argus carets. A duration
+     reset stops the loop but can leave them on the transparent keyframe. */
+  .typing i,
+  .home-argus-ingestion-caret,
+  .home-argus-type-caret,
+  .home-always-query > p > i.is-visible,
+  .type:after { animation: none !important; opacity: 1 !important; }
+
+  /* Hover motion is motion too. */
+  .panel:hover,
+  .btn.solid:hover,
+  .team-insights-prompt:hover,
+  .home-always-output-column > button:hover,
+  .qopt:hover,
+  .home-capability-card-link:hover svg { transform: none !important; }
+}
+
+/* ==========================================================================
+   /compare mobile safety net.
+   `.cmp { display: none }` at 760px assumes <MobileComparison> has portalled
+   its card list into #mobile-comparison-slot. It currently never mounts -
+   the slot renders empty - so the whole comparison, eleven rows of it, is
+   invisible on every phone. That is a component bug and belongs in the .tsx,
+   but the page should not ship blank in the meantime: when the replacement is
+   absent, fall back to the desktop table, which already scrolls horizontally
+   with a sticky label column. Self-healing - the moment the component mounts,
+   :has() stops matching and the card list takes over again.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  .page-content:not(:has(.mobile-comparison)) .cmp { display: block; }
 }

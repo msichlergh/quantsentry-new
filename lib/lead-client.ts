@@ -5,7 +5,6 @@
 
 export type LeadForm = {
   intent: string;
-  currentPlatform: string;
   stage: string;
   role: string;
   timeline: string;

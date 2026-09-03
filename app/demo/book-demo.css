@@ -163,11 +163,21 @@ section.bd-focus {
 }
 .bd-field input::placeholder,
 .bd-field textarea::placeholder { color: var(--ink4); }
-/* Focus marks the active element: a plain teal border, no wash. */
+/* Focus marks the active element. The teal border alone is a colour-only
+   signal — it fails SC 1.4.11 and disappears entirely for anyone who cannot
+   separate the teal from the #2b2e31 hair. Pair it with a ring, and scope the
+   ring to :focus-visible so pointer users keep the quiet border-only state.
+   (Text fields match :focus-visible on click too, so the border still moves.) */
 .bd-field input:focus,
 .bd-field textarea:focus {
   outline: none;
   border-color: var(--cy);
+}
+.bd-field input:focus-visible,
+.bd-field textarea:focus-visible {
+  outline: 2px solid var(--cy);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(72, 199, 195, 0.16);
 }
 .bd-field textarea { line-height: 1.5; }
 .bd-fine {
@@ -330,6 +340,11 @@ section.bd-focus {
   outline: none;
   border-color: var(--cy);
 }
+.bd-dialp-search:focus-visible {
+  outline: 2px solid var(--cy);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(72, 199, 195, 0.16);
+}
 .bd-dialp-list {
   margin: 0;
   padding: 0;
@@ -358,6 +373,11 @@ section.bd-focus {
 .bd-tzp-input:focus {
   outline: none;
   border-color: var(--cy);
+}
+.bd-tzp-input:focus-visible {
+  outline: 2px solid var(--cy);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(72, 199, 195, 0.16);
 }
 .bd-tzp-list {
   position: absolute;
@@ -849,4 +869,56 @@ section.bd-focus {
   .bd-assure { gap: 8px 16px; }
   .bd-assure li { font-size: 12.5px; }
   .bd-confirm { padding: 36px 20px; }
+}
+
+/* ==========================================================================
+   Mobile: touch targets and reduced motion.
+   Audited at 320 / 360 / 390 / 768 / 1024. The wizard had no horizontal
+   overflow at any width; what it lacked were comfortable targets for the
+   controls a visitor taps most on a phone, and any motion preference at all.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  /* Month paging: a 26px square is the smallest control on the page and the
+     one people hit repeatedly. Keep the compact mark, expand the hit area -
+     the same trade globals.css uses for the header controls. */
+  .bd-cal-navbtn { position: relative; }
+  .bd-cal-navbtn::after {
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Dial-code and time-zone option rows (both use .bd-tzp-opt) sat at ~30px
+     inside a scrolling popover, where a miss scrolls the list instead. */
+  .bd-tzp-opt { min-height: 44px; }
+
+  /* Slot buttons landed at ~42px; two pixels short of the bar. */
+  .bd-cal-time { min-height: 44px; }
+
+  /* "Back" through the wizard, and the "start over" link on the confirmation. */
+  .bd-wiz-back { min-height: 44px; }
+  .bd-btn-link { position: relative; display: inline-block; }
+  .bd-btn-link::after { content: ""; position: absolute; inset: -14px -10px; }
+
+  /* The day grid cannot reach 44px inside a 320px column (7 cells plus gaps),
+     so buy back what the gutters were holding: ~34px -> ~37px at 320px, and
+     comfortably past 44px from 390px up. */
+  .bd-cal-dow,
+  .bd-cal-days { gap: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Every transition on this card is decorative: the progress fill, the
+     hover/selected colour fades on chips, days, slots and nav buttons. */
+  .bd-prog-bar > i,
+  .bd-chip,
+  .bd-field input,
+  .bd-field textarea,
+  .bd-cal-navbtn,
+  .bd-cal-day,
+  .bd-cal-time { transition: none; }
 }

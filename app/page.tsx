@@ -3,11 +3,20 @@ import type { Metadata } from "next";
 import { SitePage } from "@/components/SitePage";
 import { pages } from "@/lib/pages";
 
-export const metadata: Metadata = {
-  title: { absolute: pages.index.title },
+import { JsonLd, breadcrumbNode } from "./_seo/jsonld";
+import { buildMetadata } from "./_seo/metadata";
+
+export const metadata: Metadata = buildMetadata({
+  title: pages.index.title,
   description: pages.index.description,
-};
+  path: "/",
+});
 
 export default function HomePage() {
-  return <SitePage slug="index" />;
+  return (
+    <>
+      <JsonLd nodes={[breadcrumbNode([{ name: "Home", path: "/" }])]} />
+      <SitePage slug="index" />
+    </>
+  );
 }

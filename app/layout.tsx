@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | QuantSentry",
   },
   description:
-    "Network based AI risk and business intelligence for prop firms.",
+    "Network based AI risk and business intelligence for modern trading businesses.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

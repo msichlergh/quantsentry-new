@@ -3,6 +3,8 @@ import { Instrument_Sans } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 
+import { SiteAnalytics } from "@/lib/analytics-provider";
+
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 
@@ -82,6 +84,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         {children}
         <Footer />
         <Script src="/site.js" strategy="afterInteractive" />
+        {/* Vercel Web Analytics + Speed Insights. Last in <body> so neither
+            script competes with the hero for the first paint. */}
+        <SiteAnalytics />
       </body>
     </html>
   );

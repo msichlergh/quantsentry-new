@@ -3,6 +3,7 @@
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
+import { trackLeadSubmit } from "@/lib/analytics";
 import { LeadError, submitContact } from "@/lib/lead-client";
 
 // Compact contact form for the demo page. Same /api/lead pipeline as the
@@ -49,7 +50,7 @@ export function BookDemoContact() {
     setBusy(true);
     setError(null);
     try {
-      await submitContact({
+      const res = await submitContact({
         name,
         email,
         website: company,
@@ -57,6 +58,10 @@ export function BookDemoContact() {
         renderedAt: renderedAt.current,
         honeypot,
       });
+      // Same gate as the wizard: only a lead the server says it delivered
+      // counts. This form is the "sent a request, did not book" half of the
+      // funnel and was previously invisible.
+      if (res.delivered) trackLeadSubmit({ leadType: "contact", booked: false });
       setSent(true);
     } catch (err) {
       if (err instanceof LeadError) {

@@ -834,6 +834,14 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
           booked: Boolean(res.booked),
           ...conversion,
         });
+      } else {
+        // A dropped bot, or a CRM that did not take the lead. Without this the
+        // funnel cannot tell a delivery outage from everyone abandoning on the
+        // last step — the two look identical from the step events alone.
+        trackBookDemo("demo_submit_failed", {
+          ...conversion,
+          reason: res.dropped ? "dropped" : "not_delivered",
+        });
       }
       if (res.booked && startIso) {
         trackBookDemo("demo_booked", {
@@ -844,6 +852,13 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
       }
       onDone({ ...res, startIso, timezone });
     } catch (err) {
+      // Coarse reason only. `err.message` is server copy today, but it is the
+      // one string here that could ever echo a submitted value back.
+      trackBookDemo("demo_submit_failed", {
+        intent: form.intent,
+        booking_requested: Boolean(startIso),
+        reason: err instanceof LeadError ? "rejected" : "network",
+      });
       if (err instanceof LeadError) {
         setErrors(err.fieldErrors || {});
         setError(err.message);

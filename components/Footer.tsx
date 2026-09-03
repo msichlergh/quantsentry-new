@@ -55,7 +55,7 @@ export function Footer() {
               <BrandLockup />
             </a>
             <p className="footer-summary">
-              Network based AI risk and business intelligence for modern trading businesses.
+              Network Based AI Risk and Business Intelligence for Modern Trading Businesses.
             </p>
             <a
               aria-label="QuantSentry is part of Quant Technology Group"

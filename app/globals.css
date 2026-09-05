@@ -402,7 +402,14 @@ section .wrap>*{}
 @media(max-width:900px){.app-in{grid-template-columns:1fr}.app-nav{display:none}
   .kpis{grid-template-columns:1fr 1fr}.app-rows{grid-template-columns:1fr}}
 @media(max-width:900px){.g4,.g3,.g2{grid-template-columns:1fr}.navpill ul{display:none}.fcols{
-  grid-template-columns:1fr 1fr}}
+  grid-template-columns:1fr 1fr}
+  /* These grids carry a wide inline `gap` tuned as the space BETWEEN two
+     columns. Once they stack, that same value becomes the space between a
+     heading and the paragraph under it, which reads as a hole — the heading is
+     clamped down to 24px on a phone while the gap stays at 56px. Row gap only,
+     so the column gap is untouched at every width where there are columns.
+     !important because the value it overrides is an inline style. */
+  .g4,.g3,.g2{row-gap:24px!important}}
 
 
 /* Shared Next.js shell */

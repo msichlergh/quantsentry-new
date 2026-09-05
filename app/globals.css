@@ -266,10 +266,14 @@ body{padding-top:96px}
 .askq:hover{border-color:rgba(72,199,195,.4);color:var(--ink)}
 .askq.on{background:rgba(72,199,195,.1);border-color:rgba(72,199,195,.45);color:var(--ink);font-weight:500}
 .wave{display:flex;align-items:center;justify-content:center;gap:3px;height:56px;margin-top:14px}
-.wave i{width:3px;border-radius:2px;background:var(--cy);height:10px;display:block;
-  animation:wv 1.1s ease-in-out infinite alternate}
-@keyframes wv{to{height:44px;opacity:.75}}
-@media(prefers-reduced-motion:reduce){.wave i{animation:none;height:24px}}
+/* The bar is laid out at its tallest (44px) and scaled down to the 10px resting
+   size, so the 38 bars animate a composited transform instead of relaying out
+   the flex row 60 times a second. .wave centres its items, and scaleY keeps the
+   same centre, so the run reads identically. */
+.wave i{width:3px;border-radius:2px;background:var(--cy);height:44px;display:block;
+  transform:scaleY(.227273);animation:wv 1.1s ease-in-out infinite alternate}
+@keyframes wv{to{transform:scaleY(1);opacity:.75}}
+@media(prefers-reduced-motion:reduce){.wave i{animation:none;height:24px;transform:none}}
 @media(max-width:900px){[data-play]{grid-template-columns:1fr!important}}
 
 .feed{margin-top:16px;display:flex;flex-direction:column;gap:2px;min-height:296px}
@@ -2545,10 +2549,31 @@ footer .brand { font-size: 26.93px; }
 .home-how-tool img { width: 62%; height: 62%; border-radius: 12px; object-fit: contain; filter: grayscale(1) brightness(.72) contrast(.9); opacity: .72; }
 .home-how-tool:first-child,
 .home-how-tool:last-child { width: 44px; height: 44px; opacity: .22; }
-.home-how-tool.is-primary { width: 82px; height: 82px; border-color: #303536; box-shadow: 0 0 0 11px rgba(15, 18, 19, .84), 0 0 38px rgba(0, 0, 0, .95); opacity: 1; animation: home-how-tool-release 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
-.home-how-tool.is-next { animation: home-how-tool-focus 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
+/* The two animating tiles swap between 62px and 82px. Animating width/height
+   relaid out the whole rail every frame, so both are laid out at the 82px
+   maximum and scale within it. -5px of inline margin each keeps the pair's
+   contribution to the row at 62 + 16 + 82 = 160px, exactly what the two boxes
+   summed to at every point of the old animation, so the rail's centred content
+   width never changes and no neighbour moves. A scaled box grows about its own
+   centre while a widening box grew about one edge, so the transform carries a
+   +/-5px translate that puts each centre back where the width animation had it. */
+.home-how-tool.is-primary { width: 82px; height: 82px; margin-inline: -5px; border-color: #303536; box-shadow: 0 0 0 11px rgba(15, 18, 19, .84), 0 0 38px rgba(0, 0, 0, .95); opacity: 1; transform: translateX(-5px); animation: home-how-tool-release 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
+.home-how-tool.is-next { width: 82px; height: 82px; margin-inline: -5px; box-shadow: 0 0 38px rgba(0, 0, 0, .95); transform: translateX(-5px) scale(.756098); animation: home-how-tool-focus 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
+/* The focus ring the old keyframe grew as box-shadow spread. As a bordered
+   ring on ::before its inner edge always meets the tile edge, and it fades in
+   on opacity alone. .is-next's own animated transform is what makes it the
+   containing block here - adding position:relative instead would move the tile
+   into the positioned paint phase and change how its neighbours' 38px shadows
+   overlap it. The reduced-motion block removes the ring outright, since the
+   transform goes with it. */
+.home-how-tool.is-next::before { content: ""; position: absolute; inset: -11px; border: 11px solid rgba(15, 18, 19, .84); border-radius: 50%; opacity: 0; animation: home-how-tool-ring 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
+/* The logo is sized at 62% of the tile's *content* box, and the 1px border that
+   box excludes does not shrink with a width animation but does shrink with a
+   scale. Left alone the logo would render 0.3px large at the 62px end, so the
+   colour keyframes carry a matching counter-scale. Both are compositor
+   properties, so this stays off the main thread. */
 .home-how-tool.is-primary img { animation: home-how-tool-color-release 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
-.home-how-tool.is-next img { animation: home-how-tool-color-focus 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
+.home-how-tool.is-next img { transform: scale(.991936); animation: home-how-tool-color-focus 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
 .home-how-motion-label { position: absolute; top: calc(50% - 72px); color: #29c9c2; font: inherit; font-size: 10px; font-weight: 500; letter-spacing: .06em; opacity: 0; animation: home-how-connect-label 5.2s cubic-bezier(.2, .8, .2, 1) infinite alternate; }
 .home-how-motion-intelligence { padding: 20px 30px 0; background: #060708 url("/images/how-it-works/intelligence-pattern.png") center / cover no-repeat; }
 .home-how-status-list { position: relative; z-index: 1; display: flex; width: min(64%, 380px); margin: 0 auto; flex-direction: column; gap: 8px; }
@@ -2577,7 +2602,15 @@ footer .brand { font-size: 26.93px; }
 .home-how-action-agent small i { width: 5px; height: 5px; border-radius: 50%; background: #32c9c2; }
 .home-how-action-agent strong { color: #e9eeee; font-size: 13px; font-weight: 500; }
 .home-how-action-metric { position: absolute; z-index: 2; top: 28px; right: 34px; display: grid; width: max-content; padding-left: 25px; }
-.home-how-action-dot { position: absolute; top: 17px; left: 2px; width: 10px; height: 10px; border-radius: 50%; background: #27c9c1; box-shadow: 0 0 0 8px rgba(39, 201, 193, .11); animation: home-how-metric-pulse 2.5s ease-out infinite; }
+/* The pulse was an expanding box-shadow ring, repainted every frame. It is now
+   a disc on ::after scaling 1 -> 3.4 (5px -> 17px radius, the old 0 -> 12px
+   spread) and fading .24 -> 0. The disc is the dot's own colour, so the part
+   that overlaps the dot composites to exactly the dot's colour and only the
+   ring outside it reads - identical to the shadow. The resting 8px halo the
+   dot carried under reduced motion moved to the reduced-motion block, because
+   the old keyframe replaced it outright for the whole animation. */
+.home-how-action-dot { position: absolute; top: 17px; left: 2px; width: 10px; height: 10px; border-radius: 50%; background: #27c9c1; }
+.home-how-action-dot::after { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: 50%; background: #27c9c1; opacity: 0; animation: home-how-metric-pulse 2.5s ease-out infinite; }
 .home-how-action-metric strong { color: #f7f9f9; font-size: 39px; font-weight: 500; line-height: 1.04; letter-spacing: -.045em; }
 .home-how-action-metric > span:last-child { color: #94999a; font: inherit; font-size: 11px; font-weight: 400; letter-spacing: .01em; }
 .home-how-action-chart { position: absolute; right: 0; bottom: 0; left: 0; height: 235px; opacity: .72; }
@@ -2594,14 +2627,15 @@ footer .brand { font-size: 26.93px; }
 .home-how-action-proposal strong { color: #edf2f1; font-size: 13px; font-weight: 500; }
 .home-how-action-proposal p { margin: 0; overflow: hidden; color: #858e90; font-size: 10.5px; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
 @keyframes home-how-tools-shift { 0%, 30% { transform: translate(calc(-50% + 39px), -50%); } 70%, 100% { transform: translate(calc(-50% + 117px), -50%); } }
-@keyframes home-how-tool-release { 0%, 30% { width: 82px; height: 82px; opacity: 1; } 70%, 100% { width: 62px; height: 62px; opacity: .72; } }
-@keyframes home-how-tool-focus { 0%, 30% { width: 62px; height: 62px; opacity: .72; box-shadow: 0 0 28px rgba(0, 0, 0, .78); } 70%, 100% { width: 82px; height: 82px; opacity: 1; box-shadow: 0 0 0 11px rgba(15, 18, 19, .84), 0 0 38px rgba(0, 0, 0, .95); } }
-@keyframes home-how-tool-color-release { 0%, 30% { filter: grayscale(0) brightness(1) contrast(1); opacity: 1; } 70%, 100% { filter: grayscale(1) brightness(.72) contrast(.9); opacity: .72; } }
-@keyframes home-how-tool-color-focus { 0%, 30% { filter: grayscale(1) brightness(.72) contrast(.9); opacity: .72; } 70%, 100% { filter: grayscale(0) brightness(1) contrast(1); opacity: 1; } }
+@keyframes home-how-tool-release { 0%, 30% { transform: translateX(-5px) scale(1); opacity: 1; } 70%, 100% { transform: translateX(5px) scale(.756098); opacity: .72; } }
+@keyframes home-how-tool-focus { 0%, 30% { transform: translateX(-5px) scale(.756098); opacity: .72; } 70%, 100% { transform: translateX(5px) scale(1); opacity: 1; } }
+@keyframes home-how-tool-ring { 0%, 30% { opacity: 0; } 70%, 100% { opacity: 1; } }
+@keyframes home-how-tool-color-release { 0%, 30% { filter: grayscale(0) brightness(1) contrast(1); opacity: 1; transform: scale(1); } 70%, 100% { filter: grayscale(1) brightness(.72) contrast(.9); opacity: .72; transform: scale(.991936); } }
+@keyframes home-how-tool-color-focus { 0%, 30% { filter: grayscale(1) brightness(.72) contrast(.9); opacity: .72; transform: scale(.991936); } 70%, 100% { filter: grayscale(0) brightness(1) contrast(1); opacity: 1; transform: scale(1); } }
 @keyframes home-how-connect-label { 0%, 32% { opacity: 0; transform: translateY(7px); } 65%, 100% { opacity: 1; transform: none; } }
 @keyframes home-how-check-complete { 0%, 16% { color: #2fc5be; background: rgba(47, 197, 190, .14); box-shadow: none; transform: scale(1); } 25%, 58% { color: #061111; background: #2fc9c1; box-shadow: 0 0 0 7px rgba(47, 201, 193, .09); transform: scale(1.05); } 72%, 100% { color: #2fc5be; background: rgba(47, 197, 190, .14); box-shadow: none; transform: scale(1); } }
 @keyframes home-how-status-cursor { 0%, 12% { transform: translate(0, 42px); opacity: 0; } 25% { opacity: 1; } 65% { transform: translate(-24px, -80px); opacity: 1; } 84%, 100% { transform: translate(-24px, -80px); opacity: 0; } }
-@keyframes home-how-metric-pulse { 0%, 45% { box-shadow: 0 0 0 0 rgba(39, 201, 193, .24); } 80%, 100% { box-shadow: 0 0 0 12px rgba(39, 201, 193, 0); } }
+@keyframes home-how-metric-pulse { 0%, 45% { opacity: .24; transform: scale(1); } 80%, 100% { opacity: 0; transform: scale(3.4); } }
 @keyframes home-how-chart-draw { to { stroke-dashoffset: 0; } }
 @keyframes home-how-reading-in { 0%, 12%, 88%, 100% { opacity: 0; transform: translateY(8px); } 28%, 72% { opacity: 1; transform: none; } }
 @keyframes home-how-action-cursor { 0%, 15% { transform: translate(12px, 44px); opacity: 0; } 28% { opacity: 1; } 58%, 76% { transform: translate(-48px, -38px); opacity: 1; } 90%, 100% { transform: translate(-48px, -38px); opacity: 0; } }
@@ -2650,6 +2684,20 @@ footer .brand { font-size: 26.93px; }
   .home-how-panel,
   .home-how-motion,
   .home-how-motion * { animation: none !important; }
+  /* `*` does not match pseudo-elements, so the layers the tile ring and the
+     metric pulse now animate need stopping explicitly. Both rest invisible. */
+  .home-how-motion *::before,
+  .home-how-motion *::after { animation: none !important; }
+  /* The resting halo the dot used to carry as a static box-shadow. */
+  .home-how-action-dot { box-shadow: 0 0 0 8px rgba(39, 201, 193, .11); }
+  /* With no animation to run there is nothing to keep off the main thread, so
+     the two tiles go back to their original boxes outright. Scaling an 82px
+     tile down would render its border and its 28px shadow at 0.76x, and this
+     is the state a reduced-motion visitor actually looks at. */
+  .home-how-tool.is-primary { margin-inline: 0; transform: none; }
+  .home-how-tool.is-next { width: 62px; height: 62px; margin-inline: 0; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .025), 0 0 28px rgba(0, 0, 0, .78); transform: none; }
+  .home-how-tool.is-next img { transform: none; }
+  .home-how-tool.is-next::before { display: none; }
   .home-how-action-chart-line { stroke-dashoffset: 0; }
   .home-how-tabs button,
   .home-how-cta { transition: none; }

@@ -201,6 +201,73 @@ export async function getSlots({
   return days;
 }
 
+// --- Appointment time format ---------------------------------------------
+//
+// HighLevel renders the confirmation email from `startTime`. Handed a bare UTC
+// instant ("2026-09-04T11:30:00.000Z") it formats in the location's own
+// timezone rather than the booker's, so a 19:30 GMT+8 slot was emailed as
+// 12:30 — the right instant, rendered in Europe/London. The Google Calendar
+// invite was unaffected because it only ever needed the absolute instant,
+// which is why the invite read correctly while the email did not.
+//
+// Sending that same instant as a local time carrying its offset
+// ("2026-09-04T19:30:00+08:00") removes the ambiguity. `timezone` still goes
+// alongside it, which is the shape HighLevel documents.
+const pad2 = (n: number) => String(n).padStart(2, "0");
+
+// Minutes east of UTC for `instant` in `timeZone`: format the instant into
+// that zone's wall-clock parts, read them back as if they were UTC, and take
+// the difference. This is DST-correct because Intl resolves the offset that
+// actually applied on that date.
+function offsetMinutes(instant: Date, timeZone: string): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).formatToParts(instant);
+  const at = (type: string) => Number(parts.find((p) => p.type === type)?.value);
+  const asUtc = Date.UTC(
+    at("year"),
+    at("month") - 1,
+    at("day"),
+    // en-US with hour12:false reports midnight as hour 24 in some engines.
+    at("hour") % 24,
+    at("minute"),
+    at("second"),
+  );
+  return Math.round((asUtc - instant.getTime()) / 60_000);
+}
+
+// Exported for the format check in scripts and for anyone reproducing the bug.
+export function localTimeWithOffset(startIso: string, timeZone: string): string {
+  const instant = new Date(startIso);
+  if (!Number.isFinite(instant.getTime())) return startIso;
+
+  let offset: number;
+  try {
+    offset = offsetMinutes(instant, timeZone);
+  } catch {
+    // An unrecognised zone must never cost us the booking. Fall back to the
+    // instant we were given: same behaviour as before this fix.
+    return startIso;
+  }
+  if (!Number.isFinite(offset)) return startIso;
+
+  const local = new Date(instant.getTime() + offset * 60_000);
+  const sign = offset < 0 ? "-" : "+";
+  const abs = Math.abs(offset);
+  return (
+    `${local.getUTCFullYear()}-${pad2(local.getUTCMonth() + 1)}-${pad2(local.getUTCDate())}` +
+    `T${pad2(local.getUTCHours())}:${pad2(local.getUTCMinutes())}:${pad2(local.getUTCSeconds())}` +
+    `${sign}${pad2(Math.floor(abs / 60))}:${pad2(abs % 60)}`
+  );
+}
+
 // Contact first, then appointment against its id. Some API versions accept a
 // contact inline on the appointment; upserting first works on all of them and
 // means a booking that fails at the calendar step still captured the lead.
@@ -242,7 +309,7 @@ export async function createAppointment({
         calendarId: process.env.GHL_CALENDAR_ID,
         locationId: process.env.GHL_LOCATION_ID,
         contactId,
-        startTime: startIso,
+        startTime: localTimeWithOffset(startIso, timezone),
         timezone,
         title: `Demo — ${lead.name}`,
         appointmentStatus: "confirmed",

@@ -3,6 +3,8 @@
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
+import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
+import { trackLeadSubmit } from "@/lib/analytics";
 import { LeadError, submitContact } from "@/lib/lead-client";
 
 // Compact contact form for the demo page. Same /api/lead pipeline as the
@@ -27,6 +29,8 @@ export function BookDemoContact() {
   useEffect(() => {
     if (!renderedAt.current) renderedAt.current = Date.now();
   }, []);
+  // Null whenever the widget is off.
+  const turnstile = useRef<TurnstileHandle>(null);
 
   const dropErr = (k: string) =>
     setErrors((e) => {
@@ -48,15 +52,23 @@ export function BookDemoContact() {
 
     setBusy(true);
     setError(null);
+    // Resolves "" — quickly — when Turnstile is off, blocked or still working.
+    // The request goes either way. See components/Turnstile.tsx.
+    const turnstileToken = await turnstile.current?.getToken();
     try {
-      await submitContact({
+      const res = await submitContact({
         name,
         email,
         website: company,
         message,
         renderedAt: renderedAt.current,
         honeypot,
+        turnstileToken,
       });
+      // Same gate as the wizard: only a lead the server says it delivered
+      // counts. This form is the "sent a request, did not book" half of the
+      // funnel and was previously invisible.
+      if (res.delivered) trackLeadSubmit({ leadType: "contact", booked: false });
       setSent(true);
     } catch (err) {
       if (err instanceof LeadError) {
@@ -70,6 +82,8 @@ export function BookDemoContact() {
       } else {
         setError("Something went wrong. Please try again.");
       }
+      // The token this attempt carried is spent; a retry needs a fresh one.
+      turnstile.current?.reset();
       setBusy(false);
     }
   };
@@ -184,6 +198,9 @@ export function BookDemoContact() {
           {error}
         </div>
       )}
+
+      {/* Renders nothing at all when no site key is set. */}
+      <Turnstile ref={turnstile} action="contact" />
 
       <div className="bd-contact-foot">
         <p className="bd-fine">Your details are used to reply, nothing else.</p>

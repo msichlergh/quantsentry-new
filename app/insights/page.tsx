@@ -4,11 +4,15 @@ import { HeroPixelBlast } from "@/components/HeroPixelBlast";
 import { InsightsGrid } from "@/components/InsightsGrid";
 import { insightArticles } from "@/lib/insights";
 
-export const metadata: Metadata = {
+import { JsonLd, breadcrumbNode } from "../_seo/jsonld";
+import { buildMetadata } from "../_seo/metadata";
+
+export const metadata: Metadata = buildMetadata({
   title: "Insights",
   description:
     "QuantSentry news, product updates, event recaps, and operator-grade perspectives on risk and trading intelligence.",
-};
+  path: "/insights",
+});
 
 export default function InsightsPage() {
   const contentId = "page-content-insights";
@@ -18,6 +22,14 @@ export default function InsightsPage() {
 
   return (
     <>
+      <JsonLd
+        nodes={[
+          breadcrumbNode([
+            { name: "Home", path: "/" },
+            { name: "Insights", path: "/insights" },
+          ]),
+        ]}
+      />
       <main id={contentId} className="page-content insights-page">
         <section className="hero dots insights-hero">
           <div className="wrap">

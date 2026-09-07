@@ -1,32 +1,30 @@
 "use client";
 
-import {
-  ArrowUp,
-  ChartBar,
-  ChartLineUp,
-  ChatCircleDots,
-  CheckCircle,
-  CheckSquare,
-  ClockCountdown,
-  CurrencyDollar,
-  CursorClick,
-  Database,
-  CreditCard,
-  FileText,
-  Gauge,
-  Graph,
-  MagnifyingGlass,
-  Megaphone,
-  Microphone,
-  PaperPlaneTilt,
-  ShareNetwork,
-  ShieldWarning,
-  Sparkle,
-  SquaresFour,
-  Target,
-  UsersThree,
-  Waveform,
-} from "@phosphor-icons/react";
+import { ArrowUpIcon as ArrowUp } from "@phosphor-icons/react/dist/csr/ArrowUp";
+import { ChartBarIcon as ChartBar } from "@phosphor-icons/react/dist/csr/ChartBar";
+import { ChartLineUpIcon as ChartLineUp } from "@phosphor-icons/react/dist/csr/ChartLineUp";
+import { ChatCircleDotsIcon as ChatCircleDots } from "@phosphor-icons/react/dist/csr/ChatCircleDots";
+import { CheckCircleIcon as CheckCircle } from "@phosphor-icons/react/dist/csr/CheckCircle";
+import { CheckSquareIcon as CheckSquare } from "@phosphor-icons/react/dist/csr/CheckSquare";
+import { ClockCountdownIcon as ClockCountdown } from "@phosphor-icons/react/dist/csr/ClockCountdown";
+import { CreditCardIcon as CreditCard } from "@phosphor-icons/react/dist/csr/CreditCard";
+import { CurrencyDollarIcon as CurrencyDollar } from "@phosphor-icons/react/dist/csr/CurrencyDollar";
+import { CursorClickIcon as CursorClick } from "@phosphor-icons/react/dist/csr/CursorClick";
+import { DatabaseIcon as Database } from "@phosphor-icons/react/dist/csr/Database";
+import { FileTextIcon as FileText } from "@phosphor-icons/react/dist/csr/FileText";
+import { GaugeIcon as Gauge } from "@phosphor-icons/react/dist/csr/Gauge";
+import { GraphIcon as Graph } from "@phosphor-icons/react/dist/csr/Graph";
+import { MagnifyingGlassIcon as MagnifyingGlass } from "@phosphor-icons/react/dist/csr/MagnifyingGlass";
+import { MegaphoneIcon as Megaphone } from "@phosphor-icons/react/dist/csr/Megaphone";
+import { MicrophoneIcon as Microphone } from "@phosphor-icons/react/dist/csr/Microphone";
+import { PaperPlaneTiltIcon as PaperPlaneTilt } from "@phosphor-icons/react/dist/csr/PaperPlaneTilt";
+import { ShareNetworkIcon as ShareNetwork } from "@phosphor-icons/react/dist/csr/ShareNetwork";
+import { ShieldWarningIcon as ShieldWarning } from "@phosphor-icons/react/dist/csr/ShieldWarning";
+import { SparkleIcon as Sparkle } from "@phosphor-icons/react/dist/csr/Sparkle";
+import { SquaresFourIcon as SquaresFour } from "@phosphor-icons/react/dist/csr/SquaresFour";
+import { TargetIcon as Target } from "@phosphor-icons/react/dist/csr/Target";
+import { UsersThreeIcon as UsersThree } from "@phosphor-icons/react/dist/csr/UsersThree";
+import { WaveformIcon as Waveform } from "@phosphor-icons/react/dist/csr/Waveform";
 import Image from "next/image";
 import type { CSSProperties, FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";

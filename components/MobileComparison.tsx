@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle, CaretDown } from "@phosphor-icons/react";
-import { useState, useSyncExternalStore } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 const vendors = ["QuantSentry", "Axcera RiskGuard", "Centroid PropShield", "PropForge"] as const;
@@ -19,6 +19,11 @@ const capabilities = [
   ["Pricing you can read", "Pricing model published, figures on a call", "Demo gated, no published pricing", "Not published", "Not published"],
 ] as const;
 
+// The host never moves once the page is committed, so there is nothing to
+// subscribe to; the store exists purely to keep the DOM read out of render.
+const subscribeToNothing = () => () => undefined;
+const readServerTarget = () => null;
+
 function evidenceType(vendorIndex: number, capability: string, value: string) {
   if (vendorIndex === 1 && capability === "Pricing you can read") return "Independent";
   if (/not published|none published|varies by deployment/i.test(value)) return "Not published";
@@ -27,12 +32,13 @@ function evidenceType(vendorIndex: number, capability: string, value: string) {
 
 export function MobileComparison({ targetId }: { targetId: string }) {
   const [vendorIndex, setVendorIndex] = useState(0);
-  const mounted = useSyncExternalStore(
-    () => () => undefined,
-    () => true,
-    () => false,
-  );
-  const target = mounted ? document.getElementById(targetId) : null;
+  // The portal host is part of the HTML SitePage injects, so it does not exist
+  // during the server render. Reading it through the store directly — rather
+  // than through a separate boolean "mounted" flag — means the client snapshot
+  // IS the element, so hydration resolves the host in the same pass instead of
+  // depending on a second render to go looking for it.
+  const readTarget = useCallback(() => document.getElementById(targetId), [targetId]);
+  const target = useSyncExternalStore(subscribeToNothing, readTarget, readServerTarget);
 
   if (!target) return null;
 

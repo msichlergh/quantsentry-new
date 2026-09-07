@@ -1,13 +1,11 @@
 "use client";
 
-import {
-  ArrowRight,
-  Crosshair,
-  Database,
-  FileText,
-  Lightbulb,
-  SquaresFour,
-} from "@phosphor-icons/react";
+import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/csr/ArrowRight";
+import { CrosshairIcon as Crosshair } from "@phosphor-icons/react/dist/csr/Crosshair";
+import { DatabaseIcon as Database } from "@phosphor-icons/react/dist/csr/Database";
+import { FileTextIcon as FileText } from "@phosphor-icons/react/dist/csr/FileText";
+import { LightbulbIcon as Lightbulb } from "@phosphor-icons/react/dist/csr/Lightbulb";
+import { SquaresFourIcon as SquaresFour } from "@phosphor-icons/react/dist/csr/SquaresFour";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ThinkingOrb, type OrbState } from "thinking-orbs";

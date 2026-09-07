@@ -1,23 +1,21 @@
 "use client";
 
-import {
-  ArrowRight,
-  ArrowsLeftRight,
-  CaretDown,
-  ChartLineUp,
-  CheckSquare,
-  CreditCard,
-  Database,
-  FileText,
-  Gauge,
-  Globe,
-  MapTrifold,
-  PlugsConnected,
-  ShareNetwork,
-  Sparkle,
-  SquaresFour,
-  Trophy,
-} from "@phosphor-icons/react";
+import { ArrowRightIcon as ArrowRight } from "@phosphor-icons/react/dist/csr/ArrowRight";
+import { ArrowsLeftRightIcon as ArrowsLeftRight } from "@phosphor-icons/react/dist/csr/ArrowsLeftRight";
+import { CaretDownIcon as CaretDown } from "@phosphor-icons/react/dist/csr/CaretDown";
+import { ChartLineUpIcon as ChartLineUp } from "@phosphor-icons/react/dist/csr/ChartLineUp";
+import { CheckSquareIcon as CheckSquare } from "@phosphor-icons/react/dist/csr/CheckSquare";
+import { CreditCardIcon as CreditCard } from "@phosphor-icons/react/dist/csr/CreditCard";
+import { DatabaseIcon as Database } from "@phosphor-icons/react/dist/csr/Database";
+import { FileTextIcon as FileText } from "@phosphor-icons/react/dist/csr/FileText";
+import { GaugeIcon as Gauge } from "@phosphor-icons/react/dist/csr/Gauge";
+import { GlobeIcon as Globe } from "@phosphor-icons/react/dist/csr/Globe";
+import { MapTrifoldIcon as MapTrifold } from "@phosphor-icons/react/dist/csr/MapTrifold";
+import { PlugsConnectedIcon as PlugsConnected } from "@phosphor-icons/react/dist/csr/PlugsConnected";
+import { ShareNetworkIcon as ShareNetwork } from "@phosphor-icons/react/dist/csr/ShareNetwork";
+import { SparkleIcon as Sparkle } from "@phosphor-icons/react/dist/csr/Sparkle";
+import { SquaresFourIcon as SquaresFour } from "@phosphor-icons/react/dist/csr/SquaresFour";
+import { TrophyIcon as Trophy } from "@phosphor-icons/react/dist/csr/Trophy";
 import { type MouseEvent, useEffect, useState } from "react";
 
 import { BrandLockup } from "./BrandLockup";

@@ -3,6 +3,7 @@
 import type { CSSProperties, ChangeEvent, FormEvent, KeyboardEvent, ReactNode } from "react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
+import { Turnstile, type TurnstileHandle } from "@/components/Turnstile";
 import { trackBookDemo, trackLeadSubmit } from "@/lib/analytics";
 import { DIAL_CODES, dialOptions, flagFor } from "@/lib/dial-codes";
 import {
@@ -655,7 +656,6 @@ export type BookDemoResult = LeadResponse & { startIso: string | null; timezone:
 
 const EMPTY_FORM: LeadForm = {
   intent: "",
-  currentPlatform: "",
   stage: "",
   role: "",
   timeline: "",
@@ -685,6 +685,8 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
   }, []);
   const started = useRef(false);
   const completedSteps = useRef(new Set<StepId>());
+  // Null whenever the widget is off or the visitor is not on the last step.
+  const turnstile = useRef<TurnstileHandle>(null);
 
   const steps = BD_STEPS;
   const step = steps[i];
@@ -815,12 +817,17 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
     trackCompletedStep();
     setBusy(true);
     setError(null);
+    // Resolves "" — quickly — when Turnstile is off, blocked or still working.
+    // The request goes either way; the server decides what an absent token is
+    // worth. See components/Turnstile.tsx.
+    const turnstileToken = await turnstile.current?.getToken();
     try {
       const res = await submitLead({
         form,
         startIso,
         timezone,
         renderedAt: renderedAt.current,
+        turnstileToken,
       });
       const conversion = {
         intent: form.intent,
@@ -835,6 +842,14 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
           booked: Boolean(res.booked),
           ...conversion,
         });
+      } else {
+        // A dropped bot, or a CRM that did not take the lead. Without this the
+        // funnel cannot tell a delivery outage from everyone abandoning on the
+        // last step — the two look identical from the step events alone.
+        trackBookDemo("demo_submit_failed", {
+          ...conversion,
+          reason: res.dropped ? "dropped" : "not_delivered",
+        });
       }
       if (res.booked && startIso) {
         trackBookDemo("demo_booked", {
@@ -845,12 +860,22 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
       }
       onDone({ ...res, startIso, timezone });
     } catch (err) {
+      // Coarse reason only. `err.message` is server copy today, but it is the
+      // one string here that could ever echo a submitted value back.
+      trackBookDemo("demo_submit_failed", {
+        intent: form.intent,
+        booking_requested: Boolean(startIso),
+        reason: err instanceof LeadError ? "rejected" : "network",
+      });
       if (err instanceof LeadError) {
         setErrors(err.fieldErrors || {});
         setError(err.message);
       } else {
         setError("Something went wrong. Please try again.");
       }
+      // The token this attempt carried is spent. Without a fresh one the retry
+      // would fail verification and be dropped in silence.
+      turnstile.current?.reset();
       setBusy(false);
     }
   };
@@ -951,14 +976,6 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
                 placeholder="yourfirm.com"
                 autoFocus
                 aria-invalid={Boolean(errors.website)}
-              />
-            </BdField>
-            <BdField label="What you run today" hint="(optional)">
-              <input
-                type="text"
-                value={form.currentPlatform}
-                onChange={upd("currentPlatform")}
-                placeholder="e.g. MetaTrader 5 and cTrader, or DXtrade and an in house CRM"
               />
             </BdField>
             <BdChoice
@@ -1127,6 +1144,10 @@ export function BookDemoWizard({ onDone }: { onDone: (res: BookDemoResult) => vo
             {errors.schedule && <small className="bd-field-err">{errors.schedule}</small>}
           </>
         )}
+
+        {/* Only on the step that submits, and only when a site key is set —
+            with none it renders nothing at all. */}
+        {last && <Turnstile ref={turnstile} action="book-demo" />}
 
         {last && <p className="bd-fine">Your details are used to prepare the call.</p>}
       </div>

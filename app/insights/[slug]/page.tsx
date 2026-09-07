@@ -12,6 +12,21 @@ import {
   insightAuthors,
 } from "@/lib/insights";
 
+import {
+  JsonLd,
+  blogPostingNode,
+  breadcrumbNode,
+  personNode,
+  type Crumb,
+} from "../../_seo/jsonld";
+import { buildMetadata } from "../../_seo/metadata";
+import { seoTitle } from "../../_seo/site";
+
+const INSIGHTS_CRUMBS: readonly Crumb[] = [
+  { name: "Home", path: "/" },
+  { name: "Insights", path: "/insights" },
+];
+
 type InsightPageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -31,17 +46,29 @@ export async function generateMetadata({ params }: InsightPageProps): Promise<Me
   const article = getInsightArticle(slug);
 
   if (author) {
-    return {
-      title: author.name,
-      description: `${author.name}, ${author.role}. Read ${author.name}’s latest QuantSentry insights.`,
-    };
+    return buildMetadata({
+      title: `${author.name}, ${author.role}`,
+      description: author.bio,
+      path: `/insights/author-${author.slug}`,
+      type: "profile",
+    });
   }
 
   if (article) {
-    return { title: article.title, description: article.summary };
+    const articleAuthor = getInsightAuthor(article.authorSlug);
+    return buildMetadata({
+      // The editorial title is the <h1>; the SERP title is the budgeted one.
+      title: seoTitle(article.slug, article.title),
+      description: article.summary,
+      path: `/insights/${article.slug}`,
+      type: "article",
+      publishedTime: article.publishedAt,
+      ...(articleAuthor ? { authors: [articleAuthor.name] } : {}),
+    });
   }
 
-  return {};
+  // Neither an article nor an author: the page 404s below, so keep it out.
+  return { robots: { index: false, follow: false } };
 }
 
 function LinkedInIcon() {
@@ -61,6 +88,15 @@ function AuthorPage({ authorSlug }: { authorSlug: string }) {
 
   return (
     <>
+      <JsonLd
+        nodes={[
+          personNode(author),
+          breadcrumbNode([
+            ...INSIGHTS_CRUMBS,
+            { name: author.name, path: `/insights/author-${author.slug}` },
+          ]),
+        ]}
+      />
       <main id={contentId} className="page-content insights-page insights-author-page">
         <section className="hero author-hero">
           <div className="wrap author-hero-grid">
@@ -128,6 +164,29 @@ function ArticlePage({ slug }: { slug: string }) {
 
   return (
     <>
+      {/* Every field below is rendered on the page: the headline is the <h1>,
+          the description is the lede, the author block and the <time> element
+          carry the same author and date. Nothing is asserted that a reader
+          cannot see. */}
+      <JsonLd
+        nodes={[
+          blogPostingNode({
+            slug: article.slug,
+            title: article.title,
+            summary: article.summary,
+            category: article.category,
+            publishedAt: article.publishedAt,
+            readTime: article.readTime,
+            sourceUrl: article.sourceUrl,
+            author,
+          }),
+          personNode(author),
+          breadcrumbNode([
+            ...INSIGHTS_CRUMBS,
+            { name: article.title, path: `/insights/${article.slug}` },
+          ]),
+        ]}
+      />
       <main id={contentId} className="page-content insight-article-page">
       <article>
         <section className="insight-article-hero">

@@ -4,16 +4,30 @@ import { BookDemoBooking } from "@/components/BookDemoWizard";
 import { BookDemoContact } from "@/components/BookDemoContact";
 import { pages } from "@/lib/pages";
 
+import { JsonLd, breadcrumbNode } from "../_seo/jsonld";
+import { buildMetadata } from "../_seo/metadata";
+
 import "./book-demo.css";
 
-export const metadata: Metadata = {
-  title: { absolute: pages.demo.title },
+// `lib/lead-client.ts` reads a `?cc=` parameter on this page, so /demo?cc=DE is
+// a linkable duplicate. `buildMetadata` emits a param-free self-canonical.
+export const metadata: Metadata = buildMetadata({
+  title: pages.demo.title,
   description: pages.demo.description,
-};
+  path: "/demo",
+});
 
 export default function DemoPage() {
   return (
     <main className="page-content">
+      <JsonLd
+        nodes={[
+          breadcrumbNode([
+            { name: "Home", path: "/" },
+            { name: "Book a Demo", path: "/demo" },
+          ]),
+        ]}
+      />
       {/* Hero — centred above the booking card. */}
       <section className="hero dots bd-hero">
         <div className="wrap">

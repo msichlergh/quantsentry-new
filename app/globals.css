@@ -1433,6 +1433,8 @@ header .navpill {
   header .desktop-nav > li { height: 100%; align-items: center; }
 }
 .btn { border-radius: 12px; }
+/* Header CTA sits 7% slimmer than the site-wide 40px button. */
+.desktop-nav .btn.solid { height: 37.2px; }
 .btn.solid {
   background: linear-gradient(180deg, #58cfcb 0%, var(--cy) 58%, #38b2af 100%);
   box-shadow:

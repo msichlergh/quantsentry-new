@@ -44,7 +44,7 @@ function MenuIcon({ href }: { href: string }) {
 const mobileGroups = [
   { key: "industries", label: "Industries", href: "/industries", overview: "All Industries", links: industryLinks },
   { key: "solutions", label: "Solutions", href: "/platform", overview: null, links: solutionLinks },
-  { key: "resources", label: "Resources", href: "/insights", overview: null, links: resourceLinks },
+  { key: "resources", label: "Resources", href: "/integrations", overview: null, links: resourceLinks },
 ] as const;
 
 export function Header() {
@@ -150,7 +150,7 @@ export function Header() {
             </div>
           </li>
           <li className="drop">
-            <a href="/insights">
+            <a href="/integrations">
               Resources
               <CaretDown aria-hidden="true" size={11} weight="bold" />
             </a>

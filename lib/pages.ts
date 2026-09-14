@@ -69,7 +69,7 @@ export const pages = {
   },
   "pricing": {
     "title": "Pricing | QuantSentry",
-    "description": "Simple pricing based on monthly active trading accounts, with the full QuantSentry platform included."
+    "description": "Three plans: Network, Platform and Desk. Platform pricing scales with monthly active trading accounts, and annual billing saves 20%."
   },
   "proof": {
     "title": "Success Stories | QuantSentry",

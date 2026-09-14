@@ -471,6 +471,18 @@ export function PlatformCalculator() {
                     </dd>
                   </div>
                 </dl>
+                {/* The net as a share of revenue: how many points it moves the margin. */}
+                <p className={`calc-margin${now.net < 0 ? " is-negative" : ""}`}>
+                  {now.net >= 0 ? (
+                    <>
+                      Adds <strong>{percent((now.net / inputs.revenue) * 100)}</strong> of revenue to your margin.
+                    </>
+                  ) : (
+                    <>
+                      Costs <strong>{percent((-now.net / inputs.revenue) * 100)}</strong> of revenue at these inputs.
+                    </>
+                  )}
+                </p>
                 {now.accounts > MAX_ACCOUNTS ? (
                   <p className="calc-note">
                     Above 20,000 active accounts we quote directly. This estimate uses the lowest listed rate.

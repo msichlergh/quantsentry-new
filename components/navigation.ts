@@ -4,28 +4,28 @@ export const industryLinks = [
     label: "Prop Trading",
     status: "Live",
     statusColour: "var(--cy)",
-    description: "Payout integrity and coordinated abuse.",
+    description: "Payout integrity and abuse",
   },
   {
     href: "/industries-brokerages",
     label: "Brokerages",
     status: "Soon",
     statusColour: "var(--ink3)",
-    description: "Toxic flow, latency abuse and bonus fraud.",
+    description: "Toxic flow and bonus fraud",
   },
   {
     href: "/industries-funds",
     label: "Funds and Asset Managers",
     status: "Soon",
     statusColour: "var(--ink3)",
-    description: "Allocation integrity and mandate breaches.",
+    description: "Allocation and mandate risk",
   },
   {
     href: "/industries-payments",
     label: "Payments and Fintech",
     status: "Soon",
     statusColour: "var(--ink3)",
-    description: "Chargebacks, mule networks and identity abuse.",
+    description: "Chargebacks and mule networks",
   },
 ] as const;
 
@@ -39,32 +39,32 @@ export const solutionLinks = [
   {
     href: "/platform",
     label: "Platform Overview",
-    description: "Connect your business data and work from one trusted view.",
+    description: "All your data in one view",
   },
   {
     href: "/argus",
     label: "Argus AI",
-    description: "Ask questions, investigate changes and schedule ongoing work.",
+    description: "Your AI risk analyst",
   },
   {
     href: "/custom-bi",
     label: "Business Intelligence",
-    description: "See the numbers that matter in dashboards built for your business.",
+    description: "Dashboards built for your firm",
   },
   {
     href: "/industry-intelligence",
     label: "Industry Intelligence",
-    description: "Competitor research, market reports and monitored changes.",
+    description: "Competitor and market tracking",
   },
   {
     href: "/network",
     label: "Sentry Risk Network",
-    description: "Check shared risk signals without sharing customer data.",
+    description: "Shared cross-firm risk signals",
   },
   {
     href: "/managed-desk",
     label: "Managed Risk Service",
-    description: "Add a dedicated analyst to your daily risk operation.",
+    description: "A dedicated analyst for your desk",
   },
 ] as const;
 
@@ -72,21 +72,21 @@ export const resourceLinks = [
   {
     href: "/integrations",
     label: "Integrations",
-    description: "See the platforms and tools QuantSentry connects to today.",
+    description: "Tools we connect to",
   },
   {
     href: "/compare",
     label: "Trading Risk Comparison",
-    description: "Compare trading risk approaches side by side.",
+    description: "Approaches side by side",
   },
   {
     href: "/proof",
     label: "Success Stories",
-    description: "See verified results from real customer accounts.",
+    description: "Verified customer results",
   },
   {
     href: "/roadmap",
     label: "Roadmap",
-    description: "See what is live, coming next and being explored.",
+    description: "What's live and what's next",
   },
 ] as const;

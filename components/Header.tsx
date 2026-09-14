@@ -102,10 +102,10 @@ export function Header() {
               <CaretDown aria-hidden="true" size={11} weight="bold" />
             </a>
             <div className="menu">
-              <div className="menu-inner">
+              <div className="menu-inner nav-menu-fit">
                 <div className="nav-menu-header">
                   <span>Industries</span>
-                  <small>Intelligence built around the way your business operates.</small>
+                  <small>Built around how you operate</small>
                 </div>
                 {industryLinks.map((item) => (
                   <a className="industry-menu-link" href={item.href} key={item.href}>
@@ -131,20 +131,22 @@ export function Header() {
               <CaretDown aria-hidden="true" size={11} weight="bold" />
             </a>
             <div className="menu">
-              <div className="menu-inner">
+              <div className="menu-inner nav-menu-fit">
                 <div className="nav-menu-header">
                   <span>Solutions</span>
-                  <small>One data layer for intelligence, action and support.</small>
+                  <small>One data layer, end to end</small>
                 </div>
-                {solutionLinks.map((item) => (
-                  <a className="nav-menu-link" href={item.href} key={item.href}>
-                    <span className="nav-menu-icon"><MenuIcon href={item.href} /></span>
-                    <span className="nav-menu-copy">
-                      <span className="nav-menu-title">{item.label}</span>
-                      <span className="nav-menu-description">{item.description}</span>
-                    </span>
-                  </a>
-                ))}
+                <div className="nav-menu-grid">
+                  {solutionLinks.map((item) => (
+                    <a className="nav-menu-link" href={item.href} key={item.href}>
+                      <span className="nav-menu-icon"><MenuIcon href={item.href} /></span>
+                      <span className="nav-menu-copy">
+                        <span className="nav-menu-title">{item.label}</span>
+                        <span className="nav-menu-description">{item.description}</span>
+                      </span>
+                    </a>
+                  ))}
+                </div>
                 <a className="nav-menu-footer" href="/platform">Explore the Platform <ArrowRight size={13} /></a>
               </div>
             </div>
@@ -155,20 +157,22 @@ export function Header() {
               <CaretDown aria-hidden="true" size={11} weight="bold" />
             </a>
             <div className="menu">
-              <div className="menu-inner nav-menu-compact">
+              <div className="menu-inner nav-menu-fit">
                 <div className="nav-menu-header">
                   <span>Resources</span>
-                  <small>Evidence and practical thinking for better decisions.</small>
+                  <small>Evidence for better decisions</small>
                 </div>
-                {resourceLinks.map((item) => (
-                  <a className="nav-menu-link" href={item.href} key={item.href}>
-                    <span className="nav-menu-icon"><MenuIcon href={item.href} /></span>
-                    <span className="nav-menu-copy">
-                      <span className="nav-menu-title">{item.label}</span>
-                      <span className="nav-menu-description">{item.description}</span>
-                    </span>
-                  </a>
-                ))}
+                <div className="nav-menu-grid">
+                  {resourceLinks.map((item) => (
+                    <a className="nav-menu-link" href={item.href} key={item.href}>
+                      <span className="nav-menu-icon"><MenuIcon href={item.href} /></span>
+                      <span className="nav-menu-copy">
+                        <span className="nav-menu-title">{item.label}</span>
+                        <span className="nav-menu-description">{item.description}</span>
+                      </span>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </li>

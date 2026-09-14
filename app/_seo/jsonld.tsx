@@ -37,7 +37,7 @@ export function organizationNode(): JsonLdNode {
     description: ORGANIZATION_DESCRIPTION,
     logo: {
       "@type": "ImageObject",
-      url: absoluteUrl("/images/quantsentry-icon-teal-coil-v2.png"),
+      url: absoluteUrl("/images/quantsentry-icon-teal-cluster.png"),
       width: 159,
       height: 158,
     },

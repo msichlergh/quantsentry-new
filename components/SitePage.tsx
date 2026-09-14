@@ -17,6 +17,7 @@ import { IntelligenceGapSection } from "@/components/IntelligenceGapSection";
 import { IntegrationsDirectory } from "@/components/IntegrationsDirectory";
 import { MobileComparison } from "@/components/MobileComparison";
 import { MobileLegacyEnhancer } from "@/components/MobileLegacyEnhancer";
+import { PricingFaq, PricingPlans } from "@/components/PricingPlans";
 import { TeamSection } from "@/components/TeamSection";
 import { TeamInsightsSection } from "@/components/TeamInsightsSection";
 import { insightArticles } from "@/lib/insights";
@@ -87,6 +88,25 @@ export function SitePage({ slug }: SitePageProps) {
           <div className="page-content-html" dangerouslySetInnerHTML={{ __html: beforeEverywhere }} />
           <ArgusEverywhereSection />
           <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterEverywhere }} />
+        </main>
+        <HeroPixelBlast targetId={contentId} />
+        <FooterCtaAurora routeKey={slug} />
+      </>
+    );
+  }
+
+  if (slug === "pricing") {
+    const [beforePlans, afterPlans] = html.split("<!-- pricing-slot -->");
+
+    return (
+      <>
+        <main className="page-content">
+          <div id={contentId} className="page-content-html" dangerouslySetInnerHTML={{ __html: beforePlans }} />
+          <PricingPlans />
+          {/* The plan cards name the capabilities; this panel explains each one. */}
+          <HomeCapabilityShowcase />
+          <PricingFaq />
+          <div className="page-content-html" dangerouslySetInnerHTML={{ __html: afterPlans }} />
         </main>
         <HeroPixelBlast targetId={contentId} />
         <FooterCtaAurora routeKey={slug} />

@@ -100,6 +100,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  // Routes with their own page outside `lib/pages.ts`.
+  const tools: MetadataRoute.Sitemap = [
+    { url: absoluteUrl("/pricing/calculator"), changeFrequency: "monthly", priority: 0.7 },
+  ];
+
   // `/legal` is a permanent redirect to `/privacy` and is intentionally absent:
   // a sitemap should only list URLs that return 200.
   const legal: MetadataRoute.Sitemap = [
@@ -107,5 +112,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/terms"), changeFrequency: "yearly", priority: 0.3 },
   ];
 
-  return [...home, ...staticPages, ...insightsIndex, ...articles, ...authors, ...legal];
+  return [...home, ...staticPages, ...tools, ...insightsIndex, ...articles, ...authors, ...legal];
 }

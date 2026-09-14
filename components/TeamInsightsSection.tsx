@@ -153,7 +153,7 @@ export function TeamInsightsSection() {
 
           <div className="team-insights-window is-light" id="team-insights-panel" role="tabpanel">
             <div className="team-insights-windowbar">
-              <span className="team-insights-agent"><i><Image alt="" aria-hidden="true" className="team-insights-brand-icon" height={24} src="/images/quantsentry-icon-teal-coil-v2.png" width={24} /></i><span><strong>Business Intelligence</strong><small>Shared operating view</small></span></span>
+              <span className="team-insights-agent"><i><Image alt="" aria-hidden="true" className="team-insights-brand-icon" height={24} src="/images/quantsentry-icon-teal-cluster.png" width={24} /></i><span><strong>Business Intelligence</strong><small>Shared operating view</small></span></span>
               <span className="team-insights-verified"><CheckCircle size={15} weight="fill" />Verified across 8 sources</span>
             </div>
 

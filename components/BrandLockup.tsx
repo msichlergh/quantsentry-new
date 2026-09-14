@@ -4,14 +4,14 @@ export function BrandLockup() {
   return (
     <>
       <Image
-        className="brand-icon-concept brand-icon-coil"
-        src="/images/quantsentry-icon-teal-coil-v2.png"
-        width={159}
-        height={158}
+        className="brand-icon-concept brand-icon-mark"
+        src="/images/quantsentry-icon-teal-cluster.png"
+        width={469}
+        height={469}
         alt=""
         priority
       />
-      <span className="brand-wordmark brand-wordmark-instrument-sans">
+      <span className="brand-wordmark brand-wordmark-dm-sans">
         <span className="brand-wordmark-quant">Quant</span>
         <span className="brand-wordmark-sentry">Sentry</span>
       </span>

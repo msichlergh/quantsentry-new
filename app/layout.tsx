@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Sans } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import Script from "next/script";
 import type { ReactNode } from "react";
 
@@ -23,10 +23,10 @@ import {
 
 import "./globals.css";
 
-const instrumentSans = Instrument_Sans({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-instrument-sans",
+  variable: "--font-dm-sans",
 });
 
 // 54 chars. The previous default was 64 — over Google's ~60-char SERP cut, so
@@ -79,7 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
             are what the per-page BlogPosting / BreadcrumbList nodes point at. */}
         <JsonLd nodes={[organizationNode(), webSiteNode()]} />
       </head>
-      <body className={instrumentSans.variable}>
+      <body className={dmSans.variable}>
         <Header />
         {children}
         <Footer />

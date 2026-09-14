@@ -26,24 +26,24 @@ p{font-size:15px;color:var(--ink3)}
   line-height:1;letter-spacing:-.02em}
 .brand-icon-concept{display:block;width:1.08em;height:1.08em;max-height:1.08em;flex:none;
   object-fit:contain;object-position:50% 50%}
-.brand-icon-coil{transform-origin:50% 50%;will-change:transform}
-.brand:hover .brand-icon-coil{
-  animation:coil-orbit 1.05s cubic-bezier(.4,0,.2,1) both}
-@keyframes coil-orbit{
+.brand-icon-mark{transform-origin:50% 50%;will-change:transform}
+.brand:hover .brand-icon-mark{
+  animation:mark-orbit 1.05s cubic-bezier(.4,0,.2,1) both}
+@keyframes mark-orbit{
   from{rotate:0}
   to{rotate:360deg}
 }
 @media (prefers-reduced-motion:reduce){
-  .brand:hover .brand-icon-coil{animation:none}
+  .brand:hover .brand-icon-mark{animation:none}
 }
 .brand-wordmark{display:inline-flex;align-items:center;height:1.2em;line-height:1;
-  font-family:var(--font-instrument-sans),'General Sans',system-ui,sans-serif;font-weight:550}
+  font-family:var(--font-dm-sans),'General Sans',system-ui,sans-serif;font-weight:550}
 .brand-wordmark-quant,.brand-wordmark-sentry{color:#f4f8f7;
   background:linear-gradient(180deg,#fff 8%,#f3f8f7 54%,#dce6e5 100%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .brand-wordmark-quant{display:inline-flex;font-weight:450}
 .brand-wordmark-sentry{font-weight:550}
-.brand-wordmark-instrument-sans{font-family:var(--font-instrument-sans),'General Sans',system-ui,sans-serif}
+.brand-wordmark-dm-sans{font-family:var(--font-dm-sans),'General Sans',system-ui,sans-serif}
 .navpill ul{display:flex;flex:1;gap:24px;list-style:none;margin-left:clamp(28px,4.5vw,72px);font-size:14px;align-items:center}
 .navpill ul a:hover{color:var(--ink)}
 .drop{position:relative}
@@ -1266,7 +1266,7 @@ section .wrap>*{}
   background: linear-gradient(168deg, rgba(16, 41, 42, .96), rgba(12, 15, 17, .98) 62%);
 }
 #page-content-argus svg[viewBox="0 0 46 48"] {
-  background: url("/images/quantsentry-icon-teal-coil-v2.png") center / contain no-repeat;
+  background: url("/images/quantsentry-icon-teal-cluster.png") center / contain no-repeat;
 }
 #page-content-argus svg[viewBox="0 0 46 48"] > path { display: none; }
 #page-content-argus .panel > div > .row > .eyebrow[style*="color:var(--cy)"] .dot {

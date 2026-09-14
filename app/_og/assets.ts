@@ -26,11 +26,11 @@ export const ogFonts = [
 ];
 
 const markData = await readFile(
-  join(process.cwd(), "public", "images", "quantsentry-icon-teal-coil-v2.png"),
+  join(process.cwd(), "public", "images", "quantsentry-icon-teal-cluster.png"),
   "base64",
 );
 
-/** The QuantSentry coil mark, inlined so the card needs no network fetch. */
+/** The QuantSentry brand mark, inlined so the card needs no network fetch. */
 export const brandMarkSrc = `data:image/png;base64,${markData}`;
 
 export const OG_SIZE = { width: 1200, height: 630 } as const;

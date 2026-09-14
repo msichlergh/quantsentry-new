@@ -3,8 +3,8 @@
 import {
   ChartLineUp,
   CurrencyEur,
-  HandCoins,
   Info,
+  Money,
   ShieldCheck,
   SquaresFour,
   Users,
@@ -51,16 +51,17 @@ const DEFAULTS: Inputs = { revenue: 100000, fee: 125, payoutRatio: 35, savings: 
 function figures(inputs: Inputs, annual: boolean) {
   const accounts = Math.max(1, Math.round(inputs.revenue / inputs.fee));
   const payouts = (inputs.revenue * inputs.payoutRatio) / 100;
-  const saved = (payouts * inputs.savings) / 100;
-  const cost = billedPrice(platformPrice(accounts), annual);
+  // Whole euros, so the rows shown always add up to the net shown beneath them.
+  const saved = Math.round((payouts * inputs.savings) / 100);
+  const cost = Math.round(billedPrice(platformPrice(accounts), annual));
   return { accounts, payouts, saved, cost, net: saved - cost };
 }
 
 type Figures = ReturnType<typeof figures>;
 
 const percent = (n: number) => `${n.toFixed(1).replace(/\.0$/, "")}%`;
-// A true minus sign, matching the Platform line in the results panel.
-const signedEuros = (n: number) => (n < 0 ? `−${euros.format(-n)}` : euros.format(n));
+// Always signed, with a true minus: a gain reads "+€3,450", a cost "−€1,800".
+const signedEuros = (n: number) => (n < 0 ? `−${euros.format(-n)}` : `+${euros.format(n)}`);
 // The return per euro spent on Platform reads best with cents, e.g. €2.92.
 const eurosAndCents = new Intl.NumberFormat("en-GB", {
   style: "currency",
@@ -394,7 +395,7 @@ export function PlatformCalculator() {
                 <Slider
                   format={percent}
                   hint="Payouts as a share of challenge revenue."
-                  icon={HandCoins}
+                  icon={Money}
                   label="Payout Ratio"
                   max={60}
                   min={15}
@@ -424,20 +425,7 @@ export function PlatformCalculator() {
 
             <div className="panel cy calc-result">
               <div>
-                <div className="calc-headline">
-                  <div>
-                    <span className="eyebrow">{now.net >= 0 ? "Net Saving per Month" : "Net Cost per Month"}</span>
-                    <div className={`stat calc-net${now.net < 0 ? " is-negative" : ""}`}>
-                      {euros.format(Math.abs(now.net))}
-                    </div>
-                  </div>
-                  <div>
-                    <span className="eyebrow">{now.net >= 0 ? "Net Saving per Year" : "Net Cost per Year"}</span>
-                    <div className={`stat calc-net${now.net < 0 ? " is-negative" : ""}`}>
-                      {euros.format(Math.abs(now.net * 12))}
-                    </div>
-                  </div>
-                </div>
+                <h3 className="calc-result-title">Your Return with QuantSentry</h3>
 
                 <dl className="calc-rows">
                   <div>
@@ -449,7 +437,7 @@ export function PlatformCalculator() {
                   </div>
                   <div>
                     <dt>
-                      <HandCoins aria-hidden="true" size={17} />
+                      <Money aria-hidden="true" size={17} />
                       Payout Costs
                     </dt>
                     <dd>{euros.format(now.payouts)}/mo</dd>
@@ -459,7 +447,7 @@ export function PlatformCalculator() {
                       <ShieldCheck aria-hidden="true" size={17} />
                       Cost Savings at {percent(inputs.savings)}
                     </dt>
-                    <dd>{euros.format(now.saved)}/mo</dd>
+                    <dd>+{euros.format(now.saved)}/mo</dd>
                   </div>
                   <div>
                     <dt>
@@ -467,6 +455,20 @@ export function PlatformCalculator() {
                       Platform, Billed {annual ? "Annually" : "Monthly"}
                     </dt>
                     <dd>−{euros.format(now.cost)}/mo</dd>
+                  </div>
+                  {/* The line under the sum: savings minus Platform, per month and per year. */}
+                  <div className={`calc-total${now.net < 0 ? " is-negative" : ""}`}>
+                    <dt>{now.net >= 0 ? "Total Savings" : "Total Cost"}</dt>
+                    <dd>
+                      <span className="calc-total-figure">
+                        <strong>{euros.format(Math.abs(now.net))}</strong>
+                        <small>/month</small>
+                      </span>
+                      <span className="calc-total-figure">
+                        <strong>{euros.format(Math.abs(now.net * 12))}</strong>
+                        <small>/year</small>
+                      </span>
+                    </dd>
                   </div>
                 </dl>
                 {now.accounts > MAX_ACCOUNTS ? (
@@ -482,7 +484,7 @@ export function PlatformCalculator() {
                     <strong>{(now.saved / now.cost).toFixed(1)}×</strong>
                   </div>
                   <p>
-                    {eurosAndCents.format(now.saved / now.cost)} saved for every €1 spent on Platform
+                    {eurosAndCents.format(now.saved / now.cost)} saved for every €1 spent on QuantSentry
                     {now.saved >= now.cost ? "." : ", so it doesn't pay for itself yet."}
                   </p>
                 </div>

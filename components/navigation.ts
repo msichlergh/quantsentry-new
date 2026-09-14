@@ -30,6 +30,7 @@ export const industryLinks = [
 ] as const;
 
 export const primaryLinks = [
+  { href: "/insights", label: "Insights" },
   { href: "/pricing", label: "Pricing" },
   { href: "/company", label: "Company" },
 ] as const;
@@ -82,11 +83,6 @@ export const resourceLinks = [
     href: "/proof",
     label: "Success Stories",
     description: "See verified results from real customer accounts.",
-  },
-  {
-    href: "/insights",
-    label: "Insights",
-    description: "Research on risk, fraud, operations and profitable growth.",
   },
   {
     href: "/roadmap",

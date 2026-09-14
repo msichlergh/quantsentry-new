@@ -480,7 +480,7 @@ section .wrap>*{}
   padding-top: 148px;
   isolation: isolate;
 }
-.home-overview-hero:not([data-story-open="true"]) .home-scroll-stage { padding-bottom: 112px; }
+.home-overview-hero:not([data-story-open="true"]) .home-scroll-stage { padding-bottom: 80px; }
 .home-overview-hero[data-story-open="true"] .home-scroll-stage { padding-bottom: 48px; }
 #page-content-index > .home-overview-hero::after { display: none; }
 /* Match the live homepage: nearly black behind the headline, then a controlled
